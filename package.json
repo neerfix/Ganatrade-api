@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/Ygones-linear/twitch-api-node#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "standard-version": "^9.0.0"
   }
 }
