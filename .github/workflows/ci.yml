@@ -34,3 +34,5 @@ jobs:
           remote_port: 22
           remote_user: ${{ secrets.USERNAME }}
           remote_key: ${{ secrets.SSH_KEY }}
+      - name: Install package & start service
+        run: cd /var/www/ganatrade/api && make install
