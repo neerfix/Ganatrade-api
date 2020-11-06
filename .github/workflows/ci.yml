@@ -33,7 +33,7 @@ jobs:
           remote_host: ${{ secrets.HOST }}
           remote_port: 22
           remote_user: ${{ secrets.USERNAME }}
-          remote_key: ${{ 
+          remote_key: ${{ secrets.SSH_KEY }} 
 
       - name: Stop the server
         run: ssh staging `cd /var/www/ganatrade/api/ && make install`
