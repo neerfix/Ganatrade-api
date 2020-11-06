@@ -1,0 +1,24 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "description": "Api...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js --exec babel-node -e js",
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganatrade/api.git"
+  },
+  "author": "Ganatrade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ygones-linear/twitch-api-node/issues"
+  },
+  "homepage": "https://github.com/Ygones-linear/twitch-api-node#readme",
+  "dependencies": {
+    "standard-version": "^9.0.0"
+  }
+}
