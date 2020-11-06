@@ -36,4 +36,4 @@ jobs:
           remote_key: ${{ 
 
       - name: Stop the server
-        run: ssh staging 'cd /var/www/ganatrade/api/ && make install'
+        run: ssh staging `cd /var/www/ganatrade/api/ && make install`
