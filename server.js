@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const api = express();
 const router = express.Router();
+const pjson = require('./package.json');
 
 api.use(router);
 api.use(bodyParser.urlencoded({
@@ -13,7 +14,14 @@ api.use(bodyParser.json());
 api.use(cors());
 
 api.get("/", function (req, res) {
-    res.send("Hello world, welcome to V1 api - Ganatrade.");
+    res.send(
+        {
+            "project": pjson.name,
+            "author": pjson.author,
+            "version": pjson.version,
+            "description": pjson.description
+            }
+        );
 })
 
 api.listen(8888, () => {
