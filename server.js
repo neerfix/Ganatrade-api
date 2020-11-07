@@ -13,7 +13,7 @@ api.use(bodyParser.json());
 api.use(cors());
 
 api.get("/", function (req, res) {
-    res.send("Hello world, welcome to V1 api.");
+    res.send("Hello world, welcome to V1 api - Ganatrade.");
 })
 
 api.listen(8888, () => {
