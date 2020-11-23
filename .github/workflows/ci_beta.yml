@@ -33,7 +33,7 @@ jobs:
         run: ssh staging 'sudo systemctl stop api_ganatrade_beta.service'
 
       - name: Check out the source
-        run: ssh staging 'cd /srv/ganatrade/api-beta/ && git fetch && git reset --hard origin/develop && make install-beta'
+        run: ssh staging 'cd /srv/ganatrade/api-beta/ && git fetch && git reset --hard origin/develop && make install'
 
       - name: Start the server
         if: ${{ always() }}

@@ -1,12 +1,10 @@
-install-beta:
-	npm install && cp ../config/serviceAccount-beta.json ./
-
-install-prod:
-	npm install && cp ../config/serviceAccount.json ./
+# Script to install prod
+install:
+	npm install
 
 # Start the prod server
 start: 
-	npm install && systemctl start api_ganatrade.service
+	install && systemctl start api_ganatrade.service
 
 # from develop to master
 release:
