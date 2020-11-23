@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/ganatrade/api/compare/v0.0.4...v0.0.5) (2020-11-23)
+
+
+### Features
+
+* .env file to set config and update release script ([f0a736b](https://github.com/ganatrade/api/commit/f0a736bef42ccfd2318c548fe5c8765ad6836617))
+
 ### [0.0.4](https://github.com/ganatrade/api/compare/v0.0.3...v0.0.4) (2020-11-22)
 
 
