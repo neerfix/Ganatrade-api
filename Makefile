@@ -1,3 +1,9 @@
+install-beta:
+	install && cp ../config/serviceAccount-beta.json ./
+
+install-prod:
+	install && cp ../config/serviceAccount.json ./
+
 # Script to install prod
 install:
 	npm install

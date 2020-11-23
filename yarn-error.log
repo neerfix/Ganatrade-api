@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/nicolasnotararigo/.nvm/versions/node/v13.7.0/bin/node /usr/local/lib/node_modules/yarn/bin/yarn.js add firebase-admin
+  /Users/nicolasnotararigo/.nvm/versions/node/v13.7.0/bin/node /usr/local/lib/node_modules/yarn/bin/yarn.js add custom-env
 
 PATH: 
   /Users/nicolasnotararigo/.nvm/versions/node/v13.7.0/bin:/usr/local/opt/gnu-getopt/bin:/usr/local/sbin:/usr/local/sbin:/usr/local/opt/protobuf@3.7/bin:/usr/local/opt/mysql@5.7/bin:/usr/local/opt/mysql@5.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public
@@ -44,9 +44,9 @@ npm manifest:
     "homepage": "https://github.com/Ygones-linear/twitch-api-node#readme",
     "dependencies": {
       "cors": "^2.8.5",
-      "custom-env": "^2.0.1",
       "dotenv": "^8.2.0",
       "express": "^4.17.1",
+      "firebase-admin": "^9.4.1",
       "standard-version": "^9.0.0"
     }
   }
