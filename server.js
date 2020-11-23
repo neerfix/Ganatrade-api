@@ -4,6 +4,7 @@ const cors = require("cors");
 const api = express();
 const router = express.Router();
 const pjson = require('./package.json');
+require('custom-env').env()
 
 api.use(router);
 api.use(bodyParser.urlencoded({
@@ -24,6 +25,6 @@ api.get("/", function (req, res) {
         );
 })
 
-api.listen(8888, () => {
-    console.log(`App listening at http://localhost:8888`)
+api.listen(process.env.PORT, () => {
+    console.log(`App listening at http://localhost:`+process.env.PORT)
 })
