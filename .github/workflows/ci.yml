@@ -33,7 +33,26 @@ jobs:
         run: ssh staging 'sudo systemctl stop api_ganatrade.service'
 
       - name: Check out the source
-        run: ssh staging 'cd /srv/ganatrade/api/ && git fetch && git reset --hard origin/master && make install'
+        run: |
+              ssh staging 'cd /srv/ganatrade/api/
+              git fetch
+              git reset --hard origin/master
+              make install
+              touch .env
+              cat `PORT:$BETA_PORT` >> .env
+              cat `HOST:$BETA_HOST` >> .env
+              cat `PRIVATE_KEY_ID:"$BETA_PRIVATE_KEY_ID"` >> .env
+              cat `PRIVATE_KEY:"$BETA_PRIVATE_KEY"` >> .env
+              cat `CLIENT_ID:"$BETA_CLIENT_ID"` >> .env
+              cat `DATABASE_URL:"$BETA_DATABASE_URL"` >> .env
+            END
+        env:
+          BETA_PORT: ${{ secrets.BETA_PORT }}
+          BETA_HOST: ${{ secrets.BETA_HOST }}
+          BETA_PRIVATE_KEY_ID: ${{ secrets.BETA_PRIVATE_KEY_ID }}
+          BETA_PRIVATE_KEY: ${{ secrets.BETA_PRIVATE_KEY }}
+          BETA_CLIENT_ID: ${{ secrets.BETA_CLIENT_ID }}
+          BETA_DATABASE_URL: ${{ secrets.BETA_DATABASE_URL }}
 
       - name: Start the server
         if: ${{ always() }}
