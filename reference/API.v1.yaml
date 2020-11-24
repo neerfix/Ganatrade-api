@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: API
   version: '1.0'
-  description: ''
+  description: 'Api de ganatrade - School Project'
   contact:
     name: Ganatrade
     url: 'https://www.ganatrade.xyz/'
@@ -10,6 +10,8 @@ info:
 servers:
   - url: 'https://api.ganatrade.xyz/'
     description: Prod
+  - url: 'https://beta.api.ganatrade.xyz'
+    description: Beta
 paths:
   '/users/{userId}':
     parameters:
@@ -32,11 +34,14 @@ paths:
               examples:
                 Get User Alice Smith:
                   value:
-                    id: 142
+                    id: '142'
+                    username: AliceS
+                    password: 123456789CeciNestPasSecuriser
+                    rank: trader
                     firstName: Alice
                     lastName: Smith
                     email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
+                    birthdate: '1997-10-31'
                     emailVerified: true
                     signUpDate: '2019-08-24'
         '404':
@@ -56,11 +61,14 @@ paths:
               examples:
                 Updated User Rebecca Baker:
                   value:
-                    id: 13
+                    id: "13"
+                    username: Rebaker
+                    password: MichelJeTaime
+                    rank: trader
                     firstName: Rebecca
                     lastName: Baker
                     email: rebecca@gmail.com
-                    dateOfBirth: '1985-10-02'
+                    birthdate: '1985-10-02'
                     emailVerified: false
                     createDate: '2019-08-24'
         '404':
@@ -95,7 +103,16 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
-  /user:
+    delete:
+      summary: ''
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: User with this userId Not Found
+      description: To delete an user.
+  /users:
     post:
       summary: Create New User
       operationId: post-user
@@ -109,11 +126,14 @@ paths:
               examples:
                 New User Bob Fellow:
                   value:
-                    id: 12
+                    id: "12"
+                    username: Bob3lettres
+                    password: qwertyuiop
+                    rank: admin
                     firstName: Bob
                     lastName: Fellow
                     email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
+                    birthdate: '1996-08-24'
                     emailVerified: false
                     createDate: '2020-11-18'
         '400':
@@ -149,12 +169,23 @@ paths:
                   dateOfBirth: '1996-08-24'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+      description: Get all users to AdminControlPanel
 components:
   schemas:
     User:
       description: ''
       type: object
       properties:
+        id:
+          type: string
+          minLength: 1
         username:
           type: string
           minLength: 1
@@ -183,15 +214,10 @@ components:
               type: string
               minLength: 1
             zipcode:
-              type: string
-              minLength: 1
+              type: integer
             City:
               type: string
               minLength: 1
-          required:
-            - street
-            - zipcode
-            - City
         phone:
           type: string
           minLength: 1
@@ -199,11 +225,9 @@ components:
           type: string
           minLength: 1
         private_profile:
-          type: string
-          minLength: 1
+          type: boolean
         delete_profile:
-          type: string
-          minLength: 1
+          type: boolean
         last_login:
           type: string
           minLength: 1
@@ -211,36 +235,55 @@ components:
           type: string
           minLength: 1
       required:
+        - id
         - username
         - email
         - password
         - rank
         - birthdate
-        - lastname
-        - firstname
-        - address
-        - phone
-        - avatar
-        - private_profile
-        - delete_profile
-        - last_login
-        - average_answer
-      title: User
+      title: ''
     Offer:
       description: ''
       type: object
+      x-examples:
+        Azzam Yatch:
+          id: vYvZjac2FyzlcpZi39pr
+          user_id: LcpjafEgrwtAXdwjLTPh
+          title: 'Vend le yacht Azzam pour 537,000,000$'
+          product:
+            name: Azzam yacht
+            condition: En cash seulement.
+          description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
+          pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
+          categories: string
+          tags: string
+          trade:
+            method: cash en liasse de 100$
+            target: Les petits bourges des beaux quartiers
+            estimation: '537,000,000$'
+            place: Monaco
+            radius: 200Km
+          views: '516544'
+          saves: '5155'
+          is_active: 'true'
+          status: 'true'
+          created_at: '24-11-2020-11:39:00-UTC+1'
+          updated_at: '24-11-2020-11:39:00-UTC+1'
+      title: ''
       properties:
         id:
           type: string
           minLength: 1
         user_id:
-          type: string
-          minLength: 1
+          type: integer
         title:
           type: string
           minLength: 1
         product:
           type: object
+          required:
+            - name
+            - condition
           properties:
             name:
               type: string
@@ -248,9 +291,7 @@ components:
             condition:
               type: string
               minLength: 1
-          required:
-            - name
-            - condition
+              description: 'Condition d''echange, offres d''echange accepte ...'
         description:
           type: string
           minLength: 1
@@ -261,10 +302,12 @@ components:
           type: string
           minLength: 1
         tags:
-          type: string
-          minLength: 1
+          type: array
+          items: {}
         trade:
           type: object
+          required:
+            - method
           properties:
             method:
               type: string
@@ -279,20 +322,13 @@ components:
               type: string
               minLength: 1
             radius:
-              type: string
-              minLength: 1
-          required:
-            - method
-            - target
-            - estimation
-            - place
-            - radius
+              type: integer
         views:
-          type: string
-          minLength: 1
+          type: integer
         saves:
           type: string
           minLength: 1
+          description: Listes des personnes qui suivent l'offre
         is_active:
           type: string
           minLength: 1
@@ -307,17 +343,14 @@ components:
           minLength: 1
       required:
         - id
-        - user_id
         - title
         - product
-        - description
-        - pictures
         - categories
-        - tags
         - trade
-        - views
         - saves
         - is_active
         - status
         - created_at
         - updated_at
+  securitySchemes: {}
+security: []
