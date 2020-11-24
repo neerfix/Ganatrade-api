@@ -2,13 +2,13 @@ openapi: 3.0.0
 info:
   title: API
   version: '1.0'
-  description: 'Api de ganatrade - School Project'
+  description: Api de ganatrade - School Project
   contact:
     name: Ganatrade
     url: 'https://www.ganatrade.xyz/'
-    email: fake@ganatrade.xyz
+    email: contact@ganatrade.xyz
 servers:
-  - url: 'https://api.ganatrade.xyz/'
+  - url: 'https://api.ganatrade.xyz'
     description: Prod
   - url: 'https://beta.api.ganatrade.xyz'
     description: Beta
@@ -23,7 +23,8 @@ paths:
         description: Id of an existing user.
     get:
       summary: Get User Info by User ID
-      tags: []
+      tags:
+        - user
       responses:
         '200':
           description: User Found
@@ -48,6 +49,7 @@ paths:
           description: User Not Found
       operationId: get-users-userId
       description: Retrieve the information of the user with the matching user ID.
+      parameters: []
     patch:
       summary: Update User Information
       operationId: patch-users-userId
@@ -61,7 +63,7 @@ paths:
               examples:
                 Updated User Rebecca Baker:
                   value:
-                    id: "13"
+                    id: '13'
                     username: Rebaker
                     password: MichelJeTaime
                     rank: trader
@@ -126,7 +128,7 @@ paths:
               examples:
                 New User Bob Fellow:
                   value:
-                    id: "12"
+                    id: '12'
                     username: Bob3lettres
                     password: qwertyuiop
                     rank: admin
@@ -137,7 +139,7 @@ paths:
                     emailVerified: false
                     createDate: '2020-11-18'
         '400':
-          description: Missing Required Information
+          description: 'Bad Request : Missing Required Information'
         '409':
           description: Email Already Taken
       requestBody:
@@ -177,6 +179,245 @@ paths:
         '200':
           description: OK
       description: Get all users to AdminControlPanel
+      tags:
+        - user
+  /:
+    get:
+      summary: /
+      tags: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  project:
+                    type: string
+                    minLength: 1
+                  author:
+                    type: string
+                    minLength: 1
+                  version:
+                    type: string
+                    minLength: 1
+                  description:
+                    type: string
+                    minLength: 1
+                  response:
+                    type: object
+                    description: Only if api is connect with BDD
+                    properties:
+                      type:
+                        type: string
+                        minLength: 1
+                      status:
+                        type: boolean
+              examples:
+                Return with BD connect:
+                  value:
+                    project: api
+                    author: Ganatrade
+                    version: 0.0.9
+                    description: Api...
+                    response:
+                      type: prod
+                      status: true
+                Return without BD connect:
+                  value:
+                    project: api
+                    author: Ganatrade
+                    version: 0.0.9
+                    description: Api...
+      operationId: get
+      description: A simple route to check if API is ON and if it's connect with BDD.
+  /offers:
+    get:
+      summary: offers
+      tags:
+        - offer
+      responses:
+        '200':
+          description: OK
+      operationId: get-Offers
+    post:
+      summary: Offers
+      tags: []
+      responses:
+        '201':
+          description: 'Created : Offer created with success'
+        '400':
+          description: 'Bad Request : Missing Required Information'
+      operationId: post-Offers
+    parameters: []
+  '/offers/{offerId}':
+    parameters:
+      - schema:
+          type: string
+        name: offerId
+        in: path
+        description: Id of an existing offer.
+        required: true
+    get:
+      summary: 'offers/{offerId}'
+      tags:
+        - offer
+      responses:
+        '200':
+          description: Offer Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+              examples:
+                example-1:
+                  value:
+                    id: vYvZjac2FyzlcpZi39pr
+                    user_id: LcpjafEgrwtAXdwjLTPh
+                    title: 'Vend le yacht Azzam pour 537,000,000$'
+                    product:
+                      name: Azzam yacht
+                      condition: En cash seulement.
+                    description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
+                    pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
+                    categories: string
+                    tags: string
+                    trade:
+                      method: cash en liasse de 100$
+                      target: Les petits bourges des beaux quartiers
+                      estimation: '537,000,000$'
+                      place: Monaco
+                      radius: 200Km
+                    views: '516544'
+                    saves: '5155'
+                    is_active: 'true'
+                    status: 'true'
+                    created_at: '24-11-2020-11:39:00-UTC+1'
+                    updated_at: '24-11-2020-11:39:00-UTC+1'
+        '404':
+          description: Offer Not Found
+      operationId: get-Offers-OfferId
+      parameters: []
+      description: Retrieve the information of the user with the matching offer ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples: {}
+    delete:
+      summary: '/offers/{offerId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: delete-Offers-OfferId
+    patch:
+      summary: ''
+      operationId: patch-offers-offerId
+      responses:
+        '200':
+          description: Offer Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        '400':
+          description: 'Bad Request : Missing Required Information'
+        '404':
+          description: Not Found
+      description: Update the infromation of an existing offer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                title:
+                  type: string
+                  minLength: 1
+                product:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      minLength: 1
+                    condition:
+                      type: string
+                      minLength: 1
+                description:
+                  type: string
+                  minLength: 1
+                pictures:
+                  type: string
+                  minLength: 1
+                categories:
+                  type: string
+                  minLength: 1
+                tags:
+                  type: string
+                  minLength: 1
+                trade:
+                  type: object
+                  properties:
+                    method:
+                      type: string
+                      minLength: 1
+                    target:
+                      type: string
+                      minLength: 1
+                    estimation:
+                      type: string
+                      minLength: 1
+                    place:
+                      type: string
+                      minLength: 1
+                    radius:
+                      type: string
+                      minLength: 1
+                views:
+                  type: string
+                  minLength: 1
+                saves:
+                  type: string
+                  minLength: 1
+                is_active:
+                  type: string
+                  minLength: 1
+                status:
+                  type: string
+                  minLength: 1
+                updated_at:
+                  type: string
+                  minLength: 1
+              required:
+                - id
+            examples:
+              Update Title:
+                value:
+                  id: string
+                  title: string
+              Update Product Name:
+                value:
+                  id: string
+                  product:
+                    name: string
+              Update multiple fields:
+                value:
+                  id: string
+                  trade:
+                    method: string
+                    target: string
+                    estimation: string
+                    place: string
+                    radius: string
 components:
   schemas:
     User:
@@ -242,6 +483,8 @@ components:
         - rank
         - birthdate
       title: ''
+      x-tags:
+        - user
     Offer:
       description: ''
       type: object
@@ -270,10 +513,11 @@ components:
           created_at: '24-11-2020-11:39:00-UTC+1'
           updated_at: '24-11-2020-11:39:00-UTC+1'
       title: ''
+      x-tags:
+        - offer
       properties:
         id:
           type: string
-          minLength: 1
         user_id:
           type: integer
         title:
@@ -352,5 +596,103 @@ components:
         - status
         - created_at
         - updated_at
+    Following:
+      title: following
+      type: object
+      x-examples: {}
+      description: ''
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        offer_id:
+          type: string
+          description: the user can follow an offer and / or a category
+        category_id:
+          type: string
+          description: the user can follow an offer and / or a category
+      required:
+        - id
+        - user_id
+    Category:
+      title: Category
+      type: object
+      properties:
+        id:
+          type: string
+        category_parent:
+          type: string
+          description: will allow you to manage the sub-categories
+        description:
+          type: string
+        isActive:
+          type: boolean
+      required:
+        - id
+        - category_parent
+        - isActive
+    Trade:
+      title: Trade
+      type: object
+      properties:
+        id:
+          type: string
+        offer_id:
+          type: string
+        status:
+          type: string
+        date_of_trade:
+          type: string
+        type:
+          type: string
+        trader_id:
+          type: string
+        buyer_id:
+          type: string
+        is_visible:
+          type: boolean
+        value:
+          type: string
+      required:
+        - id
+        - offer_id
+        - status
+        - date_of_trade
+        - type
+        - trader_id
+        - buyer_id
+        - is_visible
+    ProfileReviews:
+      title: ProfileReviews
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        ' is_visible':
+          type: string
+        autor_id:
+          type: string
+        user_profile_id:
+          type: string
+        note:
+          type: number
+      required:
+        - id
+        - created_at
+        - updated_at
+        - ' is_visible'
+        - autor_id
+        - user_profile_id
+        - note
   securitySchemes: {}
 security: []
+tags:
+  - name: offer
+  - name: user
