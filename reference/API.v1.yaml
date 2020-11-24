@@ -418,6 +418,152 @@ paths:
                     estimation: string
                     place: string
                     radius: string
+  /categories:
+    get:
+      summary: /categories
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-categories
+    post:
+      summary: /categories
+      tags: []
+      responses:
+        '201':
+          description: Created categories with success.
+        '500':
+          description: 'Internal Server Error : An error was ..'
+      operationId: post-categories
+  '/categories/{categoryId}':
+    parameters:
+      - schema:
+          type: string
+        name: categoryId
+        in: path
+        required: true
+    get:
+      summary: '/categories/{categoryId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              examples:
+                'Catégorie : Bateau':
+                  value:
+                    name: Bateau
+                    description: Bateau ?
+                    category_parent: Maman
+                    is_active: true
+                    created_at: fake-date
+                    updated_at: fake-date
+        '404':
+          description: Category Not Found
+      operationId: get-categories-categoryId
+    patch:
+      summary: '/categories/{categoryId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              examples:
+                'Catégorie : Bateau':
+                  value:
+                    name: Bateau
+                    description: Bateau ?
+                    category_parent: Maman
+                    is_active: true
+                    created_at: fake-date
+                    updated_at: fake-date
+        '400':
+          description: 'Bad Request : Missing Required Information'
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  reason:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                  type:
+                    type: string
+                    minLength: 1
+                  detail:
+                    type: string
+                    minLength: 1
+                required:
+                  - reason
+                  - message
+                  - type
+                  - detail
+              examples:
+                'Bad Request : Missing Required Information':
+                  value:
+                    reason: Bad Request
+                    message: Missing Required Information
+                    type: ''
+                    detail: ''
+        '404':
+          description: Category Not Found
+      operationId: patch-categories-categoryId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                category_parent:
+                  type: string
+                is_active:
+                  type: boolean
+                category_id:
+                  type: string
+              required:
+                - category_id
+            examples:
+              Update name:
+                value:
+                  name: Bateau
+                  category_id: fake-UUID
+              Update description:
+                value:
+                  description: Je change la description de cette categories
+                  category_id: fake-uuid
+              Update category_parent:
+                value:
+                  category_parent: fake-categoryUUID_parent
+                  category_id: fake-UUID
+              Update not active -> Active:
+                value:
+                  is_active: true
+                  category_id: fake-uuid
+              Update active -> not active:
+                value:
+                  is_active: false
+                  category_id: fake-uuid
+        description: ''
+    delete:
+      summary: '/categories/{categoryId}'
+      tags: []
+      responses: {}
+      operationId: delete-categories-categoryId
+      description: ''
 components:
   schemas:
     User:
@@ -628,10 +774,16 @@ components:
           type: string
         isActive:
           type: boolean
+        created_at:
+          type: string
+        updated_at:
+          type: string
       required:
         - id
         - category_parent
         - isActive
+        - created_at
+        - updated_at
     Trade:
       title: Trade
       type: object
