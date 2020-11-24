@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/ganatrade/api/compare/v0.0.8...v0.0.9) (2020-11-24)
+
+
+### Bug Fixes
+
+* remove yarn-error.log ([5fce9da](https://github.com/ganatrade/api/commit/5fce9da5aaf12c974e6d5fc632a887a402825307))
+
 ### [0.0.8](https://github.com/ganatrade/api/compare/v0.0.7...v0.0.8) (2020-11-23)
 
 ### [0.0.7](https://github.com/ganatrade/api/compare/v0.0.6...v0.0.7) (2020-11-23)
