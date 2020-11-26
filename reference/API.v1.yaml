@@ -660,6 +660,46 @@ paths:
         '404':
           description: Not Found
       operationId: delete-categories-categoryId
+    '/users/{userId}/trade/{tradeId}':
+      parameters:
+        - schema:
+            type: string
+          name: userId
+          in: path
+          required: true
+        - schema:
+            type: string
+          name: tradeId
+          in: path
+          required: true
+      get:
+        summary: get-trade
+        tags: []
+        responses: {}
+        operationId: get-users-userId-trade-tradeId
+    '/users/{userId}/reviews':
+      parameters:
+        - schema:
+            type: string
+          name: userId
+          in: path
+          required: true
+      post:
+        summary: post-review
+        tags: []
+        responses:
+          '200':
+            description: Review Created
+          '400':
+            description: 'Bad Request : Missing Required Information'
+        operationId: post-users-userId-reviews
+        description: Create a new Review
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileReviews'
+          description: Post the necessary fields for the API to create a new review.
 components:
   schemas:
     User:
