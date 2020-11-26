@@ -9,6 +9,8 @@ function jwt() {
         path: [
             // public routes that don't require authentication
             '/',
+            '/users/',
+            '/users/Pancake',
             '/users/authenticate'
         ]
     });

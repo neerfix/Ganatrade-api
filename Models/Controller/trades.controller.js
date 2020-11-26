@@ -1,27 +1,47 @@
 const express = require("express");
 const router = express.Router();
-const userService = require("../Services/user.service");
+const tradeService = require("../Services/traders.services");
 
 // routes
-router.post("/authenticate", authenticate);
-router.get("/", getAll);
+router.get("/", getAllTrades);
+router.post("/", createNewTrade);
+router.get("/:tradeId", getOneTradeById);
+router.patch("/:tradeId", updateTradeById);
+router.delete("/:tradeId", deleteTradeById);
 
 module.exports = router;
 
-function authenticate(req, res, next) {
-    userService
-        .authenticate(req.body)
-        .then((user) =>
-            user
-                ? res.json(user)
-                : res.status(404).json({ message: "Trade not found" })
-        )
+function getAllTrades(req, res, next) {
+    TradeService
+        .getAll()
+        .then((trades) => res.json(trades))
         .catch((err) => next(err));
 }
 
-function getAll(req, res, next) {
-    userService
-        .getAll()
-        .then((users) => res.json(users))
+function createNewTrade(req, res, next) {
+    TradeService
+        .getOneTradeById()
+        .then(() => res.json("Ok"))
+        .catch((err) => next(err));
+}
+
+function updateTradeById(req, res, next) {
+    TradeService
+        .getOneTradeById()
+        .then(() => res.json("Ok"))
+        .catch((err) => next(err));
+}
+
+function deleteTradeById(req, res, next) {
+    TradeService
+        .getOneTradeById()
+        .then(() => res.json("Ok"))
+        .catch((err) => next(err));
+}
+
+function getOneTradeById(req, res, next) {
+    TradeService
+        .getOneTradeById()
+        .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }

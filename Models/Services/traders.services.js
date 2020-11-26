@@ -6,7 +6,8 @@ const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', l
 
 module.exports = {
     authenticate,
-    getAll
+    getAll,
+    getOneUserById
 };
 
 async function authenticate({ username, password }) {
@@ -26,4 +27,8 @@ async function getAll() {
         const { password, ...userWithoutPassword } = u;
         return userWithoutPassword;
     });
+}
+
+async function getOneUserById() {
+    return "201";
 }
