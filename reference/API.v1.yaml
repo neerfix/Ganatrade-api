@@ -491,6 +491,44 @@ paths:
             schema:
               $ref: '#/components/schemas/ProfileReviews'
         description: Post the necessary fields for the API to create a new review.
+  '/users/{userId}/following/{followingId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: followingId
+        in: path
+        required: true
+    get:
+      summary: '/users/{userId}/following/{followingId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-users-userId-following-followingId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Following'
+    patch:
+      summary: '/users/{userId}/following/{followingId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: patch-users-userId-following-followingId
+    delete:
+      summary: '/users/{userId}/following/{followingId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: delete-users-userId-following-followingId
 components:
   schemas:
     User:
