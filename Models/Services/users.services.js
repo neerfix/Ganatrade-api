@@ -6,8 +6,11 @@ const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', l
 
 module.exports = {
     authenticate,
-    getAll,
-    getOneUserById
+    getAllUsers,
+    getOneUserById,
+    createNewUser,
+    updateUserById,
+    deleteUserById
 };
 
 async function authenticate({ username, password }) {
@@ -22,7 +25,7 @@ async function authenticate({ username, password }) {
     }
 }
 
-async function getAll() {
+async function getAllUsers() {
     return users.map(u => {
         const { password, ...userWithoutPassword } = u;
         return userWithoutPassword;
@@ -30,5 +33,17 @@ async function getAll() {
 }
 
 async function getOneUserById() {
+    return "201";
+}
+
+async function createNewUser() {
+    return "201";
+}
+
+async function updateUserById() {
+    return "201";
+}
+
+async function deleteUserById() {
     return "201";
 }

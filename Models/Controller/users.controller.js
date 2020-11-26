@@ -4,7 +4,7 @@ const userService = require("../Services/users.services");
 
 // routes
 router.post("/authenticate", authenticate);
-router.get("/", getAll);
+router.get("/", getAllUsers);
 router.post("/", createNewUser);
 router.get("/:userId", getOneUserById);
 router.patch("/:userId", updateUserById);
@@ -23,30 +23,30 @@ function authenticate(req, res, next) {
         .catch((err) => next(err));
 }
 
-function getAll(req, res, next) {
+function getAllUsers(req, res, next) {
     userService
-        .getAll()
+        .getAllUsers()
         .then((users) => res.json(users))
         .catch((err) => next(err));
 }
 
 function createNewUser(req, res, next) {
     userService
-        .getOneUserById()
+        .createNewUser()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function updateUserById(req, res, next) {
     userService
-        .getOneUserById()
+        .updateUserById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function deleteUserById(req, res, next) {
     userService
-        .getOneUserById()
+        .deleteUserById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
