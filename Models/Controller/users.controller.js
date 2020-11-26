@@ -5,7 +5,10 @@ const userService = require("../Services/users.services");
 // routes
 router.post("/authenticate", authenticate);
 router.get("/", getAll);
-router.get("/Pancake", getOneUserById);
+router.post("/", createNewUser);
+router.get("/:userId", getOneUserById);
+router.patch("/:userId", updateUserById);
+router.delete("/:userId", deleteUserById);
 
 module.exports = router;
 
@@ -24,6 +27,27 @@ function getAll(req, res, next) {
     userService
         .getAll()
         .then((users) => res.json(users))
+        .catch((err) => next(err));
+}
+
+function createNewUser(req, res, next) {
+    userService
+        .getOneUserById()
+        .then(() => res.json("Ok"))
+        .catch((err) => next(err));
+}
+
+function updateUserById(req, res, next) {
+    userService
+        .getOneUserById()
+        .then(() => res.json("Ok"))
+        .catch((err) => next(err));
+}
+
+function deleteUserById(req, res, next) {
+    userService
+        .getOneUserById()
+        .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
