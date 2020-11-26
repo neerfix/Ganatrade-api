@@ -509,18 +509,23 @@ paths:
       responses:
         '200':
           description: OK
+        '404':
+          description: Following Not Found
       operationId: get-users-userId-following-followingId
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Following'
+      description: ''
     patch:
       summary: '/users/{userId}/following/{followingId}'
       tags: []
       responses:
         '200':
           description: OK
+        '404':
+          description: Following Not Found
       operationId: patch-users-userId-following-followingId
     delete:
       summary: '/users/{userId}/following/{followingId}'
@@ -528,7 +533,49 @@ paths:
       responses:
         '200':
           description: OK
+        '404':
+          description: Following Not Found
       operationId: delete-users-userId-following-followingId
+      description: ''
+  '/users/{userId}/following':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: '/users/{userId}/following'
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+      operationId: get-users-userId-following
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Following'
+    post:
+      summary: '/users/{userId}/following'
+      tags:
+        - user
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Following'
+      operationId: post-users-userId-following
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Following'
 components:
   schemas:
     User:
