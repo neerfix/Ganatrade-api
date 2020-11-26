@@ -743,21 +743,6 @@ paths:
               $ref: '#/components/schemas/Trade'
         description: ''
       description: Retrieve the trades of the user with the matching user ID.
-    post:
-      summary: post-trade
-      tags: []
-      responses:
-        '200':
-          description: Trade Created
-        '400':
-          description: 'Bad Request : Missing Required Information'
-      operationId: post-users-userId-trades-tradeId
-      description: Create a new Trade
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Trade'
     patch:
       summary: patch-trade
       tags: []
@@ -783,6 +768,57 @@ paths:
           description: Trade Not Found
       operationId: delete-users-userId-trades-tradeId
       description: 'Delete one trade by user '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+  /trades:
+    get:
+      summary: get-trades
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-trades
+      description: Get all trades
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+    post:
+      summary: post-trades
+      tags: []
+      responses:
+        '200':
+          description: 'Created : Offer created with success'
+        '400':
+          description: 'Bad Request : Missing Required Information'
+      operationId: post-trades
+      description: Create a new trade.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+  '/users/{userId}/trades':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    post:
+      summary: post-trade
+      tags: []
+      responses:
+        '200':
+          description: Trade Created
+        '400':
+          description: 'Bad Request : Missing Required Information'
+      operationId: post-users-userId-trades
+      description: Create a new trade.
       requestBody:
         content:
           application/json:
