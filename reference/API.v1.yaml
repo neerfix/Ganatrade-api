@@ -715,6 +715,17 @@ paths:
             schema:
               $ref: '#/components/schemas/ProfileReviews'
         description: Post the necessary fields for the API to create a new review.
+    get:
+      summary: ''
+      operationId: get-users-userId-reviews
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileReviews'
   '/users/{userId}/trades/{tradeId}':
     parameters:
       - schema:
@@ -824,6 +835,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Trade'
+    get:
+      summary: ''
+      operationId: get-users-userId-trades
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+      description: ''
 components:
   schemas:
     User:
