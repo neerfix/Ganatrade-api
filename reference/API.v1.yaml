@@ -464,8 +464,6 @@ paths:
           description: Reviews Updated
         '404':
           description: User Not Found
-        '409':
-          description: Email Already Taken
       requestBody:
         content:
           application/json:
@@ -478,6 +476,21 @@ paths:
       responses:
         '200':
           description: OK
+    post:
+      summary: ''
+      operationId: post-users-userId-reviews
+      responses:
+        '200':
+          description: Review Created
+        '404':
+          description: 'Bad Request : Missing Required Information'
+      description: 'Create a new review '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileReviews'
+        description: Post the necessary fields for the API to create a new review.
 components:
   schemas:
     User:
