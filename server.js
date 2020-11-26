@@ -10,12 +10,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// use JWT auth to secure the api
-app.use(jwt());
+// use JWT auth to secure the api TODO REACTIVE IT
+// app.use(jwt());
 
 // api routes
 app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
+app.use('/offers/:offerId/categories', require('./Models/Controller/categories.controller'));
 
 // global error handler
 app.use(errorHandler);

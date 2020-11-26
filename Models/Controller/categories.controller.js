@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const userService = require("../Services/categories.services");
+const CategoryService = require("../Services/categories.services");
 
 // routes
-router.get("/", getAllCategory);
+router.get("/", getAllCategories);
 router.post("/", createNewCategory);
 router.get("/:categoryId", getOneCategoryById);
 router.patch("/:categoryId", updateCategoryById);
@@ -11,30 +11,30 @@ router.delete("/:categoryId", deleteCategoryById);
 
 module.exports = router;
 
-function getAllCategory(req, res, next) {
+function getAllCategories(req, res, next) {
     CategoryService
-        .getAll()
+        .getAllCategories()
         .then((users) => res.json(users))
         .catch((err) => next(err));
 }
 
 function createNewCategory(req, res, next) {
     CategoryService
-        .getOneCategoryById()
+        .createNewCategory()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function updateCategoryById(req, res, next) {
     CategoryService
-        .getOneCategoryById()
+        .updateCategoryById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function deleteCategoryById(req, res, next) {
     CategoryService
-        .getOneCategoryById()
+        .deleteCategoryById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
