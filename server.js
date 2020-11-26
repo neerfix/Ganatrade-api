@@ -14,6 +14,7 @@ app.use(cors());
 app.use(jwt());
 
 // api routes
+app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
 
 // global error handler

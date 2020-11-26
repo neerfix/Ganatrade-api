@@ -5,9 +5,12 @@ module.exports = jwt;
 
 function jwt() {
     const { secret } = config;
-    return expressJwt({ secret }).unless({
+    return expressJwt({ secret, algorithms: ['sha1', 'RS256', 'HS256']}).unless({
         path: [
             // public routes that don't require authentication
+            '/',
+            '/users/',
+            '/users/Pancake',
             '/users/authenticate'
         ]
     });
