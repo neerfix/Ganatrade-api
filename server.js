@@ -16,6 +16,7 @@ app.use(cors());
 // api routes
 app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
+app.use('/offers/', require('./Models/Controller/offers.controller'));
 app.use('/offers/:offerId/categories', require('./Models/Controller/categories.controller'));
 
 // global error handler
