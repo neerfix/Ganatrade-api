@@ -4,7 +4,7 @@ install:
 
 # Start the prod server
 start: 
-	install && nodemon server.js
+	nodemon server.js
 
 # from develop to master
 release:
