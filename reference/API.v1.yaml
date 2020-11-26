@@ -715,6 +715,79 @@ paths:
             schema:
               $ref: '#/components/schemas/ProfileReviews'
         description: Post the necessary fields for the API to create a new review.
+  '/users/{userId}/trades/{tradeId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: tradeId
+        in: path
+        required: true
+    get:
+      summary: get-trade
+      tags: []
+      responses:
+        '200':
+          description: Trades Found
+        '404':
+          description: Trades Not Found
+      operationId: get-users-userId-trades-tradeId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+        description: ''
+      description: Retrieve the trades of the user with the matching user ID.
+    post:
+      summary: post-trade
+      tags: []
+      responses:
+        '200':
+          description: Trade Created
+        '400':
+          description: 'Bad Request : Missing Required Information'
+      operationId: post-users-userId-trades-tradeId
+      description: Create a new Trade
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+    patch:
+      summary: patch-trade
+      tags: []
+      responses:
+        '200':
+          description: Trade Found
+        '404':
+          description: Trade Not Found
+      operationId: patch-users-userId-trades-tradeId
+      description: 'Update one trade by user '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+    delete:
+      summary: delete-trade
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Trade Not Found
+      operationId: delete-users-userId-trades-tradeId
+      description: 'Delete one trade by user '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
 components:
   schemas:
     User:
