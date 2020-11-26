@@ -3,7 +3,7 @@ install:
 	npm install
 
 # Start the prod server
-start: 
+start:
 	nodemon server.js
 
 # from develop to master
