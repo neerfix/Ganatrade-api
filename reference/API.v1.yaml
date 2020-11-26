@@ -507,7 +507,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Following'
-      description: ''
+      description: To get one following by User
     patch:
       summary: '/users/{userId}/following/{followingId}'
       tags: []
@@ -517,6 +517,7 @@ paths:
         '404':
           description: Following Not Found
       operationId: patch-users-userId-following-followingId
+      description: 'update one following by user '
     delete:
       summary: '/users/{userId}/following/{followingId}'
       tags: []
@@ -526,7 +527,7 @@ paths:
         '404':
           description: Following Not Found
       operationId: delete-users-userId-following-followingId
-      description: ''
+      description: 'Delete one following by user '
   '/users/{userId}/following':
     parameters:
       - schema:
@@ -549,6 +550,7 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Following'
+      description: ''
     post:
       summary: '/users/{userId}/following'
       tags:
