@@ -3,8 +3,8 @@ install:
 	npm install
 
 # Start the prod server
-start: 
-	install && systemctl start api_ganatrade.service
+start:
+	nodemon server.js && open http://localhost:8080
 
 # from develop to master
 release:
