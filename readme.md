@@ -1,3 +1,4 @@
+![deploy_beta](https://github.com/Ganatrade/api/workflows/deploy_beta/badge.svg?branch=develop)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/Ganatrade/Api)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ganatrade/api)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ganatrade/api)
