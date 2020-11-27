@@ -1,5 +1,6 @@
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
+const db = require('../../utils/firebase');
 
 // users hardcoded for simplicity, store in a db for production applications
 const trades = [{ id: 1, username: 'Antoine', password: 'jesuisunmotdepasse', firstName: 'oui', lastName: 'non' }];

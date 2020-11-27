@@ -26,7 +26,7 @@ function authenticate(req, res, next) {
 function getAllUsers(req, res, next) {
     userService
         .getAllUsers()
-        .then((users) => res.json(users))
+        .then((users) => res.status(200).send(users))
         .catch((err) => next(err));
 }
 

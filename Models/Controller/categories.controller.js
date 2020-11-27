@@ -14,7 +14,7 @@ module.exports = router;
 function getAllCategories(req, res, next) {
     CategoryService
         .getAllCategories()
-        .then((users) => res.json(users))
+        .then((categories) => res.status(200).send(categories))
         .catch((err) => next(err));
 }
 

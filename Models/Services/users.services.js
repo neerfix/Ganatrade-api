@@ -1,5 +1,6 @@
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
+const db = require('../../utils/firebase');
 
 // users hardcoded for simplicity, store in a db for production applications
 const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
@@ -26,10 +27,22 @@ async function authenticate({ username, password }) {
 }
 
 async function getAllUsers() {
-    return users.map(u => {
-        const { password, ...userWithoutPassword } = u;
-        return userWithoutPassword;
-    });
+    try {
+        const data = db.collection('users');
+        let response = [];
+        await data.get().then(querySnapshot => {
+            let users = querySnapshot.docs;
+            for (let user of users) {
+                response.push(user.data());
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            "code": error.code,
+            "message": error.message
+        };
+    }
 }
 
 async function getOneUserById() {

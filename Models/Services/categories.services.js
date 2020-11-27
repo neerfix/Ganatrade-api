@@ -1,8 +1,6 @@
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
-
-// users hardcoded for simplicity, store in a db for production applications
-const categories = [{ id: 1, name: 'Bateau', offers: 'Pancake' }];
+const db = require('../../utils/firebase');
 
 module.exports = {
     getAllCategories,
@@ -13,10 +11,22 @@ module.exports = {
 };
 
 async function getAllCategories() {
-    return categories.map(u => {
-        const { password, ...userWithoutPassword } = u;
-        return userWithoutPassword;
-    });
+        try {
+            const data = db.collection('categories');
+            let response = [];
+            await data.get().then(querySnapshot => {
+                let docs = querySnapshot.docs;
+                for (let doc of docs) {
+                    response.push(doc.data());
+                }
+            });
+            return response;
+        } catch (error) {
+            return {
+                    "code": error.code,
+                    "message": error.message
+                };
+        }
 }
 
 async function createNewCategory() {

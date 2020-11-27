@@ -14,7 +14,7 @@ module.exports = router;
 function getAllTrades(req, res, next) {
     tradeService
         .getAllTrades()
-        .then((trades) => res.json(trades))
+        .then((trades) => res.status(200).send(trades))
         .catch((err) => next(err));
 }
 
