@@ -18,6 +18,8 @@ app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
 app.use('/trades', require('./Models/Controller/trades.controller'));
 app.use('/reviews', require('./Models/Controller/reviews.controller'));
+app.use('/offers/:offerId/categories', require('./Models/Controller/categories.controller'));
+
 
 // global error handler
 app.use(errorHandler);

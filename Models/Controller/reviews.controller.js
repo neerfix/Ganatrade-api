@@ -20,21 +20,21 @@ function getAllReviews(req, res, next) {
 
 function createNewReview(req, res, next) {
     reviewService
-        .getOneReviewById()
+        .createNewReview()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function updateReviewById(req, res, next) {
     reviewService
-        .getOneReviewById()
+        .updateReviewById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function deleteReviewById(req, res, next) {
     reviewService
-        .getOneReviewById()
+        .deleteReviewById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }

@@ -20,21 +20,21 @@ function getAllTrades(req, res, next) {
 
 function createNewTrade(req, res, next) {
     tradeService
-        .getOneTradeById()
+        .createNewTrade()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function updateTradeById(req, res, next) {
     tradeService
-        .getOneTradeById()
+        .updateTradeById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function deleteTradeById(req, res, next) {
     tradeService
-        .getOneTradeById()
+        .deleteTradeById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
