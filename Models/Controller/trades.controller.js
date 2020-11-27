@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const tradeService = require("../Services/traders.services");
+const tradeService = require("../Services/trades.services");
 
 // routes
 router.get("/", getAllTrades);
@@ -12,35 +12,35 @@ router.delete("/:tradeId", deleteTradeById);
 module.exports = router;
 
 function getAllTrades(req, res, next) {
-    TradeService
-        .getAll()
+    tradeService
+        .getAllTrades()
         .then((trades) => res.json(trades))
         .catch((err) => next(err));
 }
 
 function createNewTrade(req, res, next) {
-    TradeService
+    tradeService
         .getOneTradeById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function updateTradeById(req, res, next) {
-    TradeService
+    tradeService
         .getOneTradeById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function deleteTradeById(req, res, next) {
-    TradeService
+    tradeService
         .getOneTradeById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function getOneTradeById(req, res, next) {
-    TradeService
+    tradeService
         .getOneTradeById()
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
