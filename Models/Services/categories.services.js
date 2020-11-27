@@ -2,7 +2,7 @@ const config = require('config.json');
 const jwt = require('jsonwebtoken');
 
 // users hardcoded for simplicity, store in a db for production applications
-const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
+const categories = [{ id: 1, name: 'Bateau', offers: 'Pancake' }];
 
 module.exports = {
     getAllCategories,
@@ -13,7 +13,7 @@ module.exports = {
 };
 
 async function getAllCategories() {
-    return users.map(u => {
+    return categories.map(u => {
         const { password, ...userWithoutPassword } = u;
         return userWithoutPassword;
     });
