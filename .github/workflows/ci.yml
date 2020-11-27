@@ -1,4 +1,4 @@
-name: SSH
+name: Deploy Prod
 on:
   push:
     branches:
