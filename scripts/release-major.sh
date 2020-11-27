@@ -3,7 +3,7 @@
 	git pull origin develop
 	git checkout master
 	git merge develop
-	standard-version
+	standard-version -r major
 	git push origin master
 	git push origin develop
 	git push --follow-tags origin master
