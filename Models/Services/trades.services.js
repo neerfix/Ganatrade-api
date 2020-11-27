@@ -2,7 +2,7 @@ const config = require('config.json');
 const jwt = require('jsonwebtoken');
 
 // users hardcoded for simplicity, store in a db for production applications
-const trades = [{ id: 1, username: 'nico', password: 'tbo', firstName: 'oui', lastName: 'jtm' }];
+const trades = [{ id: 1, username: 'Antoine', password: 'jesuisunmotdepasse', firstName: 'oui', lastName: 'non' }];
 
 module.exports = {
     getAllTrades,

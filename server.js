@@ -17,6 +17,7 @@ app.use(cors());
 app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
 app.use('/trades', require('./Models/Controller/trades.controller'));
+app.use('/reviews', require('./Models/Controller/reviews.controller'));
 
 // global error handler
 app.use(errorHandler);

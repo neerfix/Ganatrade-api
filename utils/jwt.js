@@ -11,7 +11,7 @@ function jwt() {
             '/',
             '/users/',
             '/users/Pancake',
-            '/users/authenticate'
+            '/users/authenticate',
         ]
     });
 }
