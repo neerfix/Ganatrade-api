@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/ganatrade/api/compare/v0.1.2...v0.1.3) (2020-11-27)
+
+
+### Bug Fixes
+
+* script to releasE ([7e6a7b8](https://github.com/ganatrade/api/commit/7e6a7b860d9d7c8c3d644ce728408d0a013c8456))
+* update makefile ([6e6530e](https://github.com/ganatrade/api/commit/6e6530ec9553a973f67662e280dd5d4b47fdf490))
+* update script to release ([9e96f76](https://github.com/ganatrade/api/commit/9e96f7699c390d2e8a2a7417a9288e128c0b5118))
+
 ### [0.1.2](https://github.com/ganatrade/api/compare/v0.1.0...v0.1.2) (2020-11-27)
 
 ### [0.1.1](https://github.com/ganatrade/api/compare/v0.1.0...v0.1.1) (2020-11-27)
