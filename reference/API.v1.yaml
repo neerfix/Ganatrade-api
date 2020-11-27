@@ -1,0 +1,996 @@
+openapi: 3.0.0
+info:
+  title: API
+  version: '1.0'
+  description: Api de ganatrade - School Project
+  contact:
+    name: Ganatrade
+    url: 'https://www.ganatrade.xyz/'
+    email: contact@ganatrade.xyz
+servers:
+  - url: 'https://api.ganatrade.xyz'
+    description: Prod
+  - url: 'https://beta.api.ganatrade.xyz'
+    description: Beta
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User Info by User ID
+      tags:
+        - user
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: '142'
+                    username: AliceS
+                    password: 123456789CeciNestPasSecuriser
+                    rank: trader
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    birthdate: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+      parameters: []
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: '13'
+                    username: Rebaker
+                    password: MichelJeTaime
+                    rank: trader
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    birthdate: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the infromation of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+    delete:
+      summary: ''
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: User with this userId Not Found
+      description: To delete an user.
+  /users:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: '12'
+                    username: Bob3lettres
+                    password: qwertyuiop
+                    rank: admin
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    birthdate: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: 'Bad Request : Missing Required Information'
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+      description: Get all users to AdminControlPanel
+      tags:
+        - user
+  /:
+    get:
+      summary: /
+      tags: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  project:
+                    type: string
+                    minLength: 1
+                  author:
+                    type: string
+                    minLength: 1
+                  version:
+                    type: string
+                    minLength: 1
+                  description:
+                    type: string
+                    minLength: 1
+                  response:
+                    type: object
+                    description: Only if api is connect with BDD
+                    properties:
+                      type:
+                        type: string
+                        minLength: 1
+                      status:
+                        type: boolean
+              examples:
+                Return with BD connect:
+                  value:
+                    project: api
+                    author: Ganatrade
+                    version: 0.0.9
+                    description: Api...
+                    response:
+                      type: prod
+                      status: true
+                Return without BD connect:
+                  value:
+                    project: api
+                    author: Ganatrade
+                    version: 0.0.9
+                    description: Api...
+      operationId: get
+      description: A simple route to check if API is ON and if it's connect with BDD.
+  /offers:
+    get:
+      summary: offers
+      tags:
+        - offer
+      responses:
+        '200':
+          description: OK
+      operationId: get-Offers
+    post:
+      summary: Offers
+      tags: []
+      responses:
+        '201':
+          description: 'Created : Offer created with success'
+        '400':
+          description: 'Bad Request : Missing Required Information'
+      operationId: post-Offers
+    parameters: []
+  '/offers/{offerId}':
+    parameters:
+      - schema:
+          type: string
+        name: offerId
+        in: path
+        description: Id of an existing offer.
+        required: true
+    get:
+      summary: 'offers/{offerId}'
+      tags:
+        - offer
+      responses:
+        '200':
+          description: Offer Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+              examples:
+                example-1:
+                  value:
+                    id: vYvZjac2FyzlcpZi39pr
+                    user_id: LcpjafEgrwtAXdwjLTPh
+                    title: 'Vend le yacht Azzam pour 537,000,000$'
+                    product:
+                      name: Azzam yacht
+                      condition: En cash seulement.
+                    description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
+                    pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
+                    categories: string
+                    tags: string
+                    trade:
+                      method: cash en liasse de 100$
+                      target: Les petits bourges des beaux quartiers
+                      estimation: '537,000,000$'
+                      place: Monaco
+                      radius: 200Km
+                    views: '516544'
+                    saves: '5155'
+                    is_active: 'true'
+                    status: 'true'
+                    created_at: '24-11-2020-11:39:00-UTC+1'
+                    updated_at: '24-11-2020-11:39:00-UTC+1'
+        '404':
+          description: Offer Not Found
+      operationId: get-Offers-OfferId
+      parameters: []
+      description: Retrieve the information of the user with the matching offer ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples: {}
+    delete:
+      summary: '/offers/{offerId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: delete-Offers-OfferId
+    patch:
+      summary: ''
+      operationId: patch-offers-offerId
+      responses:
+        '200':
+          description: Offer Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        '400':
+          description: 'Bad Request : Missing Required Information'
+        '404':
+          description: Not Found
+      description: Update the infromation of an existing offer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                title:
+                  type: string
+                  minLength: 1
+                product:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      minLength: 1
+                    condition:
+                      type: string
+                      minLength: 1
+                description:
+                  type: string
+                  minLength: 1
+                pictures:
+                  type: string
+                  minLength: 1
+                categories:
+                  type: string
+                  minLength: 1
+                tags:
+                  type: string
+                  minLength: 1
+                trade:
+                  type: object
+                  properties:
+                    method:
+                      type: string
+                      minLength: 1
+                    target:
+                      type: string
+                      minLength: 1
+                    estimation:
+                      type: string
+                      minLength: 1
+                    place:
+                      type: string
+                      minLength: 1
+                    radius:
+                      type: string
+                      minLength: 1
+                views:
+                  type: string
+                  minLength: 1
+                saves:
+                  type: string
+                  minLength: 1
+                is_active:
+                  type: string
+                  minLength: 1
+                status:
+                  type: string
+                  minLength: 1
+                updated_at:
+                  type: string
+                  minLength: 1
+              required:
+                - id
+            examples:
+              Update Title:
+                value:
+                  id: string
+                  title: string
+              Update Product Name:
+                value:
+                  id: string
+                  product:
+                    name: string
+              Update multiple fields:
+                value:
+                  id: string
+                  trade:
+                    method: string
+                    target: string
+                    estimation: string
+                    place: string
+                    radius: string
+  '/users/{userId}/reviews/{reviewId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: reviewId
+        in: path
+        required: true
+    get:
+      summary: get-users-reviews
+      tags: []
+      responses:
+        '200':
+          description: Reviews Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileReviews'
+          headers: {}
+        '404':
+          description: Reviews Not Found
+      operationId: get-users-userId-reviews
+      description: Retrieve the reviews of the user with the matching user ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileReviews'
+            examples:
+              example-1:
+                value:
+                  id: string
+                  content: string
+                  created_at: string
+                  updated_at: string
+                  ' is_visible': string
+                  autor_id: string
+                  user_profile_id: string
+                  note: 0
+    patch:
+      summary: ''
+      operationId: patch-users-userId-reviews
+      responses:
+        '200':
+          description: Reviews Updated
+        '404':
+          description: User Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileReviews'
+      description: Update the reviews of an existing user.
+    delete:
+      summary: ''
+      operationId: delete-users-userId-reviews
+      responses:
+        '200':
+          description: OK
+  '/users/{userId}/following/{followingId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: followingId
+        in: path
+        required: true
+    get:
+      summary: '/users/{userId}/following/{followingId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Following Not Found
+      operationId: get-users-userId-following-followingId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Following'
+      description: To get one following by User
+    patch:
+      summary: '/users/{userId}/following/{followingId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Following Not Found
+      operationId: patch-users-userId-following-followingId
+      description: 'update one following by user '
+    delete:
+      summary: '/users/{userId}/following/{followingId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Following Not Found
+      operationId: delete-users-userId-following-followingId
+      description: 'Delete one following by user '
+  '/users/{userId}/following':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: '/users/{userId}/following'
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+      operationId: get-users-userId-following
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Following'
+      description: ''
+    post:
+      summary: '/users/{userId}/following'
+      tags:
+        - user
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Following'
+      operationId: post-users-userId-following
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Following'
+  /categories:
+    get:
+      summary: /categories
+      tags:
+        - offer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+      operationId: get-categories
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+    post:
+      summary: /categories
+      tags:
+        - offer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+      operationId: post-categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+        description: ''
+  '/categories/{categoryId}':
+    parameters:
+      - schema:
+          type: string
+        name: categoryId
+        in: path
+        required: true
+    get:
+      summary: '/categories/{categoryId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Not Found
+      operationId: get-categories-categoryId
+    patch:
+      summary: '/categories/{categoryId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Not Found
+      operationId: patch-categories-categoryId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+    delete:
+      summary: '/categories/{categoryId}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      operationId: delete-categories-categoryId
+    '/users/{userId}/trade/{tradeId}':
+      parameters:
+        - schema:
+            type: string
+          name: userId
+          in: path
+          required: true
+        - schema:
+            type: string
+          name: tradeId
+          in: path
+          required: true
+      get:
+        summary: get-trade
+        tags: []
+        responses: {}
+        operationId: get-users-userId-trade-tradeId
+    '/users/{userId}/reviews':
+      parameters:
+        - schema:
+            type: string
+          name: userId
+          in: path
+          required: true
+      post:
+        summary: post-review
+        tags: []
+        responses:
+          '200':
+            description: Review Created
+          '400':
+            description: 'Bad Request : Missing Required Information'
+        operationId: post-users-userId-reviews
+        description: Create a new Review
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileReviews'
+          description: Post the necessary fields for the API to create a new review.
+  '/users/{userId}/reviews':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    post:
+      summary: post-review
+      tags: []
+      responses:
+        '200':
+          description: Review Created
+        '400':
+          description: 'Bad Request : Missing Required Information'
+      operationId: post-users-userId-reviews
+      description: Create a new user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileReviews'
+        description: Post the necessary fields for the API to create a new review.
+components:
+  schemas:
+    User:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+        username:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+        rank:
+          type: string
+          minLength: 1
+        birthdate:
+          type: string
+          minLength: 1
+        lastname:
+          type: string
+          minLength: 1
+        firstname:
+          type: string
+          minLength: 1
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+              minLength: 1
+            zipcode:
+              type: integer
+            City:
+              type: string
+              minLength: 1
+        phone:
+          type: string
+          minLength: 1
+        avatar:
+          type: string
+          minLength: 1
+        private_profile:
+          type: boolean
+        delete_profile:
+          type: boolean
+        last_login:
+          type: string
+          minLength: 1
+        average_answer:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - username
+        - email
+        - password
+        - rank
+        - birthdate
+      title: ''
+      x-tags:
+        - user
+    Offer:
+      description: ''
+      type: object
+      x-examples:
+        Azzam Yatch:
+          id: vYvZjac2FyzlcpZi39pr
+          user_id: LcpjafEgrwtAXdwjLTPh
+          title: 'Vend le yacht Azzam pour 537,000,000$'
+          product:
+            name: Azzam yacht
+            condition: En cash seulement.
+          description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
+          pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
+          categories: string
+          tags: string
+          trade:
+            method: cash en liasse de 100$
+            target: Les petits bourges des beaux quartiers
+            estimation: '537,000,000$'
+            place: Monaco
+            radius: 200Km
+          views: '516544'
+          saves: '5155'
+          is_active: 'true'
+          status: 'true'
+          created_at: '24-11-2020-11:39:00-UTC+1'
+          updated_at: '24-11-2020-11:39:00-UTC+1'
+      title: ''
+      x-tags:
+        - offer
+      properties:
+        id:
+          type: string
+        user_id:
+          type: integer
+        title:
+          type: string
+          minLength: 1
+        product:
+          type: object
+          required:
+            - name
+            - condition
+          properties:
+            name:
+              type: string
+              minLength: 1
+            condition:
+              type: string
+              minLength: 1
+              description: 'Condition d''echange, offres d''echange accepte ...'
+        description:
+          type: string
+          minLength: 1
+        pictures:
+          type: string
+          minLength: 1
+        categories:
+          type: string
+          minLength: 1
+        tags:
+          type: array
+          items: {}
+        trade:
+          type: object
+          required:
+            - method
+          properties:
+            method:
+              type: string
+              minLength: 1
+            target:
+              type: string
+              minLength: 1
+            estimation:
+              type: string
+              minLength: 1
+            place:
+              type: string
+              minLength: 1
+            radius:
+              type: integer
+        views:
+          type: integer
+        saves:
+          type: string
+          minLength: 1
+          description: Listes des personnes qui suivent l'offre
+        is_active:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          minLength: 1
+        created_at:
+          type: string
+          minLength: 1
+        updated_at:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - title
+        - product
+        - categories
+        - trade
+        - saves
+        - is_active
+        - status
+        - created_at
+        - updated_at
+    Following:
+      title: following
+      type: object
+      x-examples: {}
+      description: ''
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        offer_id:
+          type: string
+          description: the user can follow an offer and / or a category
+        category_id:
+          type: string
+          description: the user can follow an offer and / or a category
+      required:
+        - id
+        - user_id
+    Category:
+      title: Category
+      type: object
+      properties:
+        id:
+          type: string
+        category_parent:
+          type: string
+          description: will allow you to manage the sub-categories
+        description:
+          type: string
+        isActive:
+          type: boolean
+      required:
+        - id
+        - category_parent
+        - isActive
+    Trade:
+      title: Trade
+      type: object
+      properties:
+        id:
+          type: string
+        offer_id:
+          type: string
+        status:
+          type: string
+        date_of_trade:
+          type: string
+        type:
+          type: string
+        trader_id:
+          type: string
+        buyer_id:
+          type: string
+        is_visible:
+          type: boolean
+        value:
+          type: string
+      required:
+        - id
+        - offer_id
+        - status
+        - date_of_trade
+        - type
+        - trader_id
+        - buyer_id
+        - is_visible
+    ProfileReviews:
+      title: ProfileReviews
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        ' is_visible':
+          type: string
+        autor_id:
+          type: string
+        user_profile_id:
+          type: string
+        note:
+          type: number
+      required:
+        - id
+        - created_at
+        - updated_at
+        - ' is_visible'
+        - autor_id
+        - user_profile_id
+        - note
+      description: ''
+  securitySchemes: {}
+security: []
+tags:
+  - name: offer
+  - name: user
