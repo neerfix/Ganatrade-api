@@ -20,7 +20,7 @@ app.use('/trades', require('./Models/Controller/trades.controller'));
 app.use('/reviews', require('./Models/Controller/reviews.controller'));
 app.use('/users/:userId/following', require('./Models/Controller/followings.controller'));
 app.use('/offers/', require('./Models/Controller/offers.controller'));
-app.use('/offers/:offerId/categories', require('./Models/Controller/categories.controller'));
+app.use('/categories', require('./Models/Controller/categories.controller'));
 
 
 // global error handler
