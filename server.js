@@ -17,8 +17,8 @@ app.use(cors());
 app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
 app.use('/trades', require('./Models/Controller/trades.controller'));
-app.use('/reviews', require('./Models/Controller/reviews.controller'));
-app.use('/users/:userId/following', require('./Models/Controller/followings.controller'));
+app.use('/users/', require('./Models/Controller/Users/reviews.controller'));
+app.use('/users/', require('./Models/Controller/Users/followings.controller'));
 app.use('/offers/', require('./Models/Controller/offers.controller'));
 app.use('/categories', require('./Models/Controller/categories.controller'));
 

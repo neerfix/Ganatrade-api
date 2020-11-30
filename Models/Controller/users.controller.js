@@ -26,34 +26,34 @@ function authenticate(req, res, next) {
 function getAllUsers(req, res, next) {
     userService
         .getAllUsers()
-        .then((users) => res.json(users))
+        .then((users) => res.status(200).send(users))
         .catch((err) => next(err));
 }
 
 function createNewUser(req, res, next) {
     userService
-        .createNewUser()
-        .then(() => res.json("Ok"))
+        .createNewUser(req, res)
+        .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }
 
 function updateUserById(req, res, next) {
     userService
-        .updateUserById()
-        .then(() => res.json("Ok"))
+        .updateUserById(req)
+        .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }
 
 function deleteUserById(req, res, next) {
     userService
-        .deleteUserById()
-        .then(() => res.json("Ok"))
+        .deleteUserById(req)
+        .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }
 
 function getOneUserById(req, res, next) {
     userService
-        .getOneUserById()
-        .then(() => res.json("Ok"))
+        .getOneUserById(req)
+        .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }

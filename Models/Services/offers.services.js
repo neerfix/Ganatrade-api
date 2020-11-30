@@ -1,8 +1,6 @@
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
-
-// users hardcoded for simplicity, store in a db for production applications
-const offers = [{ id: 1, title: 'test', author: 'test', price: '32131', city: 'Paname' }];
+const db = require('../../utils/firebase');
 
 module.exports = {
     getAllOffers,
@@ -13,24 +11,64 @@ module.exports = {
 };
 
 async function getAllOffers() {
-    return offers.map(u => {
-        const { password, ...userWithoutPassword } = u;
-        return userWithoutPassword;
-    });
+    try {
+        const data = db.collection('offers');
+        let response = [];
+        await data.get().then(querySnapshot => {
+            let offers = querySnapshot.docs;
+            for (let offer of offers) {
+                response.push(offer.data());
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            "code": error.code,
+            "message": error.message
+        };
+    }
 }
 
-async function createNewOffer() {
-    return "201";
+async function createNewOffer(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }
 
-async function updateOfferById() {
-    return "201";
+async function updateOfferById(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }
 
-async function deleteOfferById() {
-    return "201";
+async function deleteOfferById(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }
 
-async function getOneOfferById() {
-    return "201";
+async function getOneOfferById(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }

@@ -1,8 +1,4 @@
-const config = require('config.json');
-const jwt = require('jsonwebtoken');
-
-// users hardcoded for simplicity, store in a db for production applications
-const categories = [{ id: 1, name: 'Bateau', offers: 'Pancake' }];
+const db = require('../../utils/firebase');
 
 module.exports = {
     getAllCategories,
@@ -13,24 +9,64 @@ module.exports = {
 };
 
 async function getAllCategories() {
-    return categories.map(u => {
-        const { password, ...userWithoutPassword } = u;
-        return userWithoutPassword;
-    });
+        try {
+            const data = db.collection('categories');
+            let response = [];
+            data.get().then(querySnapshot => {
+                let docs = querySnapshot.docs;
+                for (let doc of docs) {
+                    response.push(doc.data());
+                }
+            });
+            return response;
+        } catch (error) {
+            return {
+                    "code": error.code,
+                    "message": error.message
+                };
+        }
 }
 
-async function createNewCategory() {
-    return "201";
+async function createNewCategory(req) {
+    const document = db.collection('categories').doc(req.params.categoryId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
 
-async function updateCategoryById() {
-    return "201";
+async function updateCategoryById(req) {
+    const document = db.collection('categories').doc(req.params.categoryId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
 
-async function deleteCategoryById() {
-    return "201";
+async function deleteCategoryById(req) {
+    const document = db.collection('categories').doc(req.params.categoryId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
 
-async function getOneCategoryById() {
-    return "201";
+async function getOneCategoryById(req) {
+    const document = db.collection('categories').doc(req.params.categoryId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
