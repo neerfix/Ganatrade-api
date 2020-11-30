@@ -13,35 +13,35 @@ module.exports = router;
 
 function getAllFollowings(req, res, next) {
     FollowingService
-        .getAllFollowings(req, res)
+        .getAllFollowings(req)
         .then((followings) => res.status(200).send(followings))
         .catch((err) => next(err));
 }
 
 function createNewFollowing(req, res, next) {
     FollowingService
-        .createNewFollowing()
+        .createNewFollowing(req)
         .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
 function updateFollowingById(req, res, next) {
     FollowingService
-        .updateFollowingById()
+        .updateFollowingById(req)
         .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
 function deleteFollowingById(req, res, next) {
     FollowingService
-        .deleteFollowingById()
+        .deleteFollowingById(req)
         .then(() => res.json("Ok"))
         .catch((err) => next(err));
 }
 
 function getOneFollowingById(req, res, next) {
     FollowingService
-        .getOneFollowingById(req, res)
+        .getOneFollowingById(req)
         .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }

@@ -13,7 +13,7 @@ module.exports = router;
 
 function getAllCategories(req, res, next) {
     OffersService
-        .getAllOffers()
+        .getAllOffers(req)
         .then((offers) => res.status(200).send(offers))
         .catch((err) => next(err));
 }

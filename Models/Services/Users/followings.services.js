@@ -27,19 +27,40 @@ async function getAllFollowings(req) {
     }
 }
 
-async function createNewFollowing() {
-    return "201";
+async function createNewFollowing(req) {
+    const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
 
-async function updateFollowingById() {
-    return "201";
+async function updateFollowingById(req) {
+    const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
 
-async function deleteFollowingById() {
-    return "201";
+async function deleteFollowingById(req) {
+    const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Following not found"}
+    }
+
+    return response;
 }
 
-async function getOneFollowingById(req, res) {
+async function getOneFollowingById(req) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
     let response = (await document.get()).data();
 
