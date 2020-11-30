@@ -1,9 +1,4 @@
-const config = require('config.json');
-const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
-
-// users hardcoded for simplicity, store in a db for production applications
-const trades = [{ id: 1, username: 'Antoine', password: 'jesuisunmotdepasse', firstName: 'oui', lastName: 'non' }];
 
 module.exports = {
     getAllTrades,
@@ -15,12 +10,12 @@ module.exports = {
 
 async function getAllTrades(req) {
     try {
-        const data = db.collection('users');
+        const data = db.collection('offers').doc(req.params.offerId).collection('trades');
         let response = [];
         await data.get().then(querySnapshot => {
-            let users = querySnapshot.docs;
-            for (let user of users) {
-                response.push(user.data());
+            let trades = querySnapshot.docs;
+            for (let trade of trades) {
+                response.push(trade.data());
             }
         });
         return response;

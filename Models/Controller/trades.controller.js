@@ -12,22 +12,10 @@ router.delete("/:tradeId", deleteTradeById);
 module.exports = router;
 
 function getAllTrades(req, res, next) {
-    try {
-        const data = db.collection('categories');
-        let response = [];
-        data.get().then(querySnapshot => {
-            let docs = querySnapshot.docs;
-            for (let doc of docs) {
-                response.push(doc.data());
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
-    }
+    tradeService
+        .getAllTrades(req)
+        .then((trades) => res.status(200).send(trades))
+        .catch((err) => next(err));
 }
 
 function createNewTrade(req, res, next) {
