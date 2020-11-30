@@ -20,28 +20,28 @@ function getAllCategories(req, res, next) {
 
 function createNewOffer(req, res, next) {
     OffersService
-        .createNewOffer()
-        .then(() => res.json("Ok"))
+        .createNewOffer(req)
+        .then((offer) => res.status(200).send(offer))
         .catch((err) => next(err));
 }
 
 function updateOfferById(req, res, next) {
     OffersService
-        .updateOfferById()
-        .then(() => res.json("Ok"))
+        .updateOfferById(req)
+        .then((offer) => res.status(200).send(offer))
         .catch((err) => next(err));
 }
 
 function deleteOfferById(req, res, next) {
     OffersService
-        .deleteOfferById()
-        .then(() => res.json("Ok"))
+        .deleteOfferById(req)
+        .then((offer) => res.status(200).send(offer))
         .catch((err) => next(err));
 }
 
 function getOneOfferById(req, res, next) {
     OffersService
-        .getOneOfferById()
-        .then(() => res.json("Ok"))
+        .getOneOfferById(req)
+        .then((offer) => res.status(200).send(offer))
         .catch((err) => next(err));
 }

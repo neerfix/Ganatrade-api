@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const FollowingService = require("../Services/followings.services");
+const FollowingService = require("../../Services/Users/followings.services");
 
 // routes
-router.get("/", getAllFollowings);
-router.post("/", createNewFollowing);
-router.get("/:followingId", getOneFollowingById);
-router.patch("/:followingId", updateFollowingById);
-router.delete("/:followingId", deleteFollowingById);
+router.get("/:userId/followings/", getAllFollowings);
+router.post("/:userId/followings/", createNewFollowing);
+router.get("/:userId/followings/:followingId", getOneFollowingById);
+router.patch("/:userId/followings/:followingId", updateFollowingById);
+router.delete("/:userId/followings/:followingId", deleteFollowingById);
 
 module.exports = router;
 
 function getAllFollowings(req, res, next) {
     FollowingService
-        .getAllFollowings()
+        .getAllFollowings(req, res)
         .then((followings) => res.status(200).send(followings))
         .catch((err) => next(err));
 }
@@ -21,14 +21,14 @@ function getAllFollowings(req, res, next) {
 function createNewFollowing(req, res, next) {
     FollowingService
         .createNewFollowing()
-        .then(() => res.json("Ok"))
+        .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
 function updateFollowingById(req, res, next) {
     FollowingService
         .updateFollowingById()
-        .then(() => res.json("Ok"))
+        .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
@@ -41,7 +41,7 @@ function deleteFollowingById(req, res, next) {
 
 function getOneFollowingById(req, res, next) {
     FollowingService
-        .getOneFollowingById()
-        .then(() => res.json("Ok"))
+        .getOneFollowingById(req, res)
+        .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }

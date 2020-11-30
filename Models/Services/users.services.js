@@ -45,18 +45,46 @@ async function getAllUsers() {
     }
 }
 
-async function getOneUserById() {
-    return "201";
+async function getOneUserById(req) {
+    const document = db.collection('users').doc(req.params.userId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "User not found"}
+    }
+
+    return response;
 }
 
 async function createNewUser() {
-    return "201";
+    const document = db.collection('users').doc(req.params.userId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "User not found"}
+    }
+
+    return response;
 }
 
 async function updateUserById() {
-    return "201";
+    const document = db.collection('users').doc(req.params.userId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "User not found"}
+    }
+
+    return response;
 }
 
-async function deleteUserById() {
-    return "201";
+async function deleteUserById(req) {
+    const document = db.collection('users').doc(req.params.userId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "User not found"}
+    }
+
+    return response;
 }

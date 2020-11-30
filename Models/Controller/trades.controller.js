@@ -12,36 +12,48 @@ router.delete("/:tradeId", deleteTradeById);
 module.exports = router;
 
 function getAllTrades(req, res, next) {
-    tradeService
-        .getAllTrades()
-        .then((trades) => res.status(200).send(trades))
-        .catch((err) => next(err));
+    try {
+        const data = db.collection('categories');
+        let response = [];
+        data.get().then(querySnapshot => {
+            let docs = querySnapshot.docs;
+            for (let doc of docs) {
+                response.push(doc.data());
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            "code": error.code,
+            "message": error.message
+        };
+    }
 }
 
 function createNewTrade(req, res, next) {
     tradeService
-        .createNewTrade()
-        .then(() => res.json("Ok"))
+        .createNewTrade(req)
+        .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
 
 function updateTradeById(req, res, next) {
     tradeService
-        .updateTradeById()
-        .then(() => res.json("Ok"))
+        .updateTradeById(req)
+        .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
 
 function deleteTradeById(req, res, next) {
     tradeService
-        .deleteTradeById()
-        .then(() => res.json("Ok"))
+        .deleteTradeById(req)
+        .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
 
 function getOneTradeById(req, res, next) {
     tradeService
-        .getOneTradeById()
-        .then(() => res.json("Ok"))
+        .getOneTradeById(req)
+        .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }

@@ -29,18 +29,46 @@ async function getAllOffers() {
     }
 }
 
-async function createNewOffer() {
-    return "201";
+async function createNewOffer(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }
 
-async function updateOfferById() {
-    return "201";
+async function updateOfferById(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }
 
-async function deleteOfferById() {
-    return "201";
+async function deleteOfferById(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }
 
-async function getOneOfferById() {
-    return "201";
+async function getOneOfferById(req) {
+    const document = db.collection('offers').doc(req.params.offerId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "Offer not found"}
+    }
+
+    return response;
 }

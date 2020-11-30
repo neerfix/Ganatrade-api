@@ -13,35 +13,35 @@ module.exports = router;
 
 function getAllCategories(req, res, next) {
     CategoryService
-        .getAllCategories()
+        .getAllCategories(req)
         .then((categories) => res.status(200).send(categories))
         .catch((err) => next(err));
 }
 
 function createNewCategory(req, res, next) {
     CategoryService
-        .createNewCategory()
-        .then(() => res.json("Ok"))
+        .createNewCategory(req)
+        .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
 
 function updateCategoryById(req, res, next) {
     CategoryService
-        .updateCategoryById()
-        .then(() => res.json("Ok"))
+        .updateCategoryById(req)
+        .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
 
 function deleteCategoryById(req, res, next) {
     CategoryService
-        .deleteCategoryById()
-        .then(() => res.json("Ok"))
+        .deleteCategoryById(req)
+        .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
 
 function getOneCategoryById(req, res, next) {
     CategoryService
-        .getOneCategoryById()
-        .then(() => res.json("Ok"))
+        .getOneCategoryById(req)
+        .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
