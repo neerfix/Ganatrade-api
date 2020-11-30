@@ -4,7 +4,7 @@ install:
 
 # Start the prod server
 start:
-	nodemon server.js && open http://localhost:8080
+	open http://localhost:8080 && nodemon server.js
 
 # from develop to master
 release:
