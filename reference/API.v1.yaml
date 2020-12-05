@@ -983,7 +983,7 @@ components:
         pictures:
           type: string
           minLength: 1
-        categories:
+        category:
           type: string
           minLength: 1
         tags:
@@ -1029,9 +1029,8 @@ components:
         - id
         - title
         - product
-        - categories
+        - category
         - trade
-        - saves
         - is_active
         - status
         - created_at
