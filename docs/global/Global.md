@@ -1,0 +1,7 @@
+---
+tags: [global]
+---
+
+# Global
+
+Test ... 
