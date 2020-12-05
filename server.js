@@ -22,7 +22,6 @@ app.use('/users/', require('./Models/Controller/Users/followings.controller'));
 app.use('/offers/', require('./Models/Controller/offers.controller'));
 app.use('/categories', require('./Models/Controller/categories.controller'));
 
-
 // global error handler
 app.use(errorHandler);
 
