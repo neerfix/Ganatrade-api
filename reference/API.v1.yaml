@@ -283,15 +283,17 @@ paths:
                     description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
                     pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
                     categories: string
-                    tags: string
+                    tags:
+                      - boat
+                      - luxe
                     trade:
                       method: cash en liasse de 100$
                       target: Les petits bourges des beaux quartiers
                       estimation: '537,000,000$'
                       place: Monaco
-                      radius: 200Km
-                    views: '516544'
-                    saves: '5155'
+                      radius: 200000
+                    views: 516544
+                    saves: 5155
                     is_active: 'true'
                     status: 'true'
                     created_at: '24-11-2020-11:39:00-UTC+1'
@@ -443,24 +445,8 @@ paths:
           headers: {}
         '404':
           description: Reviews Not Found
-      operationId: get-users-userId-reviews
+      operationId: get-users-userId-review
       description: Retrieve the reviews of the user with the matching user ID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProfileReviews'
-            examples:
-              example-1:
-                value:
-                  id: string
-                  content: string
-                  created_at: string
-                  updated_at: string
-                  ' is_visible': string
-                  autor_id: string
-                  user_profile_id: string
-                  note: 0
     patch:
       summary: ''
       operationId: patch-users-userId-reviews
@@ -652,46 +638,6 @@ paths:
         '404':
           description: Not Found
       operationId: delete-categories-categoryId
-    '/users/{userId}/trade/{tradeId}':
-      parameters:
-        - schema:
-            type: string
-          name: userId
-          in: path
-          required: true
-        - schema:
-            type: string
-          name: tradeId
-          in: path
-          required: true
-      get:
-        summary: get-trade
-        tags: []
-        responses: {}
-        operationId: get-users-userId-trade-tradeId
-    '/users/{userId}/reviews':
-      parameters:
-        - schema:
-            type: string
-          name: userId
-          in: path
-          required: true
-      post:
-        summary: post-review
-        tags: []
-        responses:
-          '200':
-            description: Review Created
-          '400':
-            description: 'Bad Request : Missing Required Information'
-        operationId: post-users-userId-reviews
-        description: Create a new Review
-        requestBody:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProfileReviews'
-          description: Post the necessary fields for the API to create a new review.
   '/users/{userId}/reviews':
     parameters:
       - schema:
@@ -721,11 +667,12 @@ paths:
       responses:
         '200':
           description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProfileReviews'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileReviews'
   '/users/{userId}/trades/{tradeId}':
     parameters:
       - schema:
@@ -948,7 +895,7 @@ components:
         id:
           type: string
         user_id:
-          type: integer
+          type: string
         title:
           type: string
           minLength: 1
@@ -999,8 +946,7 @@ components:
         views:
           type: integer
         saves:
-          type: string
-          minLength: 1
+          type: integer
           description: Listes des personnes qui suivent l'offre
         is_active:
           type: string
