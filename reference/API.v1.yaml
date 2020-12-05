@@ -23,8 +23,6 @@ paths:
         description: Id of an existing user.
     get:
       summary: Get User Info by User ID
-      tags:
-        - user
       responses:
         '200':
           description: User Found
@@ -50,6 +48,8 @@ paths:
       operationId: get-users-userId
       description: Retrieve the information of the user with the matching user ID.
       parameters: []
+      tags:
+        - user
     patch:
       summary: Update User Information
       operationId: patch-users-userId
@@ -105,6 +105,8 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
+      tags:
+        - user
     delete:
       summary: ''
       operationId: delete-users-userId
@@ -114,6 +116,8 @@ paths:
         '404':
           description: User with this userId Not Found
       description: To delete an user.
+      tags:
+        - user
   /users:
     post:
       summary: Create New User
@@ -171,6 +175,8 @@ paths:
                   dateOfBirth: '1996-08-24'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
+      tags:
+        - user
     parameters: []
     get:
       summary: ''
@@ -184,7 +190,8 @@ paths:
   /:
     get:
       summary: /
-      tags: []
+      tags:
+        - global
       responses:
         '200':
           description: ''
@@ -241,16 +248,25 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
       operationId: get-Offers
+      description: Get all offers
     post:
       summary: Offers
-      tags: []
+      tags:
+        - offer
       responses:
         '201':
           description: 'Created : Offer created with success'
         '400':
           description: 'Bad Request : Missing Required Information'
       operationId: post-Offers
+      description: Create one offers
     parameters: []
   '/offers/{offerId}':
     parameters:
@@ -303,20 +319,15 @@ paths:
       operationId: get-Offers-OfferId
       parameters: []
       description: Retrieve the information of the user with the matching offer ID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-            examples: {}
     delete:
       summary: '/offers/{offerId}'
-      tags: []
+      tags:
+        - offer
       responses:
         '200':
           description: OK
       operationId: delete-Offers-OfferId
+      description: Delete one offers by OfferId
     patch:
       summary: ''
       operationId: patch-offers-offerId
@@ -420,6 +431,8 @@ paths:
                     estimation: string
                     place: string
                     radius: string
+      tags:
+        - offer
   '/users/{userId}/reviews/{reviewId}':
     parameters:
       - schema:
@@ -434,7 +447,8 @@ paths:
         required: true
     get:
       summary: get-users-reviews
-      tags: []
+      tags:
+        - user
       responses:
         '200':
           description: Reviews Found
@@ -461,12 +475,17 @@ paths:
             schema:
               $ref: '#/components/schemas/ProfileReviews'
       description: Update the reviews of an existing user.
+      tags:
+        - user
     delete:
       summary: ''
       operationId: delete-users-userId-reviews
       responses:
         '200':
           description: OK
+      description: Delete one reviewId
+      tags:
+        - user
   '/users/{userId}/following/{followingId}':
     parameters:
       - schema:
@@ -481,7 +500,10 @@ paths:
         required: true
     get:
       summary: '/users/{userId}/following/{followingId}'
-      tags: []
+      tags:
+        - user
+        - category
+        - offer
       responses:
         '200':
           description: OK
@@ -496,7 +518,10 @@ paths:
       description: To get one following by User
     patch:
       summary: '/users/{userId}/following/{followingId}'
-      tags: []
+      tags:
+        - user
+        - category
+        - offer
       responses:
         '200':
           description: OK
@@ -506,7 +531,10 @@ paths:
       description: 'update one following by user '
     delete:
       summary: '/users/{userId}/following/{followingId}'
-      tags: []
+      tags:
+        - user
+        - category
+        - offer
       responses:
         '200':
           description: OK
@@ -525,6 +553,8 @@ paths:
       summary: '/users/{userId}/following'
       tags:
         - user
+        - category
+        - offer
       responses:
         '200':
           description: OK
@@ -536,11 +566,13 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Following'
-      description: ''
+      description: Get all following by UserId
     post:
       summary: '/users/{userId}/following'
       tags:
         - user
+        - category
+        - offer
       responses:
         '201':
           description: Created
@@ -554,6 +586,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Following'
+      description: Create one following by UserID
   /categories:
     get:
       summary: /categories
@@ -569,10 +602,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Category'
       operationId: get-categories
-      requestBody:
-        content:
-          application/json:
-            schema: {}
+      description: Get all categories
     post:
       summary: /categories
       tags:
@@ -591,6 +621,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Category'
         description: ''
+      description: Create one category
   '/categories/{categoryId}':
     parameters:
       - schema:
@@ -600,7 +631,9 @@ paths:
         required: true
     get:
       summary: '/categories/{categoryId}'
-      tags: []
+      tags:
+        - offer
+        - category
       responses:
         '200':
           description: OK
@@ -611,9 +644,12 @@ paths:
         '404':
           description: Not Found
       operationId: get-categories-categoryId
+      description: Get all infos by categoryID
     patch:
       summary: '/categories/{categoryId}'
-      tags: []
+      tags:
+        - offer
+        - category
       responses:
         '200':
           description: OK
@@ -629,15 +665,19 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Category'
+      description: Update one or more infos by categoryID
     delete:
       summary: '/categories/{categoryId}'
-      tags: []
+      tags:
+        - offer
+        - category
       responses:
         '200':
           description: OK
         '404':
           description: Not Found
       operationId: delete-categories-categoryId
+      description: delete by categoryID
   '/users/{userId}/reviews':
     parameters:
       - schema:
@@ -647,14 +687,16 @@ paths:
         required: true
     post:
       summary: post-review
-      tags: []
+      tags:
+        - user
+        - offer
       responses:
         '200':
           description: Review Created
         '400':
           description: 'Bad Request : Missing Required Information'
       operationId: post-users-userId-reviews
-      description: Create a new user.
+      description: Create a new review in profile by UserId.
       requestBody:
         content:
           application/json:
@@ -673,6 +715,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfileReviews'
+      description: Get all reviews by userID
+      tags:
+        - user
+        - offer
   '/users/{userId}/trades/{tradeId}':
     parameters:
       - schema:
@@ -687,7 +733,9 @@ paths:
         required: true
     get:
       summary: get-trade
-      tags: []
+      tags:
+        - offer
+        - user
       responses:
         '200':
           description: Trades Found
@@ -703,7 +751,9 @@ paths:
       description: Retrieve the trades of the user with the matching user ID.
     patch:
       summary: patch-trade
-      tags: []
+      tags:
+        - user
+        - offer
       responses:
         '200':
           description: Trade Found
@@ -718,7 +768,9 @@ paths:
               $ref: '#/components/schemas/Trade'
     delete:
       summary: delete-trade
-      tags: []
+      tags:
+        - user
+        - offer
       responses:
         '200':
           description: OK
@@ -734,7 +786,10 @@ paths:
   /trades:
     get:
       summary: get-trades
-      tags: []
+      tags:
+        - trades
+        - offer
+        - user
       responses:
         '200':
           description: OK
@@ -747,7 +802,10 @@ paths:
               $ref: '#/components/schemas/Trade'
     post:
       summary: post-trades
-      tags: []
+      tags:
+        - trades
+        - offer
+        - user
       responses:
         '200':
           description: 'Created : Offer created with success'
@@ -769,7 +827,9 @@ paths:
         required: true
     post:
       summary: post-trade
-      tags: []
+      tags:
+        - user
+        - offer
       responses:
         '200':
           description: Trade Created
@@ -793,7 +853,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Trade'
-      description: ''
+      description: Get all trades by UserId
+      tags:
+        - user
+        - offer
 components:
   schemas:
     User:
@@ -875,7 +938,9 @@ components:
           description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
           pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
           categories: string
-          tags: string
+          tags:
+            - boat
+            - luxe
           trade:
             method: cash en liasse de 100$
             target: Les petits bourges des beaux quartiers
@@ -1068,7 +1133,11 @@ components:
         - note
       description: ''
   securitySchemes: {}
+  responses: {}
 security: []
 tags:
   - name: offer
   - name: user
+  - name: global
+  - name: category
+  - name: trades
