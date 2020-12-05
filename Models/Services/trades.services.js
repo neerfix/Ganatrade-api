@@ -1,4 +1,5 @@
 const db = require('../../utils/firebase');
+const C = require('../../utils/Constant');
 
 module.exports = {
     getAllTrades,
@@ -27,15 +28,33 @@ async function getAllTrades(req) {
     }
 }
 
-async function createNewTrade(req) {
-    const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
-    let response = (await document.get()).data();
-
-    if(!response){
-        return {code: 404, message: "Trade not found"}
+async function createNewTrade(req, res) {
+    if(!req.body.trader_id){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "trader_id is required" });
+    }
+    if(!req.body.buyer_id){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "buyer_id is required" });
+    }
+    if(!req.body.type){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "type is required" });
     }
 
-    return response;
+    await db.collection('offers').doc(req.params.offerId).collection('trades').add({
+        trader_id: req.body.trader_id,
+        buyer_id: req.body.buyer_id,
+        status: C.STATUS_PENDING,
+        value: req.body.value ? req.body.value : "",
+        type: req.body.type,
+        is_visible: true,
+        date_of_trade: new Date(Date.now())
+    }).then(result =>{
+        db.collection('offers').doc(req.params.offerId).collection('trades').doc(result.id).update({
+            id: result.id
+        });
+        return res.status(202).send(' Successfully created a new offer : ' + result.id);
+    }).catch(e => {
+        return res.status(409).send({ e });
+    });
 }
 
 async function updateTradeById(req) {

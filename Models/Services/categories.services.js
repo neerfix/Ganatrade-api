@@ -28,6 +28,10 @@ async function getAllCategories() {
 }
 
 async function createNewCategory(req, res) {
+    if(!req.body.title){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "title is required" });
+    }
+
     await db.collection('categories').add({
         title: req.body.title,
         category_parent: req.body.category_parent ? req.body.category_parent : "",
@@ -48,6 +52,10 @@ async function createNewCategory(req, res) {
 }
 
 async function updateCategoryById(req, res) {
+    if(!req.body.title){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "title is required" });
+    }
+
     await db.collection('categories').doc(req.params.categoryId).update({
         title: req.body.title,
         category_parent: req.body.category_parent ? req.body.category_parent : "",
