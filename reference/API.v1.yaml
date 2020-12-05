@@ -806,7 +806,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Trade'
-  /trades:
+  '/offers/{offerId}/trades':
     get:
       summary: get-trades
       tags:
@@ -841,6 +841,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Trade'
+    parameters:
+      - schema:
+          type: string
+        name: offerId
+        in: path
+        required: true
   '/users/{userId}/trades':
     parameters:
       - schema:
