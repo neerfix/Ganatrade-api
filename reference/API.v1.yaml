@@ -614,6 +614,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Category'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  reason:
+                    type: string
+                required:
+                  - code
+                  - message
+                  - reason
+              examples:
+                Missing title:
+                  value:
+                    code: 400
+                    message: Bad request
+                    reason: Title is required
       operationId: post-categories
       requestBody:
         content:
