@@ -238,7 +238,7 @@ paths:
                     author: Ganatrade
                     version: 0.0.9
                     description: Api...
-      operationId: get
+      operationId: get-global-info
       description: A simple route to check if API is ON and if it's connect with BDD.
   /offers:
     get:
