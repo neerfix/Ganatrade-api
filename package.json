@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Ygones-linear/twitch-api-node#readme",
   "dependencies": {
+    "@stoplight/cli": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "custom-env": "^2.0.1",
