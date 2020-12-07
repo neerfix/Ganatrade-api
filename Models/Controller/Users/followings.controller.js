@@ -20,28 +20,28 @@ function getAllFollowings(req, res, next) {
 
 function createNewFollowing(req, res, next) {
     FollowingService
-        .createNewFollowing(req)
+        .createNewFollowing(req, res)
         .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
 function updateFollowingById(req, res, next) {
     FollowingService
-        .updateFollowingById(req)
+        .updateFollowingById(req, res)
         .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
 function deleteFollowingById(req, res, next) {
     FollowingService
-        .deleteFollowingById(req)
-        .then(() => res.json("Ok"))
+        .deleteFollowingById(req, res)
+        .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }
 
 function getOneFollowingById(req, res, next) {
     FollowingService
-        .getOneFollowingById(req)
+        .getOneFollowingById(req, res)
         .then((following) => res.status(200).send(following))
         .catch((err) => next(err));
 }

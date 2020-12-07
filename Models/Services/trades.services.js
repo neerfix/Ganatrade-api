@@ -51,7 +51,7 @@ async function createNewTrade(req, res) {
         db.collection('offers').doc(req.params.offerId).collection('trades').doc(result.id).update({
             id: result.id
         });
-        return res.status(202).send(' Successfully created a new offer : ' + result.id);
+        return res.status(202).send(' Successfully created a new trade : ' + result.id);
     }).catch(e => {
         return res.status(409).send({ e });
     });

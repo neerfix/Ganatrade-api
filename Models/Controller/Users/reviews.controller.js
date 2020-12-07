@@ -20,28 +20,28 @@ function getAllReviews(req, res, next) {
 
 function createNewReview(req, res, next) {
     reviewService
-        .createNewReview(req)
+        .createNewReview(req, res)
         .then((review) => res.status(200).send(review))
         .catch((err) => next(err));
 }
 
 function updateReviewById(req, res, next) {
     reviewService
-        .updateReviewById(req)
+        .updateReviewById(req, res)
         .then((review) => res.status(200).send(review))
         .catch((err) => next(err));
 }
 
 function deleteReviewById(req, res, next) {
     reviewService
-        .deleteReviewById(req)
+        .deleteReviewById(req, res)
         .then((review) => res.status(200).send(review))
         .catch((err) => next(err));
 }
 
 function getOneReviewById(req, res, next) {
     reviewService
-        .getOneReviewById(req)
+        .getOneReviewById(req, res)
         .then((review) => res.status(200).send(review))
         .catch((err) => next(err));
 }
