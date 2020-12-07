@@ -33,7 +33,7 @@ function getAllUsers(req, res, next) {
 function createNewUser(req, res, next) {
     userService
         .createNewUser(req, res)
-        .then((user) => res.status(200).send(user))
+        .then((result) => res.json(result+ ' Successfully created new user:'))
         .catch((err) => next(err));
 }
 
