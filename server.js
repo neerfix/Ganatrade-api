@@ -16,18 +16,17 @@ app.use(cors());
 // api routes
 app.use('/', require ('./Models/Controller/global.controller'));
 app.use('/users', require('./Models/Controller/users.controller'));
-app.use('/trades', require('./Models/Controller/trades.controller'));
 app.use('/users/', require('./Models/Controller/Users/reviews.controller'));
 app.use('/users/', require('./Models/Controller/Users/followings.controller'));
 app.use('/offers/', require('./Models/Controller/offers.controller'));
+app.use('/offers/', require('./Models/Controller/trades.controller'));
 app.use('/categories', require('./Models/Controller/categories.controller'));
-
 
 // global error handler
 app.use(errorHandler);
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? 8888 : 8080;
-const server = app.listen(port, function () {
+app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
