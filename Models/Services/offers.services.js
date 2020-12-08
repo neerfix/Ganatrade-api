@@ -57,7 +57,7 @@ async function createNewOffer(req, res) {
         });
         return res.status(202).send(' Successfully created a new offer : ' + result.id + " => " + req.body.title);
     }).catch(e => {
-        return res.status(409).send({ e });
+        return res.status(409).json({ e });
     });
 }
 
@@ -72,15 +72,18 @@ async function updateOfferById(req) {
     return response;
 }
 
-async function deleteOfferById(req) {
-    const document = db.collection('offers').doc(req.params.offerId);
-    let response = (await document.get()).data();
-
-    if(!response){
-        return {code: 404, message: "Offer not found"}
-    }
-
-    return response;
+async function deleteOfferById(req, res) {
+        const document = db.collection('offers').doc(req.params.id);
+        if(!document) {
+            return res.status(404).json({ "code": 404, "message": "Offer not found", "reason": "The offer with this id is not found" });
+        }
+        await document.delete()
+            .then(result => {
+                return res.status(200).send('The offer was deleted with success !');
+            })
+            .catch(error => {
+                return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+            })
 }
 
 async function getOneOfferById(req) {

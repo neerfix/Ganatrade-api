@@ -30,13 +30,13 @@ async function getAllTrades(req) {
 
 async function createNewTrade(req, res) {
     if(!req.body.trader_id){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "trader_id is required" });
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "trader_id is required" });
     }
     if(!req.body.buyer_id){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "buyer_id is required" });
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "buyer_id is required" });
     }
     if(!req.body.type){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "type is required" });
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "type is required" });
     }
 
     await db.collection('offers').doc(req.params.offerId).collection('trades').add({
@@ -53,7 +53,7 @@ async function createNewTrade(req, res) {
         });
         return res.status(202).send(' Successfully created a new trade : ' + result.id);
     }).catch(e => {
-        return res.status(409).send({ e });
+        return res.status(409).json({ e });
     });
 }
 
@@ -68,15 +68,18 @@ async function updateTradeById(req) {
     return response;
 }
 
-async function deleteTradeById(req) {
+async function deleteTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
-    let response = (await document.get()).data();
-
-    if(!response){
-        return {code: 404, message: "Trade not found"}
+    if(!document) {
+        return res.status(404).json({ "code": 404, "message": "Trade not found", "reason": "The trade with this id or with this offerId is not found" });
     }
-
-    return response;
+    await document.delete()
+        .then(result => {
+            return res.status(200).send('The trade was deleted with success !');
+        })
+        .catch(error => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
 
 async function getOneTradeById(req) {
@@ -87,5 +90,5 @@ async function getOneTradeById(req) {
         return {code: 404, message: "Trade not found"}
     }
 
-    return response;return "201";
+    return response;
 }
