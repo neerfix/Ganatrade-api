@@ -20,28 +20,28 @@ function getAllCategories(req, res, next) {
 
 function createNewCategory(req, res, next) {
     CategoryService
-        .createNewCategory(req)
+        .createNewCategory(req, res)
         .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
 
 function updateCategoryById(req, res, next) {
     CategoryService
-        .updateCategoryById(req)
+        .updateCategoryById(req, res)
         .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
 
 function deleteCategoryById(req, res, next) {
     CategoryService
-        .deleteCategoryById(req)
+        .deleteCategoryById(req, res)
         .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }
 
 function getOneCategoryById(req, res, next) {
     CategoryService
-        .getOneCategoryById(req)
+        .getOneCategoryById(req, res)
         .then((category) => res.status(200).send(category))
         .catch((err) => next(err));
 }

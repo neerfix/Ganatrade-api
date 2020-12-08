@@ -3,11 +3,11 @@ const router = express.Router();
 const tradeService = require("../Services/trades.services");
 
 // routes
-router.get("/", getAllTrades);
-router.post("/", createNewTrade);
-router.get("/:tradeId", getOneTradeById);
-router.patch("/:tradeId", updateTradeById);
-router.delete("/:tradeId", deleteTradeById);
+router.get("/:offerId/trades/", getAllTrades);
+router.post("/:offerId/trades/", createNewTrade);
+router.get("/:offerId/trades/:tradeId", getOneTradeById);
+router.patch("/:offerId/trades/:tradeId", updateTradeById);
+router.delete("/:offerId/trades/:tradeId", deleteTradeById);
 
 module.exports = router;
 
@@ -20,28 +20,28 @@ function getAllTrades(req, res, next) {
 
 function createNewTrade(req, res, next) {
     tradeService
-        .createNewTrade(req)
+        .createNewTrade(req, res)
         .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
 
 function updateTradeById(req, res, next) {
     tradeService
-        .updateTradeById(req)
+        .updateTradeById(req, res)
         .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
 
 function deleteTradeById(req, res, next) {
     tradeService
-        .deleteTradeById(req)
+        .deleteTradeById(req, res)
         .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
 
 function getOneTradeById(req, res, next) {
     tradeService
-        .getOneTradeById(req)
+        .getOneTradeById(req, res)
         .then((trade) => res.status(200).send(trade))
         .catch((err) => next(err));
 }
