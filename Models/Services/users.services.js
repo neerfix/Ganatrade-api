@@ -1,5 +1,4 @@
 const admin = require('firebase-admin');
-const db = require('../../utils/firebase');
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
