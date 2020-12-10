@@ -14,18 +14,14 @@ module.exports = router;
 
 function authenticate(req, res, next) {
     userService
-        .authenticate(req.body)
-        .then((user) =>
-            user
-                ? res.json(user)
-                : res.status(400).json({ message: "Username or password is incorrect" })
-        )
+        .authenticate(req, res)
+        .then((users) => res.status(200).send(users))
         .catch((err) => next(err));
 }
 
 function getAllUsers(req, res, next) {
     userService
-        .getAllUsers()
+        .getAllUsers(req, res)
         .then((users) => res.status(200).send(users))
         .catch((err) => next(err));
 }
@@ -33,27 +29,27 @@ function getAllUsers(req, res, next) {
 function createNewUser(req, res, next) {
     userService
         .createNewUser(req, res)
-        .then((result) => res.json(result+ ' Successfully created new user:'))
+        .then((users) => res.status(200).send(users))
         .catch((err) => next(err));
 }
 
 function updateUserById(req, res, next) {
     userService
-        .updateUserById(req)
+        .updateUserById(req, res)
         .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }
 
 function deleteUserById(req, res, next) {
     userService
-        .deleteUserById(req)
+        .deleteUserById(req, res)
         .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }
 
 function getOneUserById(req, res, next) {
     userService
-        .getOneUserById(req)
+        .getOneUserById(req, res)
         .then((user) => res.status(200).send(user))
         .catch((err) => next(err));
 }

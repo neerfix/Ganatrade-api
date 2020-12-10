@@ -1,10 +1,9 @@
-const admin = require('firebase-admin');
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
-
-// users hardcoded for simplicity, store in a db for production applications
-const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
+const admin = require('firebase-admin');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 module.exports = {
     authenticate,
@@ -15,6 +14,7 @@ module.exports = {
     deleteUserById
 };
 
+//TODO
 async function authenticate({ username, password }) {
     const user = users.find(u => u.username === username && u.password === password);
     if (user) {
@@ -61,10 +61,10 @@ async function createNewUser(req, res) {
     admin.auth().createUser({
         email: req.body.email,
         emailVerified: false,
-        phoneNumber: req.body.phone,
+        phoneNumber: req.body.phoneNumber,
         password: req.body.password,
         displayName: req.body.firstName + " " + req.body.lastName,
-        photoURL: req.body.photoURL,
+        photoURL: req.body.avatar,
         disabled: false,
     })
         .then(function(userRecord) {
@@ -78,8 +78,8 @@ async function createNewUser(req, res) {
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     username: req.body.username,
-                    phone: req.body.phoneNumber,
-                    avatar: req.body.photoURL,
+                    phone: req.body.phoneNumber ? req.body.phoneNumber : "",
+                    avatar: req.body.avatar,
                     rank: "trader",
                     private_profile: false,
                 }).then(result =>{
@@ -87,9 +87,10 @@ async function createNewUser(req, res) {
             }).catch(e => {
                 return  e;
             });
-        }).catch(function(error) {
-        console.log('Error creating new user:', error.message);
-      return "faux"
+        })
+        .catch(function(error) {
+        console.log('Error creating new user : ', error.message);
+      return error
     })
 }
 
