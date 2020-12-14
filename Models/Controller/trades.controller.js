@@ -13,7 +13,7 @@ module.exports = router;
 
 function getAllTrades(req, res, next) {
     tradeService
-        .getAllTrades(req)
+        .getAllTrades(req, res)
         .then((trades) => res.status(200).send(trades))
         .catch((err) => next(err));
 }

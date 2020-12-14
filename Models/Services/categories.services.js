@@ -8,7 +8,7 @@ module.exports = {
     deleteCategoryById
 };
 
-async function getAllCategories() {
+async function getAllCategories(req, res) {
     let response = [];
     await db.collection('categories')
     .get()
@@ -18,7 +18,7 @@ async function getAllCategories() {
                 response.push(doc.data());
             }
         });
-    return response;
+    return res.status(200).send(response);
 }
 
 async function createNewCategory(req, res) {
@@ -80,7 +80,7 @@ async function deleteCategoryById(req, res) {
         })
 }
 
-async function getOneCategoryById(req) {
+async function getOneCategoryById(req, res) {
     const document = db.collection('categories').doc(req.params.categoryId);
     let response = (await document.get()).data();
 
@@ -88,5 +88,5 @@ async function getOneCategoryById(req) {
         return {code: 404, message: "Following not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }

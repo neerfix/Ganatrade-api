@@ -13,7 +13,7 @@ module.exports = router;
 
 function getAllReviews(req, res, next) {
     reviewService
-        .getAllReviews(req)
+        .getAllReviews(req, res)
         .then((reviews) => res.status(200).send(reviews))
         .catch((err) => next(err));
 }

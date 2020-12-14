@@ -24,55 +24,48 @@ async function authenticate({ username, password }) {
     }
 }
 
-async function getAllUsers() {
-    try {
-        const data = db.collection('users');
-        let response = [];
-        await data.get().then(querySnapshot => {
-            let docs = querySnapshot.docs;
-            for (let doc of docs) {
-                response.push(doc.data());
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
-    }
+async function getAllUsers(req, res) {
+    const data = db.collection('users');
+    let response = [];
+    await data.get().then(querySnapshot => {
+        let docs = querySnapshot.docs;
+        for (let doc of docs) {
+            response.push(doc.data());
+        }
+    });
+    return res.status(200).send(response);
 }
 
-async function getOneUserById(req) {
+async function getOneUserById(req, res) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "User not found"}
+        return res.status(404).send({code: 404, message: "User not found"});
     }
 
-    return response;
+    return res.status(200).send(response);
 }
 
 async function createNewUser(req, res) {
     if(!req.body.email){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "email is required" });
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "email is required" });
     }
 
     if(!req.body.firstname){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
     }
 
     if(!req.body.lastname){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
     }
 
     if(!req.body.password){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "password is required" });
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "password is required" });
     }
 
     if(!req.body.password){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "password is required" });
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "password is required" });
     }
 
     await admin.auth().createUser({
@@ -111,24 +104,24 @@ async function createNewUser(req, res) {
     })
 }
 
-async function updateUserById() {
+async function updateUserById(req, res) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "User not found"}
+        return res.status(404).send({code: 404, message: "User not found"});
     }
 
-    return response;
+    return res.status(200).send(response);
 }
 
-async function deleteUserById(req) {
+async function deleteUserById(req, res) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "User not found"}
+        return res.status(404).send({code: 404, message: "User not found"});
     }
 
-    return response;
+    return res.status(200).send(response);
 }

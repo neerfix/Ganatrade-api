@@ -21,17 +21,8 @@ function getAllUsers(req, res, next) {
 function createNewUser(req, res, next) {
     userService
         .createNewUser(req, res)
-        .then((category) => res.status(200).send(category))
-        // .then( (result) => {
-            // console.log(result)
-            // res.status(200).send(result)
-        // })
-        .catch(error => {
-            res.status(500).send("FOCK" + error);
-        })
-        .finally( p => {
-            res.status(400).send(p);
-        })
+        .then((users) => res.status(200).send(users))
+        .catch((err) => next(err));
 }
 
 function updateUserById(req, res, next) {

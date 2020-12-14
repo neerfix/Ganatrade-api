@@ -8,23 +8,16 @@ module.exports = {
     deleteFollowingById
 };
 
-async function getAllFollowings(req) {
-    try {
-        const document = db.collection('users').doc(req.params.userId).collection('followings');
-        let response = [];
-        await document.get().then(querySnapshot => {
-            let followings = querySnapshot.docs;
-            for (let following of followings) {
-                response.push(following.data());
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
-    }
+async function getAllFollowings(req, res) {
+    const document = db.collection('users').doc(req.params.userId).collection('followings');
+    let response = [];
+    await document.get().then(querySnapshot => {
+        let followings = querySnapshot.docs;
+        for (let following of followings) {
+            response.push(following.data());
+        }
+    });
+    return res.status(200).send(response);
 }
 
 async function createNewFollowing(req, res) {
@@ -49,15 +42,15 @@ async function createNewFollowing(req, res) {
     });
 }
 
-async function updateFollowingById(req) {
+async function updateFollowingById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Following not found"}
+        return res.status(404).send({code: 404, message: "Following not found"});
     }
 
-    return response;
+    return res.status(200).send(response);
 }
 
 async function deleteFollowingById(req, res) {
@@ -74,13 +67,13 @@ async function deleteFollowingById(req, res) {
         })
 }
 
-async function getOneFollowingById(req) {
+async function getOneFollowingById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Following not found"}
+        return res.status(404).send({code: 404, message: "Following not found"});
     }
 
-    return response;
+    return res.status(200).send(response);
 }
