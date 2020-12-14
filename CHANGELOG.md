@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/ganatrade/api/compare/v0.2.1...v0.2.2) (2020-12-14)
+
+
+### Features
+
+* add img to category ([440184a](https://github.com/ganatrade/api/commit/440184af1459344f595be233e93239f256d07156))
+
+
+### Bug Fixes
+
+* error send when create a new user ([a98dc37](https://github.com/ganatrade/api/commit/a98dc37e6220ec6342d5fd98e5938af5495380eb))
+* res.status of undefined ([1473ea5](https://github.com/ganatrade/api/commit/1473ea58aee8e862c77356e0527634315c39709f))
+* response with status ([260eed0](https://github.com/ganatrade/api/commit/260eed000ba248de9c8cbe350a3cf4e7e0518014))
+* return data of category ([db86510](https://github.com/ganatrade/api/commit/db865107b9e9944b4f5fced676999bc46ac9b852))
+* update error message ([5ad9498](https://github.com/ganatrade/api/commit/5ad94989c9b515d8658fd4ea4f65be89014460a4))
+
 ### [0.2.1](https://github.com/ganatrade/api/compare/v0.2.0...v0.2.1) (2020-12-13)
 
 
