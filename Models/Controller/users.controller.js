@@ -3,7 +3,6 @@ const router = express.Router();
 const userService = require("../Services/users.services");
 
 // routes
-router.post("/authenticate", authenticate);
 router.get("/", getAllUsers);
 router.post("/", createNewUser);
 router.get("/:userId", getOneUserById);
@@ -11,13 +10,6 @@ router.patch("/:userId", updateUserById);
 router.delete("/:userId", deleteUserById);
 
 module.exports = router;
-
-function authenticate(req, res, next) {
-    userService
-        .authenticate(req, res)
-        .then((users) => res.status(200).send(users))
-        .catch((err) => next(err));
-}
 
 function getAllUsers(req, res, next) {
     userService

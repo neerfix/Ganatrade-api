@@ -1,12 +1,8 @@
-const config = require('config.json');
-const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const responses = require('responses/messages')
 
 module.exports = {
-    authenticate,
     getAllUsers,
     getOneUserById,
     createNewUser,
@@ -14,20 +10,7 @@ module.exports = {
     deleteUserById
 };
 
-//TODO
-async function authenticate({ username, password }) {
-    const user = users.find(u => u.username === username && u.password === password);
-    if (user) {
-        const token = jwt.sign({ sub: user.id }, config.secret);
-        const { password, ...userWithoutPassword } = user;
-        return {
-            ...userWithoutPassword,
-            token
-        };
-    }
-}
-
-async function getAllUsers() {
+async function getAllUsers(req, res) {
     try {
         const data = db.collection('users');
         let response = [];
@@ -39,19 +22,16 @@ async function getAllUsers() {
         });
         return response;
     } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
+        return responses.errors(res, 400, error, "")
     }
 }
 
-async function getOneUserById(req) {
+async function getOneUserById(req, res) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "User not found"}
+        return responses.errors(res, 404, {code: "Not Found"}, "User Not Found")
     }
 
     return response;
@@ -79,38 +59,49 @@ async function createNewUser(req, res) {
                     lastname: req.body.lastname,
                     username: req.body.username,
                     phone: req.body.phoneNumber ? req.body.phoneNumber : "",
-                    avatar: req.body.avatar,
-                    rank: "trader",
+                    avatar: req.body.avatar ? req.body.avatar : "https://tse3.mm.bing.net/th?id=OIP.hpdsrTb2AqrQj8PWZbQzkwHaHa&o=6&pid=Api",
+                    rank: req.body.rank,
                     private_profile: false,
                 }).then(result =>{
                 return result;
             }).catch(e => {
-                return  e;
+                return responses.errors(res, 400, e, "")
             });
         })
         .catch(function(error) {
-        console.log('Error creating new user : ', error.message);
-      return error
+            return responses.errors(res, 404, error, "User Not Found")
     })
 }
 
-async function updateUserById() {
-    const document = db.collection('users').doc(req.params.userId);
-    let response = (await document.get()).data();
+async function updateUserById(res, req) {
+    const user =  db.collection('users').doc(req.params.userId)
 
-    if(!response){
-        return {code: 404, message: "User not found"}
+    if(!user){
+        return responses.errors(res, 404, null, "User Not Found")
     }
 
-    return response;
+    await user.update({
+        email: req.body.email,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username: req.body.username,
+        phone: req.body.phoneNumber ? req.body.phoneNumber : "",
+        avatar: req.body.avatar ? req.body.avatar : "https://tse3.mm.bing.net/th?id=OIP.hpdsrTb2AqrQj8PWZbQzkwHaHa&o=6&pid=Api",
+        rank: req.body.rank,
+        private_profile: false,
+    }).then(result =>{
+        return responses.successUpdate(res, result)
+    }).catch(e => {
+        return responses.errors(res, 409, e, "Email already taken")
+    });
 }
 
-async function deleteUserById(req) {
+async function deleteUserById(req,res) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "User not found"}
+        return responses.errors(res, 404, {code:"Not Found"}, "User Not Found")
     }
 
     return response;
