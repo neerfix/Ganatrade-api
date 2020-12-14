@@ -30,6 +30,7 @@ async function createNewCategory(req, res) {
         title: req.body.title,
         category_parent: req.body.category_parent ? req.body.category_parent : "",
         description: req.body.description ? req.body.description : "",
+        img: req.body.img ? req.body.img : "",
         is_active: true,
         date: {
             created_at: new Date(Date.now()),
