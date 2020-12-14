@@ -9,22 +9,16 @@ module.exports = {
 };
 
 async function getAllCategories() {
-        try {
-            const data = db.collection('categories');
-            let response = [];
-            data.get().then(querySnapshot => {
-                let docs = querySnapshot.docs;
-                for (let doc of docs) {
-                    response.push(doc.data());
-                }
-            });
-            return response;
-        } catch (error) {
-            return {
-                    "code": error.code,
-                    "message": error.message
-                };
-        }
+    let response = [];
+    await db.collection('categories')
+    .get()
+        .then(querySnapshot => {
+        let docs = querySnapshot.docs;
+            for (let doc of docs) {
+                response.push(doc.data());
+            }
+        });
+    return response;
 }
 
 async function createNewCategory(req, res) {
