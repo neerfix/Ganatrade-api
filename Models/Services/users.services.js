@@ -66,13 +66,12 @@ async function createNewUser(req, res) {
                     private_profile: false,
                 }).then(result =>{
                 return result;
-            }).catch(e => {
-                return  e;
+            }).catch(error => {
+                return res.status(409).json({code: error.code, message: error.message});
             });
         })
         .catch(function(error) {
-        console.log('Error creating new user : ', error.message);
-      return error
+            return res.status(409).json({code: error.code, message: error.message});
     })
 }
 
@@ -93,7 +92,7 @@ async function updateUserById(res, req) {
         rank: req.body.rank,
         private_profile: false,
     }).then(result =>{
-        return responses.successUpdate(res, result)
+        return res.status(202).send(result)
     }).catch(e => {
         return res.status(409).json({code: e.code, message: e.message, detail: "User not found"});
     });

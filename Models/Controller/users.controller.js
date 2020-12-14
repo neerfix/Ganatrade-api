@@ -14,34 +14,34 @@ module.exports = router;
 function getAllUsers(req, res, next) {
     userService
         .getAllUsers(req, res)
-        .then((users) => res.status(200).send(users))
+        .then((users) => res.send(users))
         .catch((err) => next(err));
 }
 
 function createNewUser(req, res, next) {
     userService
         .createNewUser(req, res)
-        .then((users) => res.status(200).send(users))
+        .then((users) => res.send(users))
         .catch((err) => next(err));
 }
 
 function updateUserById(req, res, next) {
     userService
         .updateUserById(req, res)
-        .then((user) => res.status(200).send(user))
+        .then((user) => res.send(user))
         .catch((err) => next(err));
 }
 
 function deleteUserById(req, res, next) {
     userService
         .deleteUserById(req, res)
-        .then((user) => res.status(200).send(user))
+        .then((user) => res.send(user))
         .catch((err) => next(err));
 }
 
 function getOneUserById(req, res, next) {
     userService
         .getOneUserById(req, res)
-        .then((user) => res.status(200).send(user))
+        .then((user) => res.send(user))
         .catch((err) => next(err));
 }
