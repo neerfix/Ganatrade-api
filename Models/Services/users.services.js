@@ -1,3 +1,5 @@
+const config = require('config.json');
+const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
 
@@ -9,7 +11,20 @@ module.exports = {
     deleteUserById
 };
 
-async function getAllUsers(req, res) {
+//TODO
+async function authenticate({ username, password }) {
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+        const token = jwt.sign({ sub: user.id }, config.secret);
+        const { password, ...userWithoutPassword } = user;
+        return {
+            ...userWithoutPassword,
+            token
+        };
+    }
+}
+
+async function getAllUsers() {
     try {
         const data = db.collection('users');
         let response = [];
@@ -28,7 +43,7 @@ async function getAllUsers(req, res) {
     }
 }
 
-async function getOneUserById(req, res) {
+async function getOneUserById(req) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
@@ -40,12 +55,32 @@ async function getOneUserById(req, res) {
 }
 
 async function createNewUser(req, res) {
-    admin.auth().createUser({
+    if(!req.body.email){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "email is required" });
+    }
+
+    if(!req.body.firstname){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
+    }
+
+    if(!req.body.lastname){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
+    }
+
+    if(!req.body.password){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "password is required" });
+    }
+
+    if(!req.body.password){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "password is required" });
+    }
+
+    await admin.auth().createUser({
         email: req.body.email,
         emailVerified: false,
         phoneNumber: req.body.phoneNumber,
         password: req.body.password,
-        displayName: req.body.firstName + " " + req.body.lastName,
+        displayName: req.body.firstname + " " + req.body.lastname,
         photoURL: req.body.avatar,
         disabled: false,
     })
@@ -61,49 +96,38 @@ async function createNewUser(req, res) {
                     lastname: req.body.lastname,
                     username: req.body.username,
                     phone: req.body.phoneNumber ? req.body.phoneNumber : "",
-                    avatar: req.body.avatar ? req.body.avatar : "https://tse3.mm.bing.net/th?id=OIP.hpdsrTb2AqrQj8PWZbQzkwHaHa&o=6&pid=Api",
-                    rank: req.body.rank,
+                    avatar: req.body.avatar ? req.body.avatar : "",
+                    rank: req.body.rank ? req.body.rank : "trader",
                     private_profile: false,
                 }).then(result =>{
                 return result;
-            }).catch(error => {
-                return res.status(409).json({code: error.code, message: error.message});
+            }).catch(e => {
+                return {code: e.code, message: e.message};
             });
         })
         .catch(function(error) {
-            return res.status(409).json({code: error.code, message: error.message});
+            console.error('Error creating new user : ', error.message);
+            return res.status(409).send({code: error.code, message: error.message, detail: 'Error creating new user : ' + error.message});
     })
 }
 
-async function updateUserById(res, req) {
-    const user =  db.collection('users').doc(req.params.userId)
-
-    if(!user){
-        return {code: 404, message: "User not found"}
-    }
-
-    await user.update({
-        email: req.body.email,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username,
-        phone: req.body.phoneNumber ? req.body.phoneNumber : "",
-        avatar: req.body.avatar ? req.body.avatar : "https://tse3.mm.bing.net/th?id=OIP.hpdsrTb2AqrQj8PWZbQzkwHaHa&o=6&pid=Api",
-        rank: req.body.rank,
-        private_profile: false,
-    }).then(result =>{
-        return res.status(202).send(result)
-    }).catch(e => {
-        return res.status(409).json({code: e.code, message: e.message, detail: "User not found"});
-    });
-}
-
-async function deleteUserById(req,res) {
+async function updateUserById() {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        return res.status(404).json({message: "User not found"});
+        return {code: 404, message: "User not found"}
+    }
+
+    return response;
+}
+
+async function deleteUserById(req) {
+    const document = db.collection('users').doc(req.params.userId);
+    let response = (await document.get()).data();
+
+    if(!response){
+        return {code: 404, message: "User not found"}
     }
 
     return response;
