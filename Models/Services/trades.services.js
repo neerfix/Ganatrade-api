@@ -1,6 +1,5 @@
 const db = require('../../utils/firebase');
 const C = require('../../utils/Constant');
-const responses = require("../../responses/messages");
 
 module.exports = {
     getAllTrades,
@@ -72,23 +71,23 @@ async function updateTradeById(req) {
 async function deleteTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
     if(!document) {
-        return responses.errors(res, 404, {code:"Not Found", message: "Trade not found"}, "The trade with this id or with this offerId is not found");
+        return res.status(404).json({ "code": 404, "message": "Trade not found", "reason": "The trade with this id or with this offerId is not found" });
     }
     await document.delete()
         .then(result => {
             return res.status(200).send('The trade was deleted with success !');
         })
         .catch(error => {
-            return responses.errors(res, 500, {code:"Internal server error", message: "An unknown error was occurred"}, error.message);
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
         })
 }
 
-async function getOneTradeById(req, res) {
+async function getOneTradeById(req) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
     let response = (await document.get()).data();
 
     if(!response){
-        return responses.errors(res, 404, {code:"Not Found", message: "Trade not found"}, "The trade with this id or with this offerId is not found");
+        return {code: 404, message: "Trade not found"}
     }
 
     return response;

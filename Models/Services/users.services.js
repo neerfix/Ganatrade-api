@@ -1,6 +1,5 @@
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
-const responses = require('responses/messages')
 
 module.exports = {
     getAllUsers,
@@ -22,7 +21,10 @@ async function getAllUsers(req, res) {
         });
         return response;
     } catch (error) {
-        return responses.errors(res, 400, error, "")
+        return {
+            "code": error.code,
+            "message": error.message
+        };
     }
 }
 
@@ -31,7 +33,7 @@ async function getOneUserById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return responses.errors(res, 404, {code: "Not Found"}, "User Not Found")
+        return {code: 404, message: "User not found"}
     }
 
     return response;
@@ -65,11 +67,12 @@ async function createNewUser(req, res) {
                 }).then(result =>{
                 return result;
             }).catch(e => {
-                return responses.errors(res, 400, e, "")
+                return  e;
             });
         })
         .catch(function(error) {
-            return responses.errors(res, 404, error, "User Not Found")
+        console.log('Error creating new user : ', error.message);
+      return error
     })
 }
 
@@ -77,7 +80,7 @@ async function updateUserById(res, req) {
     const user =  db.collection('users').doc(req.params.userId)
 
     if(!user){
-        return responses.errors(res, 404, null, "User Not Found")
+        return {code: 404, message: "User not found"}
     }
 
     await user.update({
@@ -92,7 +95,7 @@ async function updateUserById(res, req) {
     }).then(result =>{
         return responses.successUpdate(res, result)
     }).catch(e => {
-        return responses.errors(res, 409, e, "Email already taken")
+        return res.status(409).json({code: e.code, message: e.message, detail: "User not found"});
     });
 }
 
@@ -101,7 +104,7 @@ async function deleteUserById(req,res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return responses.errors(res, 404, {code:"Not Found"}, "User Not Found")
+        return res.status(404).json({message: "User not found"});
     }
 
     return response;
