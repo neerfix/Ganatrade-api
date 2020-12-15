@@ -298,7 +298,7 @@ paths:
                       condition: En cash seulement.
                     description: L’Azzam est un yacht de luxe battant pavillon des Émirats arabes unis. Il n'est plus le plus grand yacht du monde détrôné par le REV OCEAN.
                     pictures: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Azzam_bei_L%C3%BCrssen.JPG/280px-Azzam_bei_L%C3%BCrssen.JPG'
-                    categories: string
+                    category: string
                     tags:
                       - boat
                       - luxe
@@ -827,6 +827,52 @@ paths:
         name: offerId
         in: path
         required: true
+  '/offers/{offerId}/trades/{tradeId}/accept':
+    parameters:
+      - schema:
+          type: string
+        name: offerId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: tradeId
+        in: path
+        required: true
+    post:
+      summary: Accept Trade
+      tags:
+        - trades
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      operationId: post-offers-offerId-trades-tradeId-accept
+      description: Accept a trade by TradeId
+  '/offers/{offerId}/trades/{tradeId}/refuse':
+    parameters:
+      - schema:
+          type: string
+        name: offerId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: tradeId
+        in: path
+        required: true
+    post:
+      summary: Refuse Trade
+      tags:
+        - trades
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      operationId: post-offers-offerId-trades-tradeId-refuse
+      description: refuse a trade by TradeId
 components:
   schemas:
     User:
