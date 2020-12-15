@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/ganatrade/api/compare/v0.2.3...v0.3.0) (2020-12-15)
+
+
+### Features
+
+* route to accept and refuse trade ([a98609d](https://github.com/ganatrade/api/commit/a98609d91133faa25ce78ef1e7ede74fbb7c8de0))
+
 ### [0.2.3](https://github.com/ganatrade/api/compare/v0.2.2...v0.2.3) (2020-12-15)
 
 
