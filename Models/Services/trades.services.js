@@ -6,7 +6,9 @@ module.exports = {
     getOneTradeById,
     createNewTrade,
     updateTradeById,
-    deleteTradeById
+    deleteTradeById,
+    refuseTrade,
+    acceptTrade
 };
 
 async function getAllTrades(req, res) {
@@ -85,4 +87,38 @@ async function getOneTradeById(req, res) {
     }
 
     return res.status(200).send(response);
+}
+
+async function acceptTrade(req, res) {
+    const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
+    await document.update({
+        status: "accepted"
+    })
+        .then(result => {
+            return res.status(200).send(result);
+        })
+        .catch(error => {
+            return res.status(404).json({
+                "code": 404,
+                "message": "Trade not found",
+                "reason": "The trade with this id or with this offerId is not found"
+            });
+        })
+}
+
+async function refuseTrade(req, res) {
+    const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
+    await document.update({
+        status: "refused"
+    })
+        .then(result => {
+            return res.status(200).send(result);
+        })
+        .catch(error => {
+            return res.status(404).json({
+                "code": 404,
+                "message": "Trade not found",
+                "reason": "The trade with this id or with this offerId is not found"
+            });
+        })
 }
