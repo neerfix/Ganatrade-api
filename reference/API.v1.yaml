@@ -22,7 +22,7 @@ paths:
         required: true
         description: Id of an existing user.
     get:
-      summary: Get User Info by User ID
+      summary: GET User Info by User ID
       responses:
         '200':
           description: User Found
@@ -51,7 +51,7 @@ paths:
       tags:
         - user
     patch:
-      summary: Update User Information
+      summary: PATCH an user
       operationId: patch-users-userId
       responses:
         '200':
@@ -108,7 +108,7 @@ paths:
       tags:
         - user
     delete:
-      summary: ''
+      summary: DELETE an User
       operationId: delete-users-userId
       responses:
         '200':
@@ -120,7 +120,7 @@ paths:
         - user
   /users:
     post:
-      summary: Create New User
+      summary: POST an user
       operationId: post-user
       responses:
         '200':
@@ -179,7 +179,7 @@ paths:
         - user
     parameters: []
     get:
-      summary: ''
+      summary: GET all users
       operationId: get-users
       responses:
         '200':
@@ -189,7 +189,7 @@ paths:
         - user
   /:
     get:
-      summary: /
+      summary: GET Global info
       tags:
         - global
       responses:
@@ -242,7 +242,7 @@ paths:
       description: A simple route to check if API is ON and if it's connect with BDD.
   /offers:
     get:
-      summary: offers
+      summary: GET all offers
       tags:
         - offer
       responses:
@@ -257,7 +257,7 @@ paths:
       operationId: get-Offers
       description: Get all offers
     post:
-      summary: Offers
+      summary: POST one offer
       tags:
         - offer
       responses:
@@ -277,7 +277,7 @@ paths:
         description: Id of an existing offer.
         required: true
     get:
-      summary: 'offers/{offerId}'
+      summary: GET one offer by Id
       tags:
         - offer
       responses:
@@ -320,7 +320,7 @@ paths:
       parameters: []
       description: Retrieve the information of the user with the matching offer ID.
     delete:
-      summary: '/offers/{offerId}'
+      summary: DELETE an offer by Id
       tags:
         - offer
       responses:
@@ -329,7 +329,7 @@ paths:
       operationId: delete-Offers-OfferId
       description: Delete one offers by OfferId
     patch:
-      summary: ''
+      summary: PATCH an offer by Id
       operationId: patch-offers-offerId
       responses:
         '200':
@@ -446,9 +446,9 @@ paths:
         in: path
         required: true
     get:
-      summary: get-users-reviews
+      summary: GET one review by User
       tags:
-        - user
+        - review
       responses:
         '200':
           description: Reviews Found
@@ -462,7 +462,7 @@ paths:
       operationId: get-users-userId-review
       description: Retrieve the reviews of the user with the matching user ID.
     patch:
-      summary: ''
+      summary: PATCH a review
       operationId: patch-users-userId-reviews
       responses:
         '200':
@@ -476,16 +476,16 @@ paths:
               $ref: '#/components/schemas/ProfileReviews'
       description: Update the reviews of an existing user.
       tags:
-        - user
+        - review
     delete:
-      summary: ''
+      summary: DELETE a review
       operationId: delete-users-userId-reviews
       responses:
         '200':
           description: OK
       description: Delete one reviewId
       tags:
-        - user
+        - review
   '/users/{userId}/following/{followingId}':
     parameters:
       - schema:
@@ -499,11 +499,7 @@ paths:
         in: path
         required: true
     get:
-      summary: '/users/{userId}/following/{followingId}'
-      tags:
-        - user
-        - category
-        - offer
+      summary: GET one following by user
       responses:
         '200':
           description: OK
@@ -516,12 +512,12 @@ paths:
             schema:
               $ref: '#/components/schemas/Following'
       description: To get one following by User
-    patch:
-      summary: '/users/{userId}/following/{followingId}'
       tags:
-        - user
-        - category
-        - offer
+        - following
+    patch:
+      summary: PATCH one following by user
+      tags:
+        - following
       responses:
         '200':
           description: OK
@@ -530,11 +526,9 @@ paths:
       operationId: patch-users-userId-following-followingId
       description: 'update one following by user '
     delete:
-      summary: '/users/{userId}/following/{followingId}'
+      summary: DELETE one following by user
       tags:
-        - user
-        - category
-        - offer
+        - following
       responses:
         '200':
           description: OK
@@ -550,11 +544,9 @@ paths:
         in: path
         required: true
     get:
-      summary: '/users/{userId}/following'
+      summary: GET all following
       tags:
-        - user
-        - category
-        - offer
+        - following
       responses:
         '200':
           description: OK
@@ -568,11 +560,9 @@ paths:
                 $ref: '#/components/schemas/Following'
       description: Get all following by UserId
     post:
-      summary: '/users/{userId}/following'
+      summary: POST one following
       tags:
-        - user
-        - category
-        - offer
+        - following
       responses:
         '201':
           description: Created
@@ -589,9 +579,9 @@ paths:
       description: Create one following by UserID
   /categories:
     get:
-      summary: /categories
+      summary: GET all categories
       tags:
-        - offer
+        - category
       responses:
         '200':
           description: OK
@@ -604,9 +594,7 @@ paths:
       operationId: get-categories
       description: Get all categories
     post:
-      summary: /categories
-      tags:
-        - offer
+      summary: POST one category
       responses:
         '200':
           description: OK
@@ -645,6 +633,8 @@ paths:
               $ref: '#/components/schemas/Category'
         description: ''
       description: Create one category
+      tags:
+        - category
   '/categories/{categoryId}':
     parameters:
       - schema:
@@ -653,9 +643,8 @@ paths:
         in: path
         required: true
     get:
-      summary: '/categories/{categoryId}'
+      summary: GET one category by ID
       tags:
-        - offer
         - category
       responses:
         '200':
@@ -669,9 +658,8 @@ paths:
       operationId: get-categories-categoryId
       description: Get all infos by categoryID
     patch:
-      summary: '/categories/{categoryId}'
+      summary: PATCH an category by ID
       tags:
-        - offer
         - category
       responses:
         '200':
@@ -690,9 +678,8 @@ paths:
               $ref: '#/components/schemas/Category'
       description: Update one or more infos by categoryID
     delete:
-      summary: '/categories/{categoryId}'
+      summary: DELETE an category by ID
       tags:
-        - offer
         - category
       responses:
         '200':
@@ -709,10 +696,9 @@ paths:
         in: path
         required: true
     post:
-      summary: post-review
+      summary: POST all reviews by User
       tags:
-        - user
-        - offer
+        - review
       responses:
         '200':
           description: Review Created
@@ -727,7 +713,7 @@ paths:
               $ref: '#/components/schemas/ProfileReviews'
         description: Post the necessary fields for the API to create a new review.
     get:
-      summary: ''
+      summary: GET all reviews by User
       operationId: get-users-userId-reviews
       responses:
         '200':
@@ -740,25 +726,21 @@ paths:
                   $ref: '#/components/schemas/ProfileReviews'
       description: Get all reviews by userID
       tags:
-        - user
-        - offer
-  '/users/{userId}/trades/{tradeId}':
+        - review
+  '/offers/{offerId}/trades/{tradeId}':
     parameters:
-      - schema:
-          type: string
-        name: userId
-        in: path
-        required: true
       - schema:
           type: string
         name: tradeId
         in: path
         required: true
+      - schema:
+          type: string
+        name: offerId
+        in: path
+        required: true
     get:
-      summary: get-trade
-      tags:
-        - offer
-        - user
+      summary: GET one trade by User ID
       responses:
         '200':
           description: Trades Found
@@ -772,8 +754,10 @@ paths:
               $ref: '#/components/schemas/Trade'
         description: ''
       description: Retrieve the trades of the user with the matching user ID.
+      tags:
+        - trades
     patch:
-      summary: patch-trade
+      summary: PATCH one trade by User ID
       tags:
         - user
         - offer
@@ -790,7 +774,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Trade'
     delete:
-      summary: delete-trade
+      summary: DELETE one trade by User ID
       tags:
         - user
         - offer
@@ -808,11 +792,9 @@ paths:
               $ref: '#/components/schemas/Trade'
   '/offers/{offerId}/trades':
     get:
-      summary: get-trades
+      summary: GET all trades by Offer Id
       tags:
         - trades
-        - offer
-        - user
       responses:
         '200':
           description: OK
@@ -824,11 +806,9 @@ paths:
             schema:
               $ref: '#/components/schemas/Trade'
     post:
-      summary: post-trades
+      summary: POST one trade by Offer
       tags:
         - trades
-        - offer
-        - user
       responses:
         '200':
           description: 'Created : Offer created with success'
@@ -847,45 +827,6 @@ paths:
         name: offerId
         in: path
         required: true
-  '/users/{userId}/trades':
-    parameters:
-      - schema:
-          type: string
-        name: userId
-        in: path
-        required: true
-    post:
-      summary: post-trade
-      tags:
-        - user
-        - offer
-      responses:
-        '200':
-          description: Trade Created
-        '400':
-          description: 'Bad Request : Missing Required Information'
-      operationId: post-users-userId-trades
-      description: Create a new trade.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Trade'
-    get:
-      summary: ''
-      operationId: get-users-userId-trades
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Trade'
-      description: Get all trades by UserId
-      tags:
-        - user
-        - offer
 components:
   schemas:
     User:
@@ -1169,3 +1110,5 @@ tags:
   - name: global
   - name: category
   - name: trades
+  - name: review
+  - name: following
