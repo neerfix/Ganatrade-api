@@ -9,23 +9,17 @@ module.exports = {
     deleteTradeById
 };
 
-async function getAllTrades(req) {
-    try {
-        const data = db.collection('offers').doc(req.params.offerId).collection('trades');
-        let response = [];
-        await data.get().then(querySnapshot => {
-            let trades = querySnapshot.docs;
-            for (let trade of trades) {
-                response.push(trade.data());
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
-    }
+async function getAllTrades(req, res) {
+    const data = db.collection('offers').doc(req.params.offerId).collection('trades');
+    let response = [];
+    await data.get().then(querySnapshot => {
+        let trades = querySnapshot.docs;
+        for (let trade of trades) {
+            response.push(trade.data());
+        }
+    });
+
+    return res.status(200).send(response);
 }
 
 async function createNewTrade(req, res) {
@@ -57,7 +51,7 @@ async function createNewTrade(req, res) {
     });
 }
 
-async function updateTradeById(req) {
+async function updateTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
     let response = (await document.get()).data();
 
@@ -65,7 +59,7 @@ async function updateTradeById(req) {
         return {code: 404, message: "Trade not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }
 
 async function deleteTradeById(req, res) {
@@ -82,7 +76,7 @@ async function deleteTradeById(req, res) {
         })
 }
 
-async function getOneTradeById(req) {
+async function getOneTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
     let response = (await document.get()).data();
 
@@ -90,5 +84,5 @@ async function getOneTradeById(req) {
         return {code: 404, message: "Trade not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }

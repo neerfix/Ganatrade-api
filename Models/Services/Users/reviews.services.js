@@ -8,8 +8,7 @@ module.exports = {
     deleteReviewById
 };
 
-async function getAllReviews(req) {
-    try {
+async function getAllReviews(req, res) {
         const data = db.collection('users').doc(req.params.userId).collection('reviews');
         let response = [];
         await data.get().then(querySnapshot => {
@@ -18,13 +17,7 @@ async function getAllReviews(req) {
                 response.push(review.data());
             }
         });
-        return response;
-    } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
-    }
+        return res.status(200).send(response);
 }
 
 async function createNewReview(req, res) {
@@ -59,7 +52,7 @@ async function createNewReview(req, res) {
     });
 }
 
-async function updateReviewById(req) {
+async function updateReviewById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection("reviews").doc(req.params.reviewId);
     let response = (await document.get()).data();
 
@@ -67,7 +60,7 @@ async function updateReviewById(req) {
         return {code: 404, message: "Review not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }
 
 async function deleteReviewById(req, res) {
@@ -84,7 +77,7 @@ async function deleteReviewById(req, res) {
         })
 }
 
-async function getOneReviewById(req) {
+async function getOneReviewById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection("reviews").doc(req.params.reviewId);
     let response = (await document.get()).data();
 
@@ -92,5 +85,5 @@ async function getOneReviewById(req) {
         return {code: 404, message: "Review not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }

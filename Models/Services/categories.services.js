@@ -8,23 +8,17 @@ module.exports = {
     deleteCategoryById
 };
 
-async function getAllCategories() {
-        try {
-            const data = db.collection('categories');
-            let response = [];
-            data.get().then(querySnapshot => {
-                let docs = querySnapshot.docs;
-                for (let doc of docs) {
-                    response.push(doc.data());
-                }
-            });
-            return response;
-        } catch (error) {
-            return {
-                    "code": error.code,
-                    "message": error.message
-                };
-        }
+async function getAllCategories(req, res) {
+    let response = [];
+    await db.collection('categories')
+    .get()
+        .then(querySnapshot => {
+        let docs = querySnapshot.docs;
+            for (let doc of docs) {
+                response.push(doc.data());
+            }
+        });
+    return res.status(200).send(response);
 }
 
 async function createNewCategory(req, res) {
@@ -36,6 +30,7 @@ async function createNewCategory(req, res) {
         title: req.body.title,
         category_parent: req.body.category_parent ? req.body.category_parent : "",
         description: req.body.description ? req.body.description : "",
+        img: req.body.img ? req.body.img : "",
         is_active: true,
         date: {
             created_at: new Date(Date.now()),
@@ -85,7 +80,7 @@ async function deleteCategoryById(req, res) {
         })
 }
 
-async function getOneCategoryById(req) {
+async function getOneCategoryById(req, res) {
     const document = db.collection('categories').doc(req.params.categoryId);
     let response = (await document.get()).data();
 
@@ -93,5 +88,5 @@ async function getOneCategoryById(req) {
         return {code: 404, message: "Following not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }

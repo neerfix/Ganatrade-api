@@ -8,23 +8,16 @@ module.exports = {
     deleteOfferById
 };
 
-async function getAllOffers() {
-    try {
-        const data = db.collection('offers');
-        let response = [];
-        await data.get().then(querySnapshot => {
-            let offers = querySnapshot.docs;
-            for (let offer of offers) {
-                response.push(offer.data());
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            "code": error.code,
-            "message": error.message
-        };
-    }
+async function getAllOffers(req, res) {
+    const data = db.collection('offers');
+    let response = [];
+    await data.get().then(querySnapshot => {
+        let offers = querySnapshot.docs;
+        for (let offer of offers) {
+            response.push(offer.data());
+        }
+    });
+    return res.status(200).send(response);
 }
 
 async function createNewOffer(req, res) {
@@ -61,7 +54,7 @@ async function createNewOffer(req, res) {
     });
 }
 
-async function updateOfferById(req) {
+async function updateOfferById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId);
     let response = (await document.get()).data();
 
@@ -69,7 +62,7 @@ async function updateOfferById(req) {
         return {code: 404, message: "Offer not found"}
     }
 
-    return response;
+    return res.status(200).send(response);
 }
 
 async function deleteOfferById(req, res) {
@@ -86,13 +79,13 @@ async function deleteOfferById(req, res) {
             })
 }
 
-async function getOneOfferById(req) {
+async function getOneOfferById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId);
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Offer not found"}
+        return res.status(404).send({code: 404, message: "User not found"});
     }
 
-    return response;
+    return res.status(200).send(response);
 }

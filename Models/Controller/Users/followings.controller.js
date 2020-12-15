@@ -13,7 +13,7 @@ module.exports = router;
 
 function getAllFollowings(req, res, next) {
     FollowingService
-        .getAllFollowings(req)
+        .getAllFollowings(req, res)
         .then((followings) => res.status(200).send(followings))
         .catch((err) => next(err));
 }
