@@ -22,21 +22,28 @@ async function getAllFollowings(req, res) {
 
 async function createNewFollowing(req, res) {
     if(!req.body.user_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "content is required" });
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "user_id is required" });
     }
     if(!req.body.offer_id && !req.body.category_id){
         return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "category_id or offer_id is required" });
     }
 
-    await db.collection('users').doc(req.params.userId).collection('following').add({
+    await db.collection('users').doc(req.params.userId).collection('followings').add({
         user_id: req.body.user_id,
         offer_id: req.body.offer_id ? req.body.offer_id : "",
         category_id: req.body.category_id ? req.body.category_id : "",
-    }).then(result =>{
-        db.collection('users').doc(req.params.userId).collection('following').doc(result.id).update({
+    }).then(async result => {
+        await db.collection('users').doc(req.params.userId).collection('followings').doc(result.id).update({
             id: result.id
         });
-        return res.status(202).send(' Successfully created a new following : ' + result.id);
+        const document = db.collection('users').doc(req.params.userId).collection('followings').doc(result.id);
+        let response = (await document.get()).data();
+
+        if(!response){
+            return res.status(404).send({code: 404, message: "Following not found"});
+        }
+
+        return res.status(201).json(response);
     }).catch(e => {
         return res.status(409).json({ e });
     });
