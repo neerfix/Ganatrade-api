@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/ganatrade/api/compare/v0.3.1...v0.4.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* add birthdate to create user ([3be7988](https://github.com/ganatrade/api/commit/3be79884d04e4b5d27311d68f71e72131a8f4446))
+* return user in created route ([5b9bc86](https://github.com/ganatrade/api/commit/5b9bc86eb627bc86efe94d1c26b63fc3d7e6c1ca))
+* user ([9878c27](https://github.com/ganatrade/api/commit/9878c27f4c9972ac75563319902a15ada4f7cddc))
+
 ### [0.3.1](https://github.com/ganatrade/api/compare/v0.3.0...v0.3.1) (2020-12-15)
 
 ## [0.3.0](https://github.com/ganatrade/api/compare/v0.2.3...v0.3.0) (2020-12-15)
