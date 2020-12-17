@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/ganatrade/api/compare/v0.4.1...v0.4.2) (2020-12-17)
+
+
+### Bug Fixes
+
+* return offers when created. ([4b2ec44](https://github.com/ganatrade/api/commit/4b2ec4469a95f534cd1bfeb55790c14ecbc1df4e))
+
 ### [0.4.1](https://github.com/ganatrade/api/compare/v0.4.0...v0.4.1) (2020-12-17)
 
 
