@@ -98,7 +98,7 @@ async function createNewUser(req, res) {
                     rank: req.body.rank ? req.body.rank : "trader",
                     private_profile: false,
                 }).then(result =>{
-                return result;
+                    return result;
             }).catch(e => {
                 return {code: e.code, message: e.message};
             });
