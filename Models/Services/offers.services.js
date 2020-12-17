@@ -44,13 +44,21 @@ async function createNewOffer(req, res) {
         is_active: true,
         created_at: new Date(Date.now()),
         updated_at: new Date(Date.now())
-    }).then(result =>{
-        db.collection('offers').doc(result.id).update({
+    }).then(async result =>{
+        await db.collection('offers').doc(result.id).update({
             id: result.id
-        });
-        return res.status(202).send(' Successfully created a new offer : ' + result.id + " => " + req.body.title);
+        })
+        const document = db.collection('offers').doc(result.id);
+        let response = (await document.get()).data();
+
+        if(!response){
+            return res.status(404).send({code: 404, message: "User not found"});
+        }
+
+        return res.status(201).send(response);
     }).catch(e => {
-        return res.status(409).json({ e });
+        console.error(e);
+        return res.status(409).json(e);
     });
 }
 
