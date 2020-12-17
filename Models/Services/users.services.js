@@ -68,10 +68,6 @@ async function createNewUser(req, res) {
         return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "password is required" });
     }
 
-    if(!req.body.birthdate){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "birthdate is required" });
-    }
-
     await admin.auth().createUser({
         email: req.body.email,
         emailVerified: false,
@@ -88,7 +84,6 @@ async function createNewUser(req, res) {
                     delete_profile: false,
                     created_at: new Date(userRecord.metadata.creationTime),
                     last_login: new Date(userRecord.metadata.creationTime),
-                    birthdate: new Date(req.body.birthdate),
                     email: req.body.email,
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
