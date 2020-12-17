@@ -88,7 +88,7 @@ async function createNewUser(req, res) {
                     delete_profile: false,
                     created_at: new Date(userRecord.metadata.creationTime),
                     last_login: new Date(userRecord.metadata.creationTime),
-                    birthdate: req.body.birthdate,
+                    birthdate: new Date(req.body.birthdate),
                     email: req.body.email,
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
@@ -105,7 +105,7 @@ async function createNewUser(req, res) {
                         return res.status(404).send({code: 404, message: "User not found"});
                     }
 
-                    return res.status(200).send(response);
+                    return res.status(201).send(response);
             }).catch(e => {
                 return {code: e.code, message: e.message};
             });
