@@ -81,24 +81,31 @@ async function createNewUser(req, res) {
         photoURL: req.body.avatar,
         disabled: false,
     })
-        .then(function(userRecord) {
-            db.collection('users').doc(userRecord.uid)
+        .then(async function(userRecord) {
+            await db.collection('users').doc(userRecord.uid)
                 .set({
                     id: userRecord.uid,
                     delete_profile: false,
                     created_at: new Date(userRecord.metadata.creationTime),
                     last_login: new Date(userRecord.metadata.creationTime),
+                    birthdate: req.body.birthdate,
                     email: req.body.email,
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     username: req.body.username,
-                    birthdate: new Date(req.body.birthdate),
                     phone: req.body.phoneNumber ? req.body.phoneNumber : "",
                     avatar: req.body.avatar ? req.body.avatar : "",
                     rank: req.body.rank ? req.body.rank : "trader",
                     private_profile: false,
-                }).then(result =>{
-                    return result;
+                }).then(async result =>{
+                    const document = db.collection('users').doc(userRecord.uid);
+                    let response = (await document.get()).data();
+
+                    if(!response){
+                        return res.status(404).send({code: 404, message: "User not found"});
+                    }
+
+                    return res.status(200).send(response);
             }).catch(e => {
                 return {code: e.code, message: e.message};
             });
