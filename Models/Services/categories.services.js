@@ -45,23 +45,30 @@ async function createNewCategory(req, res) {
 }
 
 async function updateCategoryById(req, res) {
-    if(!req.body.title){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "title is required" });
+    const document = db.collection('categories').doc(req.params.categoryId);
+    let data = (await document.get()).data();
+
+    if(!data){
+    return res.status(404).send({code: 404, message: "following not found"});
     }
 
-    await db.collection('categories').doc(req.params.categoryId).update({
-        title: req.body.title,
-        category_parent: req.body.category_parent ? req.body.category_parent : "",
-        description: req.body.description ? req.body.description : "",
-        is_active: req.body.is_active ? req.body.is_active : true,
-        date: {
-            updated_at: new Date(Date.now())
-        }
-    }).then(result => {
-        return res.status(202).send(' Successfully updated '+ req.body.title+' category');
-    }).catch(e => {
-        return res.status(409).json({ e });
-    });
+    let response = {
+        title: req.body.title ? req.body.title : data.title,
+        category_parent: req.body.category_parent ? req.body.category_parent : data.category_parent,
+        description: req.body.description ? req.body.description : data.description,
+        img: req.body.img ? req.body.img : data.img,
+        is_active: req.body.is_active ? req.body.is_active : data.is_active,
+        created_at: data.created_at,
+        updated_at: new Date(Date.now())
+    }
+
+    await document.update(response)
+        .then(result => {
+            return res.status(200).send(response);
+        })
+        .catch(e => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
 
 async function deleteCategoryById(req, res) {
