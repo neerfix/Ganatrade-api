@@ -151,11 +151,11 @@ async function updateUserById(req, res) {
 
 async function deleteUserById(req, res) {
     const document = db.collection('users').doc(req.params.userId);
-    let response = (await document.get()).data();
-
-    if(!response){
-        return res.status(404).send({code: 404, message: "User not found"});
-    }
-
-    return res.status(200).send(response);
+    await document.delete()
+        .then(result => {
+            return res.status(200).send('The offer was deleted with success !');
+        })
+        .catch(error => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
