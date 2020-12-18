@@ -1,4 +1,5 @@
 const db = require('../../utils/firebase');
+const increment = db.FieldValue.increment(1);
 
 module.exports = {
     getAllOffers,
@@ -119,6 +120,10 @@ async function getOneOfferById(req, res) {
     if(!response){
         return res.status(404).send({code: 404, message: "User not found"});
     }
+
+    await db.collection('categories').doc(req.params.offerId).update({
+        views: increment
+    })
 
     return res.status(200).send(response);
 }
