@@ -38,7 +38,7 @@ async function createNewOffer(req, res) {
         return res.status(404).json({ "code": 400, "message": "condition required", "reason": "The condition is required" });
     }
 
-    if(!req.body.product.category) {
+    if(!req.body.category) {
         return res.status(404).json({ "code": 400, "message": "category required", "reason": "The category is required" });
     }
 
