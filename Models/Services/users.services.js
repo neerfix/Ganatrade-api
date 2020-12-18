@@ -122,12 +122,7 @@ async function updateUserById(req, res) {
 
     await admin.auth().updateUser( req.params.id, {
         email: req.body.email,
-        emailVerified: false,
-        phoneNumber: req.body.phoneNumber,
-        password: req.body.password,
         displayName: req.body.firstname + " " + req.body.lastname,
-        photoURL: req.body.avatar,
-        disabled: false,
     })
     .then(async userRecord => {
         const document = db.collection(req.params.data).doc(req.params.id);
@@ -137,7 +132,6 @@ async function updateUserById(req, res) {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             username: req.body.username,
-            private_profile: false,
         })
         const user = db.collection('users').doc(req.params.id);
         let response = (await user.get()).data();
