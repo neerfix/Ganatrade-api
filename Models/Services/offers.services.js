@@ -21,6 +21,31 @@ async function getAllOffers(req, res) {
 }
 
 async function createNewOffer(req, res) {
+
+    if(!req.params.user_id) {
+        return res.status(404).json({ "code": 400, "message": "user_id required", "reason": "The user_id is required" });
+    }
+
+    if(!req.params.title) {
+        return res.status(404).json({ "code": 400, "message": "title required", "reason": "The title is required" });
+    }
+
+    if(!req.params.product.name) {
+        return res.status(404).json({ "code": 400, "message": "name required", "reason": "The name is required" });
+    }
+
+    if(!req.params.product.condition) {
+        return res.status(404).json({ "code": 400, "message": "condition required", "reason": "The condition is required" });
+    }
+
+    if(!req.params.product.category) {
+        return res.status(404).json({ "code": 400, "message": "category required", "reason": "The category is required" });
+    }
+
+    if(!req.params.trade.method) {
+        return res.status(404).json({ "code": 400, "message": "method required", "reason": "The method is required" });
+    }
+
     await db.collection('offers').add({
         user_id: req.body.user_id,
         title: req.body.title,
@@ -31,7 +56,7 @@ async function createNewOffer(req, res) {
         description: req.body.description ? req.body.description : "",
         pictures: req.body.pictures ? req.body.pictures : "",
         category: req.body.category,
-        tags: req.body.tags,
+        tags: req.body.tags ? req.body.tags : "",
         trade: {
           method: req.body.trade.method,
           target: req.body.trade.target ? req.body.trade.target : "",
