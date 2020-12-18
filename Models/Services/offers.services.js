@@ -89,11 +89,38 @@ async function createNewOffer(req, res) {
 
 async function updateOfferById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId);
-    let response = (await document.get()).data();
+    let data = (await document.get()).data();
 
-    if(!response){
-        return {code: 404, message: "Offer not found"}
+    if(!data){
+        return res.status(404).send({code: 404, message: "Offer not found"});
     }
+
+    let response = {
+        user_id: req.body.user_id ? req.body.user_id : data.user_id,
+        title: req.body.title ? req.body.title : data.title,
+        product: {
+            name: req.body.product.name ? req.body.product.name : data.product.name,
+            condition: req.body.product.condition ? req.body.product.condition : data.product.name
+        },
+        description: req.body.description ? req.body.description : data.description,
+        pictures: req.body.pictures ? req.body.pictures : data.pictures,
+        category: req.body.category ? req.body.category : data.category,
+        tags: req.body.tags ? req.body.tags : data.tags,
+        trade: {
+            method: req.body.trade.method ? req.body.trade.method : data.trade.method,
+            target: req.body.trade.target ? req.body.trade.target : data.trade.target,
+            estimation: req.body.trade.estimation ? req.body.trade.estimation : data.trade.estimation,
+            place: req.body.trade.place ? req.body.trade.place : data.trade.place,
+            radius: req.body.trade.radius ? req.body.trade.radius : data.trade.radius,
+        },
+        views: data.views,
+        saves: data.saves,
+        is_active: req.body.is_active ? req.body.is_active : data.is_active,
+        created_at: data.created_at,
+        updated_at: new Date(Date.now())
+    }
+
+    await db.collection('offers').doc(req.params.offerId).update(response)
 
     return res.status(200).send(response);
 }
