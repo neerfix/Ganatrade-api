@@ -1,5 +1,4 @@
 const db = require('../../utils/firebase');
-const increment = db.FieldValue.increment(1);
 
 module.exports = {
     getAllOffers,
