@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/ganatrade/api/compare/v0.5.0...v0.5.1) (2020-12-18)
+
+
+### Features
+
+* update user with put route ([1f297f2](https://github.com/ganatrade/api/commit/1f297f26ab2b3ba1e99b11de3c7c073a1c605634))
+
 ## [0.5.0](https://github.com/ganatrade/api/compare/v0.4.2...v0.5.0) (2020-12-18)
 
 
