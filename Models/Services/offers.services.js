@@ -99,17 +99,17 @@ async function updateOfferById(req, res) {
 }
 
 async function deleteOfferById(req, res) {
-        const document = db.collection('offers').doc(req.params.id);
-        if(!document) {
-            return res.status(404).json({ "code": 404, "message": "Offer not found", "reason": "The offer with this id is not found" });
-        }
-        await document.delete()
-            .then(result => {
-                return res.status(200).send('The offer was deleted with success !');
-            })
-            .catch(error => {
-                return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
-            })
+    const document = db.collection('offers').doc(req.params.offerId);
+    if(!document) {
+        return res.status(404).json({ "code": 404, "message": "Offer not found", "reason": "The offer with this id is not found" });
+    }
+    await document.delete()
+        .then(result => {
+            return res.status(200).send('The offer was deleted with success !');
+        })
+        .catch(error => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
 
 async function getOneOfferById(req, res) {
