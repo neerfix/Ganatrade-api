@@ -120,9 +120,13 @@ async function updateOfferById(req, res) {
         updated_at: new Date(Date.now())
     }
 
-    await db.collection('offers').doc(req.params.offerId).update(response)
-
-    return res.status(200).send(response);
+    await document.update(response)
+        .then(result => {
+            return res.status(200).send(response);
+        })
+        .catch(e => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
 
 async function deleteOfferById(req, res) {
