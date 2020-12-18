@@ -42,7 +42,9 @@ async function createNewTrade(req, res) {
         value: req.body.value ? req.body.value : "",
         type: req.body.type,
         is_visible: true,
-        date_of_trade: new Date(Date.now())
+        date_of_trade: new Date(Date.now()),
+        created_at: new Date(Date.now()),
+        updated_at: new Date(Date.now())
     }).then(result =>{
         db.collection('offers').doc(req.params.offerId).collection('trades').doc(result.id).update({
             id: result.id

@@ -32,10 +32,8 @@ async function createNewCategory(req, res) {
         description: req.body.description ? req.body.description : "",
         img: req.body.img ? req.body.img : "",
         is_active: true,
-        date: {
-            created_at: new Date(Date.now()),
-            updated_at: new Date(Date.now())
-        }
+        created_at: new Date(Date.now()),
+        updated_at: new Date(Date.now())
     }).then(result =>{
         db.collection('categories').doc(result.id).update({
             id: result.id
@@ -59,7 +57,7 @@ async function updateCategoryById(req, res) {
         date: {
             updated_at: new Date(Date.now())
         }
-    }).then(result =>{
+    }).then(result => {
         return res.status(202).send(' Successfully updated '+ req.body.title+' category');
     }).catch(e => {
         return res.status(409).json({ e });

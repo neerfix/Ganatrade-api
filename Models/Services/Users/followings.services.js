@@ -32,6 +32,8 @@ async function createNewFollowing(req, res) {
         user_id: req.body.user_id,
         offer_id: req.body.offer_id ? req.body.offer_id : "",
         category_id: req.body.category_id ? req.body.category_id : "",
+        created_at: new Date(Date.now()),
+        updated_at: new Date(Date.now())
     }).then(async result => {
         await db.collection('users').doc(req.params.userId).collection('followings').doc(result.id).update({
             id: result.id
