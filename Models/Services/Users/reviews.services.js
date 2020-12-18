@@ -54,13 +54,29 @@ async function createNewReview(req, res) {
 
 async function updateReviewById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection("reviews").doc(req.params.reviewId);
-    let response = (await document.get()).data();
+    let data = (await document.get()).data();
 
-    if(!response){
-        return {code: 404, message: "Review not found"}
+    if(!data){
+        return res.status(404).send({code: 404, message: "following not found"});
     }
 
-    return res.status(200).send(response);
+    let response = {
+        content: req.body.trader_id ? req.body.trader_id : data.trader_id,
+        author_id: req.body.author_id ? req.body.author_id : data.author_id,
+        user_profile_id: req.body.user_profile_id ? req.body.user_profile_id : data.user_profile_id,
+        note: req.body.note ? req.body.note : data.notes,
+        is_visible: req.body.is_visible ? req.body.is_visible : data.is_visible,
+        created_at: data.created_at,
+        updated_at: new Date(Date.now())
+    }
+
+    await document.update(response)
+        .then(result => {
+            return res.status(200).send(response);
+        })
+        .catch(e => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
 
 async function deleteReviewById(req, res) {
