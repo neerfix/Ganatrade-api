@@ -121,9 +121,9 @@ async function getOneOfferById(req, res) {
         return res.status(404).send({code: 404, message: "User not found"});
     }
 
-    await db.collection('categories').doc(req.params.offerId).update({
-        views: increment
-    })
+    // await db.collection('categories').doc(req.params.offerId).update({
+    //     views: increment
+    // })
 
     return res.status(200).send(response);
 }
