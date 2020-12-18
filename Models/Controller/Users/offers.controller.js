@@ -3,7 +3,7 @@ const router = express.Router();
 const FollowingService = require("../../Services/Users/offers.services");
 
 // routes
-router.get("/:userId/offers/", getAllOffersByUser);
+router.get("/:userId/offers", getAllOffersByUser);
 
 module.exports = router;
 
