@@ -143,9 +143,6 @@ async function updateUserById(req, res) {
         return res.status(201).send(response);
     }).catch(e => {
             return {code: e.code, message: e.message};
-    })
-    .catch(e => {
-        console.error(e.message)
     });
 }
 
