@@ -53,11 +53,21 @@ async function createNewFollowing(req, res) {
 
 async function updateFollowingById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
-    let response = (await document.get()).data();
+    let data = (await document.get()).data();
 
-    if(!response){
-        return res.status(404).send({code: 404, message: "Following not found"});
+    if(!data){
+        return res.status(404).send({code: 404, message: "following not found"});
     }
+
+    let response = {
+        user_id: req.body.user_id ? req.body.user_id : data.user_id,
+        offer_id: req.body.offer_id ? req.body.offer_id : req.body.offer_id,
+        category_id: req.body.category_id ? req.body.category_id : req.body.category_id,
+        created_at: data.created_at,
+        updated_at: new Date(Date.now())
+    }
+
+    await db.collection('offers').doc(req.params.offerId).update(response)
 
     return res.status(200).send(response);
 }
