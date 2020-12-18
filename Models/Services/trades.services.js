@@ -57,13 +57,31 @@ async function createNewTrade(req, res) {
 
 async function updateTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
-    let response = (await document.get()).data();
+    let data = (await document.get()).data();
 
-    if(!response){
-        return {code: 404, message: "Trade not found"}
+    if(!data){
+        return res.status(404).send({code: 404, message: "following not found"});
     }
 
-    return res.status(200).send(response);
+    let response = {
+        trader_id: req.body.trader_id ? req.body.trader_id : data.trader_id,
+        buyer_id: req.body.buyer_id ? req.body.buyer_id : data.buyer_id,
+        status: req.body.status ? req.body.status : data.status,
+        value: req.body.value ? req.body.value : data.value,
+        type: req.body.type ? req.body.type : data.type,
+        is_visible: req.body.is_visible ? req.body.is_visible : data.is_visible,
+        date_of_trade: req.body.date_of_trade ? req.body.date_of_trade : data.req.body.date_of_trade,
+        created_at: data.created_at,
+        updated_at: new Date(Date.now())
+    }
+
+    await document.update(response)
+        .then(result => {
+            return res.status(200).send(response);
+        })
+        .catch(e => {
+            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        })
 }
 
 async function deleteTradeById(req, res) {
