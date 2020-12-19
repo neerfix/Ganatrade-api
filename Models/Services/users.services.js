@@ -108,42 +108,46 @@ async function createNewUser(req, res) {
 }
 
 async function updateUserById(req, res) {
-    if(!req.body.email){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "email is required" });
+    const document = db.collection('users').doc(req.params.userId);
+    let data = (await document.get()).data();
+
+    if(!data){
+        return res.status(404).send({code: 404, message: "Offer not found"});
     }
 
-    if(!req.body.firstname){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
-    }
-
-    if(!req.body.lastname){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
+    let response = {
+        delete_profile: req.body.delete_profile ? req.body.delete_profile : data.delete_profile,
+        email: req.body.email ? req.body.email : data.email,
+        firstname: req.body.firstname ? req.body.firstname : data.firstname,
+        lastname: req.body.lastname ? req.body.lastname : data.lastname,
+        username: req.body.username ? req.body.username : data.username,
+        phone: req.body.phoneNumber ? req.body.phoneNumber : data.phone,
+        avatar: req.body.avatar ? req.body.avatar : data.avatar,
+        rank: req.body.rank ? req.body.rank : data.rank,
+        private_profile: req.body.private_profile ? req.body.private_profile : data.private_profile,
+        updated_at: new Date(Date.now())
     }
 
     await admin.auth().updateUser( req.params.id, {
-        email: req.body.email,
-        displayName: req.body.firstname + " " + req.body.lastname,
+        email: req.body.email ? req.body.email : data.email
     })
     .then(async userRecord => {
-        const document = db.collection(req.params.data).doc(req.params.id);
-        await document.update({
-            updated_at: new Date(userRecord.metadata.creationTime),
-            email: req.body.email,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            username: req.body.username,
-        })
-        const user = db.collection('users').doc(req.params.id);
-        let response = (await user.get()).data();
-
-        if(!response){
-            return res.status(404).send({code: 404, message: "User not found"});
-        }
-
-        return res.status(201).send(response);
-    }).catch(e => {
-            return {code: e.code, message: e.message};
-    });
+        await document.update(response)
+            .then(result => {
+                return res.status(200).send(response);
+            })
+            .catch(e => {
+                return res.status(500).json({
+                    "code": 500,
+                    "message": "Internal server error",
+                    "reason": "An unknown error was occurred",
+                    "details": e.message
+                });
+            })
+    })
+    .catch(error => {
+        return res.status(500).json({ "code": error.message, "message": error.message });
+    })
 }
 
 async function deleteUserById(req, res) {

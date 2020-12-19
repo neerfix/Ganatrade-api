@@ -6,7 +6,7 @@ const userService = require("../Services/users.services");
 router.get("/", getAllUsers);
 router.post("/", createNewUser);
 router.get("/:userId", getOneUserById);
-router.put("/:userId", updateUserById);
+router.patch("/:userId", updateUserById);
 router.delete("/:userId", deleteUserById);
 
 module.exports = router;
