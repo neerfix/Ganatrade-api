@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/ganatrade/api/compare/v0.5.1...v1.0.0) (2020-12-19)
+
+
+### Features
+
+* add filters: Offer by Category ([5915962](https://github.com/ganatrade/api/commit/59159624cc3925e63ecf4ffc04e283d5619551f7))
+* Get all offers by UserID ([6b54461](https://github.com/ganatrade/api/commit/6b544612e986767803d023d9d21221a10ed9dda3))
+* increment views ([3bbcd93](https://github.com/ganatrade/api/commit/3bbcd93c086211098fcee3810cf98221db60c598))
+* increment views when offer is call ([3a4eeb9](https://github.com/ganatrade/api/commit/3a4eeb9cfed8a8000b0e2a8ee40e86bdf3fa6277))
+* route to search offer with key word ([f7a728e](https://github.com/ganatrade/api/commit/f7a728e853756a17296503fd0bb6c2afce610651))
+* update a function to update trades ([94ea35e](https://github.com/ganatrade/api/commit/94ea35e090451a0c7ed7e715cde5245d6c914bbf))
+* update a route and function to update category ([52718a1](https://github.com/ganatrade/api/commit/52718a1e14714067287b9be49debf92956f82138))
+* update a route and function to update following ([df6e919](https://github.com/ganatrade/api/commit/df6e9196091469545a188d600b0e8dcaf22fad30))
+* update a route and function to update offer ([205082f](https://github.com/ganatrade/api/commit/205082f8765df79c777d866f1d2bb89971dd10e1))
+* update a route and function to update reivews ([6861d9e](https://github.com/ganatrade/api/commit/6861d9e22dfbaeb351225ca262892a3b33f89b2d))
+
+
+### Bug Fixes
+
+* add route to get all offers by user ([3941c2b](https://github.com/ganatrade/api/commit/3941c2b045ce20253512ee421247ae95806dd308))
+* bad name to req.body.category ([8764f4c](https://github.com/ganatrade/api/commit/8764f4cf938ecd0a4e4a6229b50391f4c5680d24))
+* create offers ([9695f27](https://github.com/ganatrade/api/commit/9695f273b425f43654dc10daf711de4e7348d78e))
+* delete function to offer ([24f473e](https://github.com/ganatrade/api/commit/24f473e9c99eed3e6db3d9c65da5c71f936a3ffa))
+* delete function to user ([18af985](https://github.com/ganatrade/api/commit/18af985513857c0327f6617a88285f977966dce1))
+* id to userId ([fc025ae](https://github.com/ganatrade/api/commit/fc025ae906c05df52b156b38e145a155016f538b))
+* post to get -> search ([0a5e6c9](https://github.com/ganatrade/api/commit/0a5e6c9369b9cca4414a6d3cc49ab6af008065a5))
+* remove catch ([3aabe2b](https://github.com/ganatrade/api/commit/3aabe2bad6e8f95cf7ed43c5cded402db1c91d0a))
+* remove increment ([a8af941](https://github.com/ganatrade/api/commit/a8af941a082192363d7174474c3e4979653ba633))
+* remove increment ([988097e](https://github.com/ganatrade/api/commit/988097e40462605c61a9faee52302ff00138562c))
+* tags not required ([9b73712](https://github.com/ganatrade/api/commit/9b737121323fd006de472e76fff63f74375a5b00))
+* update a function to update following and offer : Wait update and if is ok, return a good response, else return 500 ([d0f2044](https://github.com/ganatrade/api/commit/d0f20447cf905f56ae4ee37ef295999307109548))
+* update user ([edbb551](https://github.com/ganatrade/api/commit/edbb551b103ed59144fa30f0192fb8e250b70f4e))
+* update user ([3f689fd](https://github.com/ganatrade/api/commit/3f689fdba3c05f567f4b8f35923a7f8f8204e97f))
+
 ### [0.5.1](https://github.com/ganatrade/api/compare/v0.5.0...v0.5.1) (2020-12-18)
 
 
