@@ -128,7 +128,7 @@ async function updateUserById(req, res) {
         updated_at: new Date(Date.now())
     }
 
-    await admin.auth().updateUser( req.params.id, {
+    await admin.auth().updateUser( req.params.userId, {
         email: req.body.email ? req.body.email : data.email
     })
     .then(async userRecord => {
