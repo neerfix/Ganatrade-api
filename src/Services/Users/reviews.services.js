@@ -35,6 +35,7 @@ async function createNewReview(req, res) {
         db.collection('users').doc(req.params.userId).collection('reviews').doc(result.id).update({
             id: result.id
         });
+
         return res.status(202).send(' Successfully created a new review : ' + result.id);
     }).catch(e => {
         return res.status(409).json({ e });

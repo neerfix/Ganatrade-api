@@ -1,5 +1,6 @@
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
+const userRepo = require('../../Repository/Users.repository');
 
 module.exports = {
     getAllUsers,
@@ -10,19 +11,21 @@ module.exports = {
 };
 
 async function getAllUsers(req, res) {
-    const data = db.collection('users');
+    const data = userRepo.getAll;
     let response = [];
+
     await data.get().then(querySnapshot => {
         let docs = querySnapshot.docs;
         for (let doc of docs) {
             response.push(doc.data());
         }
     });
+
     return res.status(200).send(response);
 }
 
 async function getOneUserById(req, res) {
-    const document = db.collection('users').doc(req.params.userId);
+    const document = userRepo.getOneById(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
@@ -66,18 +69,18 @@ async function createNewUser(req, res) {
                     }
 
                     return res.status(201).send(response);
-            }).catch(e => {
-                return {code: e.code, message: e.message};
-            });
+                }).catch(e => {
+                    return {code: e.code, message: e.message};
+                });
         })
         .catch(function(error) {
             console.error('Error creating new user : ', error.message);
             return res.status(409).send({code: error.code, message: error.message, detail: 'Error creating new user : ' + error.message});
-    })
+        })
 }
 
 async function updateUserById(req, res) {
-    const document = db.collection('users').doc(req.params.userId);
+    const document = userRepo.getOneById(req.params.userId);
     let data = (await document.get()).data();
 
     if(!data){
@@ -100,27 +103,27 @@ async function updateUserById(req, res) {
     await admin.auth().updateUser( req.params.userId, {
         email: req.body.email ? req.body.email : data.email
     })
-    .then(async userRecord => {
-        await document.update(response)
-            .then(result => {
-                return res.status(200).send(response);
-            })
-            .catch(e => {
-                return res.status(500).json({
-                    "code": 500,
-                    "message": "Internal server error",
-                    "reason": "An unknown error was occurred",
-                    "details": e.message
-                });
-            })
-    })
-    .catch(error => {
-        return res.status(500).json({ "code": error.message, "message": error.message });
-    })
+        .then(async userRecord => {
+            await document.update(response)
+                .then(result => {
+                    return res.status(200).send(response);
+                })
+                .catch(e => {
+                    return res.status(500).json({
+                        "code": 500,
+                        "message": "Internal server error",
+                        "reason": "An unknown error was occurred",
+                        "details": e.message
+                    });
+                })
+        })
+        .catch(error => {
+            return res.status(500).json({ "code": error.message, "message": error.message });
+        })
 }
 
 async function deleteUserById(req, res) {
-    const document = db.collection('users').doc(req.params.userId);
+    const document = userRepo.getOneById(req.params.userId);
     await document.delete()
         .then(result => {
             return res.status(200).send('The offer was deleted with success !');

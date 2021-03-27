@@ -13,9 +13,9 @@ async function getAllCategories(req, res) {
     let response = [];
 
     await db.collection('categories')
-    .get()
+        .get()
         .then(querySnapshot => {
-        let docs = querySnapshot.docs;
+            let docs = querySnapshot.docs;
             for (let doc of docs) {
                 response.push(doc.data());
             }
