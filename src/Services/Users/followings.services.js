@@ -1,4 +1,4 @@
-const db = require('../../../utils/firebase');
+const db = require('../../utils/firebase');
 
 module.exports = {
     getAllFollowings,

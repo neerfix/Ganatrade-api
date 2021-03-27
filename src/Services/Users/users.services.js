@@ -1,5 +1,3 @@
-const config = require('config.json');
-const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
 
@@ -10,19 +8,6 @@ module.exports = {
     updateUserById,
     deleteUserById
 };
-
-//TODO
-async function authenticate({ username, password }) {
-    const user = users.find(u => u.username === username && u.password === password);
-    if (user) {
-        const token = jwt.sign({ sub: user.id }, config.secret);
-        const { password, ...userWithoutPassword } = user;
-        return {
-            ...userWithoutPassword,
-            token
-        };
-    }
-}
 
 async function getAllUsers(req, res) {
     const data = db.collection('users');
@@ -48,22 +33,6 @@ async function getOneUserById(req, res) {
 }
 
 async function createNewUser(req, res) {
-    if(!req.body.email){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "email is required" });
-    }
-
-    if(!req.body.firstname){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
-    }
-
-    if(!req.body.lastname){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
-    }
-
-    if(!req.body.password){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "password is required" });
-    }
-
     await admin.auth().createUser({
         email: req.body.email,
         emailVerified: false,

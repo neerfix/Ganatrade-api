@@ -2,15 +2,9 @@ const express = require("express");
 const router = express.Router();
 const reviewService = require("../../Services/Users/reviews.services");
 
-// routes
+// routes -> /users/
+
 router.get("/:userId/reviews", getAllReviews);
-router.post("/:userId/reviews", createNewReview);
-router.get("/:userId/reviews/:reviewId", getOneReviewById);
-router.patch("/:userId/reviews/:reviewId", updateReviewById);
-router.delete("/:userId/reviews/:reviewId", deleteReviewById);
-
-module.exports = router;
-
 function getAllReviews(req, res, next) {
     reviewService
         .getAllReviews(req, res)
@@ -18,6 +12,7 @@ function getAllReviews(req, res, next) {
         .catch((err) => next(err));
 }
 
+router.post("/:userId/reviews", createNewReview);
 function createNewReview(req, res, next) {
     reviewService
         .createNewReview(req, res)
@@ -25,6 +20,7 @@ function createNewReview(req, res, next) {
         .catch((err) => next(err));
 }
 
+router.patch("/:userId/reviews/:reviewId", updateReviewById);
 function updateReviewById(req, res, next) {
     reviewService
         .updateReviewById(req, res)
@@ -32,6 +28,7 @@ function updateReviewById(req, res, next) {
         .catch((err) => next(err));
 }
 
+router.delete("/:userId/reviews/:reviewId", deleteReviewById);
 function deleteReviewById(req, res, next) {
     reviewService
         .deleteReviewById(req, res)
@@ -39,9 +36,12 @@ function deleteReviewById(req, res, next) {
         .catch((err) => next(err));
 }
 
+router.get("/:userId/reviews/:reviewId", getOneReviewById);
 function getOneReviewById(req, res, next) {
     reviewService
         .getOneReviewById(req, res)
         .then((review) => res.status(200).send(review))
         .catch((err) => next(err));
 }
+
+module.exports = router;

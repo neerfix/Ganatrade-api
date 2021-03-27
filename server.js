@@ -3,34 +3,34 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const jwt = require('utils/jwt');
-const errorHandler = require('utils/error-handler');
+const jwt = require('src/utils/jwt');
+const errorHandler = require('src/utils/error-handler');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// use JWT auth to secure the api TODO REACTIVE IT
-// app.use(jwt());
+// use JWT auth to secure the api
+app.use(jwt());
 
 // api routes
-app.use('/', require ('./Models/Controller/global.controller'));
+app.use('/', require ('./src/Controller/global.controller'));
 
 // USER
-app.use('/users', require('./Models/Controller/users.controller'));
-app.use('/users/', require('./Models/Controller/Users/reviews.controller'));
-app.use('/users/', require('./Models/Controller/Users/followings.controller'));
+app.use('/users', require('./src/Controller/Users/users.controller'));
+app.use('/users/', require('./src/Controller/Users/reviews.controller'));
+app.use('/users/', require('./src/Controller/Users/followings.controller'));
 
 // OFFERS
-app.use('/offers/', require('./Models/Controller/offers.controller'));
-app.use('/offers/', require('./Models/Controller/trades.controller'));
+app.use('/offers/', require('./src/Controller/Offers/offers.controller'));
+app.use('/offers/', require('./src/Controller/Offers/trades.controller'));
 
 // CATEGORIES
-app.use('/categories', require('./Models/Controller/categories.controller'));
+app.use('/categories', require('./src/Controller/categories.controller'));
 
 // FILTERS & SEARCH
-app.use('/search', require('./Models/Controller/search.controller'));
-app.use('/', require('./Models/Controller/Filters/offers.controller'));
+app.use('/search', require('./src/Controller/Filters/search.controller'));
+app.use('/', require('./src/Controller/Filters/offers.controller'));
 
 // global error handler
 app.use(errorHandler);
