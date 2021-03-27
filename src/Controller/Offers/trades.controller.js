@@ -14,6 +14,18 @@ function getAllTrades(req, res, next) {
 
 router.post("/:offerId/trades/", createNewTrade);
 function createNewTrade(req, res, next) {
+    if(!req.body.trader_id){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "trader_id is required" });
+    }
+
+    if(!req.body.buyer_id){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "buyer_id is required" });
+    }
+
+    if(!req.body.type){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "type is required" });
+    }
+
     tradeService
         .createNewTrade(req, res)
         .then((trade) => res.status(200).send(trade))

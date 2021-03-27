@@ -7,7 +7,9 @@ module.exports = {
 
 async function getAllOffersByUser(req, res) {
     const offers = db.collection('offers');
+
     let response = [];
+
     await offers.where("user_id", "==", req.params.userId).get()
         .then(querySnapshot => {
         let documents = querySnapshot.docs;
@@ -25,7 +27,9 @@ async function getAllOffersByUser(req, res) {
 
 async function getAllOffersByCategory(req, res) {
     const offers = db.collection('offers');
+
     let response = [];
+
     await offers.where("category", "==", req.params.categoryId).get()
         .then(querySnapshot => {
             let documents = querySnapshot.docs;

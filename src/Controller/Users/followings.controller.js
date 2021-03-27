@@ -14,6 +14,14 @@ function getAllFollowings(req, res, next) {
 
 router.post("/:userId/followings/", createNewFollowing);
 function createNewFollowing(req, res, next) {
+    if(!req.body.user_id){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "user_id is required" });
+    }
+
+    if(!req.body.offer_id && !req.body.category_id){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "category_id or offer_id is required" });
+    }
+
     FollowingService
         .createNewFollowing(req, res)
         .then((following) => res.status(200).send(following))

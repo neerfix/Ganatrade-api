@@ -14,6 +14,22 @@ function getAllReviews(req, res, next) {
 
 router.post("/:userId/reviews", createNewReview);
 function createNewReview(req, res, next) {
+    if(!req.body.content){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "content is required" });
+    }
+
+    if(!req.body.author_id){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "author_id is required" });
+    }
+
+    if(!req.body.user_profile_id){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "user_profile_id is required" });
+    }
+
+    if(!req.body.note){
+        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "note is required" });
+    }
+
     reviewService
         .createNewReview(req, res)
         .then((review) => res.status(200).send(review))

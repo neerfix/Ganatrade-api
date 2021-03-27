@@ -13,7 +13,9 @@ module.exports = {
 
 async function getAllTrades(req, res) {
     const data = db.collection('offers').doc(req.params.offerId).collection('trades');
+
     let response = [];
+
     await data.get().then(querySnapshot => {
         let trades = querySnapshot.docs;
         for (let trade of trades) {
@@ -25,16 +27,6 @@ async function getAllTrades(req, res) {
 }
 
 async function createNewTrade(req, res) {
-    if(!req.body.trader_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "trader_id is required" });
-    }
-    if(!req.body.buyer_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "buyer_id is required" });
-    }
-    if(!req.body.type){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "type is required" });
-    }
-
     await db.collection('offers').doc(req.params.offerId).collection('trades').add({
         trader_id: req.body.trader_id,
         buyer_id: req.body.buyer_id,
@@ -49,6 +41,7 @@ async function createNewTrade(req, res) {
         db.collection('offers').doc(req.params.offerId).collection('trades').doc(result.id).update({
             id: result.id
         });
+
         return res.status(202).send(' Successfully created a new trade : ' + result.id);
     }).catch(e => {
         return res.status(409).json({ e });
@@ -86,9 +79,11 @@ async function updateTradeById(req, res) {
 
 async function deleteTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
+
     if(!document) {
         return res.status(404).json({ "code": 404, "message": "Trade not found", "reason": "The trade with this id or with this offerId is not found" });
     }
+
     await document.delete()
         .then(result => {
             return res.status(200).send('The trade was deleted with success !');
@@ -111,6 +106,7 @@ async function getOneTradeById(req, res) {
 
 async function acceptTrade(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
+
     await document.update({
         status: "accepted"
     })
@@ -128,6 +124,7 @@ async function acceptTrade(req, res) {
 
 async function refuseTrade(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
+
     await document.update({
         status: "refused"
     })

@@ -10,42 +10,20 @@ module.exports = {
 
 async function getAllOffers(req, res) {
     const data = db.collection('offers');
+
     let response = [];
+
     await data.get().then(querySnapshot => {
         let offers = querySnapshot.docs;
         for (let offer of offers) {
             response.push(offer.data());
         }
     });
+
     return res.status(200).send(response);
 }
 
 async function createNewOffer(req, res) {
-
-    if(!req.body.user_id) {
-        return res.status(404).json({ "code": 400, "message": "user_id required", "reason": "The user_id is required" });
-    }
-
-    if(!req.body.title) {
-        return res.status(404).json({ "code": 400, "message": "title required", "reason": "The title is required" });
-    }
-
-    if(!req.body.product.name) {
-        return res.status(404).json({ "code": 400, "message": "name required", "reason": "The name is required" });
-    }
-
-    if(!req.body.product.condition) {
-        return res.status(404).json({ "code": 400, "message": "condition required", "reason": "The condition is required" });
-    }
-
-    if(!req.body.category) {
-        return res.status(404).json({ "code": 400, "message": "category required", "reason": "The category is required" });
-    }
-
-    if(!req.body.trade.method) {
-        return res.status(404).json({ "code": 400, "message": "method required", "reason": "The method is required" });
-    }
-
     await db.collection('offers').add({
         user_id: req.body.user_id,
         title: req.body.title,
@@ -73,6 +51,7 @@ async function createNewOffer(req, res) {
         await db.collection('offers').doc(result.id).update({
             id: result.id
         })
+
         const document = db.collection('offers').doc(result.id);
         let response = (await document.get()).data();
 
