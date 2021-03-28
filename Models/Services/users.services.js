@@ -1,7 +1,7 @@
+const config = require('config.json');
+const jwt = require('jsonwebtoken');
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
-const userRepo = require('../../Repository/Users.repository');
-const Http_response = require("../../utils/http-response");
 
 module.exports = {
     getAllUsers,
@@ -11,32 +11,59 @@ module.exports = {
     deleteUserById
 };
 
-async function getAllUsers(req, res) {
-    const data = userRepo.getAll;
-    let response = [];
+//TODO
+async function authenticate({ username, password }) {
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+        const token = jwt.sign({ sub: user.id }, config.secret);
+        const { password, ...userWithoutPassword } = user;
+        return {
+            ...userWithoutPassword,
+            token
+        };
+    }
+}
 
+async function getAllUsers(req, res) {
+    const data = db.collection('users');
+    let response = [];
     await data.get().then(querySnapshot => {
         let docs = querySnapshot.docs;
         for (let doc of docs) {
             response.push(doc.data());
         }
     });
-
     return res.status(200).send(response);
 }
 
 async function getOneUserById(req, res) {
-    const document = userRepo.getOneById(req.params.userId);
+    const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
-        Http_response.HTTP_404(req, res, '', 'User')
+        return res.status(404).send({code: 404, message: "User not found"});
     }
 
     return res.status(200).send(response);
 }
 
 async function createNewUser(req, res) {
+    if(!req.body.email){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "email is required" });
+    }
+
+    if(!req.body.firstname){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
+    }
+
+    if(!req.body.lastname){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
+    }
+
+    if(!req.body.password){
+        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "password is required" });
+    }
+
     await admin.auth().createUser({
         email: req.body.email,
         emailVerified: false,
@@ -66,25 +93,26 @@ async function createNewUser(req, res) {
                     let response = (await document.get()).data();
 
                     if(!response){
-                        Http_response.HTTP_404(req, res, '', 'User')
+                        return res.status(404).send({code: 404, message: "User not found"});
                     }
 
                     return res.status(201).send(response);
-                }).catch(e => {
-                    return {code: e.code, message: e.message};
-                });
+            }).catch(e => {
+                return {code: e.code, message: e.message};
+            });
         })
         .catch(function(error) {
+            console.error('Error creating new user : ', error.message);
             return res.status(409).send({code: error.code, message: error.message, detail: 'Error creating new user : ' + error.message});
-        })
+    })
 }
 
 async function updateUserById(req, res) {
-    const document = userRepo.getOneById(req.params.userId);
+    const document = db.collection('users').doc(req.params.userId);
     let data = (await document.get()).data();
 
     if(!data){
-        Http_response.HTTP_404(req, res, '', 'User')
+        return res.status(404).send({code: 404, message: "Offer not found"});
     }
 
     let response = {
@@ -103,27 +131,27 @@ async function updateUserById(req, res) {
     await admin.auth().updateUser( req.params.userId, {
         email: req.body.email ? req.body.email : data.email
     })
-        .then(async userRecord => {
-            await document.update(response)
-                .then(result => {
-                    return res.status(200).send(response);
-                })
-                .catch(e => {
-                    return res.status(500).json({
-                        "code": 500,
-                        "message": "Internal server error",
-                        "reason": "An unknown error was occurred",
-                        "details": e.message
-                    });
-                })
-        })
-        .catch(error => {
-            return res.status(500).json({ "code": error.message, "message": error.message });
-        })
+    .then(async userRecord => {
+        await document.update(response)
+            .then(result => {
+                return res.status(200).send(response);
+            })
+            .catch(e => {
+                return res.status(500).json({
+                    "code": 500,
+                    "message": "Internal server error",
+                    "reason": "An unknown error was occurred",
+                    "details": e.message
+                });
+            })
+    })
+    .catch(error => {
+        return res.status(500).json({ "code": error.message, "message": error.message });
+    })
 }
 
 async function deleteUserById(req, res) {
-    const document = userRepo.getOneById(req.params.userId);
+    const document = db.collection('users').doc(req.params.userId);
     await document.delete()
         .then(result => {
             return res.status(200).send('The offer was deleted with success !');

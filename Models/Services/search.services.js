@@ -1,5 +1,4 @@
 const db = require('../../utils/firebase');
-const Http_response = require("../../utils/http-response");
 
 module.exports = {
     search
@@ -40,7 +39,7 @@ async function search(req, res) {
     });
 
     if(response.length <= 0){
-        Http_response.HTTP_404(req, res, '', 'Offers')
+        return res.status(404).json({ "code": 404, "message": "No offers were found with these keywords", "reason": "" });
     }
 
     return res.status(200).json(response);

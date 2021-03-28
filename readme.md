@@ -1,5 +1,3 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/95d8c470facc3db31d68/maintainability)](https://codeclimate.com/github/Ganatrade/api/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/95d8c470facc3db31d68/test_coverage)](https://codeclimate.com/github/Ganatrade/api/test_coverage)
 ![Deploy Prod](https://github.com/Ganatrade/api/workflows/Deploy%20Prod/badge.svg?branch=master)
 ![deploy_beta](https://github.com/Ganatrade/api/workflows/deploy_beta/badge.svg?branch=develop)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/Ganatrade/Api)
