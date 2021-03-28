@@ -3,15 +3,15 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const jwt = require('src/utils/jwt');
-const errorHandler = require('src/utils/error-handler');
+const jwt = require('./src/utils/jwt');
+const errorHandler = require('./src/utils/error-handler');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // use JWT auth to secure the api
-app.use(jwt());
+// app.use(jwt());
 
 // api routes
 app.use('/', require ('./src/Controller/global.controller'));
@@ -36,7 +36,9 @@ app.use('/', require('./src/Controller/Filters/offers.controller'));
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? 3000 : 80;
+const port = process.env.NODE_ENV === 'production' ? 3000 : 8080;
 app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
+
+module.exports = app
