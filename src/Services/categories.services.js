@@ -70,8 +70,8 @@ async function updateCategoryById(req, res) {
         .then(result => {
             return res.status(200).send(response);
         })
-        .catch(e => {
-            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+        .catch(error => {
+            Http_response.HTTP_500(req, res, '', error)
         })
 }
 
@@ -87,7 +87,7 @@ async function deleteCategoryById(req, res) {
             return res.status(200).send('The category was deleted with success !');
         })
         .catch(error => {
-            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+            Http_response.HTTP_500(req, res, '', error)
         })
 }
 

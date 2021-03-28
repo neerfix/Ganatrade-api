@@ -117,7 +117,7 @@ async function updateUserById(req, res) {
                 })
         })
         .catch(error => {
-            return res.status(500).json({ "code": error.message, "message": error.message });
+            Http_response.HTTP_500(req, res, '', error)
         })
 }
 
@@ -128,6 +128,6 @@ async function deleteUserById(req, res) {
             return res.status(200).send('The offer was deleted with success !');
         })
         .catch(error => {
-            return res.status(500).json({ "code": 500, "message": "Internal server error", "reason": "An unknown error was occurred", "details": error.message});
+            Http_response.HTTP_500(req, res, '', error)
         })
 }
