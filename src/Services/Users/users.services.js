@@ -1,6 +1,5 @@
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
-const userRepo = require('../../Repository/Users.repository');
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
 };
 
 async function getAllUsers(req, res) {
-    const data = userRepo.getAll;
+    const data = db.collection('users');
     let response = [];
 
     await data.get().then(querySnapshot => {
@@ -26,7 +25,7 @@ async function getAllUsers(req, res) {
 }
 
 async function getOneUserById(req, res) {
-    const document = userRepo.getOneById(req.params.userId);
+    const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
     if(!response){
@@ -80,7 +79,7 @@ async function createNewUser(req, res) {
 }
 
 async function updateUserById(req, res) {
-    const document = userRepo.getOneById(req.params.userId);
+    const document = db.collection('users').doc(req.params.userId);
     let data = (await document.get()).data();
 
     if(!data){
@@ -123,7 +122,7 @@ async function updateUserById(req, res) {
 }
 
 async function deleteUserById(req, res) {
-    const document = userRepo.getOneById(req.params.userId);
+    const document = db.collection('users').doc(req.params.userId);
     await document.delete()
         .then(result => {
             return res.status(200).send('The offer was deleted with success !');
