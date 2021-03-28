@@ -36,7 +36,7 @@ app.use('/', require('./src/Controller/Filters/offers.controller'));
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? 80 : 80;
+const port = process.env.NODE_ENV === 'production' ? 5000 : 80;
 app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
