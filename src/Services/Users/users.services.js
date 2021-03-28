@@ -1,6 +1,7 @@
 const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
 const userRepo = require('../../Repository/Users.repository');
+const Http_response = require("../../utils/http-response");
 
 module.exports = {
     getAllUsers,
@@ -29,7 +30,7 @@ async function getOneUserById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return res.status(404).send({code: 404, message: "User not found"});
+        Http_response.HTTP_404(req, res, '', 'User')
     }
 
     return res.status(200).send(response);
@@ -65,7 +66,7 @@ async function createNewUser(req, res) {
                     let response = (await document.get()).data();
 
                     if(!response){
-                        return res.status(404).send({code: 404, message: "User not found"});
+                        Http_response.HTTP_404(req, res, '', 'User')
                     }
 
                     return res.status(201).send(response);
@@ -74,7 +75,6 @@ async function createNewUser(req, res) {
                 });
         })
         .catch(function(error) {
-            console.error('Error creating new user : ', error.message);
             return res.status(409).send({code: error.code, message: error.message, detail: 'Error creating new user : ' + error.message});
         })
 }
@@ -84,7 +84,7 @@ async function updateUserById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-        return res.status(404).send({code: 404, message: "Offer not found"});
+        Http_response.HTTP_404(req, res, '', 'User')
     }
 
     let response = {

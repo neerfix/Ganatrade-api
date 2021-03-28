@@ -1,4 +1,5 @@
 const db = require('../../utils/firebase');
+const Http_response = require("../../utils/http-response");
 
 module.exports = {
     getAllOffers,
@@ -28,19 +29,19 @@ async function createNewOffer(req, res) {
         user_id: req.body.user_id,
         title: req.body.title,
         product: {
-          name: req.body.product.name,
-          condition: req.body.product.condition
+            name: req.body.product.name,
+            condition: req.body.product.condition
         },
         description: req.body.description ? req.body.description : "",
         pictures: req.body.pictures ? req.body.pictures : "",
         category: req.body.category,
         tags: req.body.tags ? req.body.tags : "",
         trade: {
-          method: req.body.trade.method,
-          target: req.body.trade.target ? req.body.trade.target : "",
-          estimation: req.body.trade.estimation ? req.body.trade.estimation : "",
-          place: req.body.trade.place ? req.body.trade.place : "",
-          radius: req.body.trade.radius ? req.body.trade.radius : "",
+            method: req.body.trade.method,
+            target: req.body.trade.target ? req.body.trade.target : "",
+            estimation: req.body.trade.estimation ? req.body.trade.estimation : "",
+            place: req.body.trade.place ? req.body.trade.place : "",
+            radius: req.body.trade.radius ? req.body.trade.radius : "",
         },
         views: 0,
         saves: 0,
@@ -56,7 +57,7 @@ async function createNewOffer(req, res) {
         let response = (await document.get()).data();
 
         if(!response){
-            return res.status(404).send({code: 404, message: "User not found"});
+            Http_response.HTTP_404(req, res, '', 'Offers')
         }
 
         return res.status(201).send(response);
@@ -71,7 +72,7 @@ async function updateOfferById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-        return res.status(404).send({code: 404, message: "Offer not found"});
+        Http_response.HTTP_404(req, res, '', 'Offers')
     }
 
     let response = {
@@ -111,7 +112,7 @@ async function updateOfferById(req, res) {
 async function deleteOfferById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId);
     if(!document) {
-        return res.status(404).json({ "code": 404, "message": "Offer not found", "reason": "The offer with this id is not found" });
+        Http_response.HTTP_404(req, res, '', 'Offers')
     }
     await document.delete()
         .then(result => {
@@ -127,7 +128,7 @@ async function getOneOfferById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return res.status(404).send({code: 404, message: "Offer not found"});
+        Http_response.HTTP_404(req, res, '', 'Offers')
     }
 
     await db.collection('offers').doc(req.params.offerId).update({

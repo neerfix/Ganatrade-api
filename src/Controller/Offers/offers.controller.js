@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const OffersService = require("../../Services/Offers/offers.services");
+const Http_response = require("../../utils/http-response");
 
 // routes -> /offers/
 
@@ -15,27 +16,27 @@ function getAllCategories(req, res, next) {
 router.post("/", createNewOffer);
 function createNewOffer(req, res, next) {
     if(!req.body.user_id) {
-        return res.status(404).json({ "code": 400, "message": "user_id required", "reason": "The user_id is required" });
+        Http_response.HTTP_400(req, res, next, 'user_id')
     }
 
     if(!req.body.title) {
-        return res.status(404).json({ "code": 400, "message": "title required", "reason": "The title is required" });
+        Http_response.HTTP_400(req, res, next, 'title')
     }
 
     if(!req.body.product.name) {
-        return res.status(404).json({ "code": 400, "message": "name required", "reason": "The name is required" });
+        Http_response.HTTP_400(req, res, next, 'name')
     }
 
     if(!req.body.product.condition) {
-        return res.status(404).json({ "code": 400, "message": "condition required", "reason": "The condition is required" });
+        Http_response.HTTP_400(req, res, next, 'condition')
     }
 
     if(!req.body.category) {
-        return res.status(404).json({ "code": 400, "message": "category required", "reason": "The category is required" });
+        Http_response.HTTP_400(req, res, next, 'category')
     }
 
     if(!req.body.trade.method) {
-        return res.status(404).json({ "code": 400, "message": "method required", "reason": "The method is required" });
+        Http_response.HTTP_400(req, res, next, 'method')
     }
 
     //TODO Create model in Models folder and pass params in call models

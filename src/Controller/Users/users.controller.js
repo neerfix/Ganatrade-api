@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userService = require("../../Services/Users/users.services");
+const Http_response = require('../../utils/http-response');
 
 // routes -> /users/
 
@@ -15,19 +16,19 @@ function getAllUsers(req, res, next) {
 router.post("/", createNewUser);
 function createNewUser(req, res, next) {
     if(!req.body.email){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "email is required" });
+        Http_response.HTTP_400(req, res, next, 'email')
     }
 
     if(!req.body.firstname){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "firstname is required" });
+        Http_response.HTTP_400(req, res, next, 'firstname')
     }
 
     if(!req.body.lastname){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "lastname is required" });
+        Http_response.HTTP_400(req, res, next, 'lastname')
     }
 
     if(!req.body.password){
-        return res.status(400).send({ "code": 400, "message": "Bad request", "reason": "password is required" });
+        Http_response.HTTP_400(req, res, next, 'password')
     }
 
     userService

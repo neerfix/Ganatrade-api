@@ -1,4 +1,5 @@
 const db = require('../../utils/firebase');
+const Http_response = require("../../utils/http-response");
 
 module.exports = {
     getAllReviews,
@@ -47,7 +48,7 @@ async function updateReviewById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-        return res.status(404).send({code: 404, message: "following not found"});
+        Http_response.HTTP_404(req, res, '', 'Review')
     }
 
     let response = {
@@ -73,7 +74,7 @@ async function deleteReviewById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection('reviews').doc(req.params.reviewId);
 
     if(!document) {
-        return res.status(404).json({ "code": 404, "message": "Trade not found", "reason": "The trade with this id or with this userId is not found" });
+        Http_response.HTTP_404(req, res, '', 'Review')
     }
 
     await document.delete()
@@ -90,7 +91,7 @@ async function getOneReviewById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Review not found"}
+        Http_response.HTTP_404(req, res, '', 'Review')
     }
 
     return res.status(200).send(response);

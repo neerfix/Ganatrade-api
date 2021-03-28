@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const FollowingService = require("../../Services/Users/followings.services");
+const Http_response = require("../../utils/http-response");
 
 // routes -> /users
 
@@ -15,11 +16,11 @@ function getAllFollowings(req, res, next) {
 router.post("/:userId/followings/", createNewFollowing);
 function createNewFollowing(req, res, next) {
     if(!req.body.user_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "user_id is required" });
+        Http_response.HTTP_400(req, res, next, 'user_id')
     }
 
     if(!req.body.offer_id && !req.body.category_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "category_id or offer_id is required" });
+        Http_response.HTTP_400(req, res, next, 'offer_id')
     }
 
     FollowingService

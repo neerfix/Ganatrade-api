@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const tradeService = require("../../Services/Offers/trades.services");
+const Http_response = require("../../utils/http-response");
 
 // routes /offers/
 
@@ -15,15 +16,15 @@ function getAllTrades(req, res, next) {
 router.post("/:offerId/trades/", createNewTrade);
 function createNewTrade(req, res, next) {
     if(!req.body.trader_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "trader_id is required" });
+        Http_response.HTTP_400(req, res, next, 'trader_id')
     }
 
     if(!req.body.buyer_id){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "buyer_id is required" });
+        Http_response.HTTP_400(req, res, next, 'buyer_id')
     }
 
     if(!req.body.type){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "type is required" });
+        Http_response.HTTP_400(req, res, next, 'type')
     }
 
     tradeService
