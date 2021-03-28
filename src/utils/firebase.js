@@ -5,9 +5,6 @@ if(process.env.NODE_ENV !== 'production'){
     serviceAccount = require('../config/serviceAccount.json');
 }
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.DATABASE_URL
-});
+admin.initializeApp(serviceAccount);
 
 module.exports = admin.firestore();
