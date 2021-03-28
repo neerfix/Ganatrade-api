@@ -27,6 +27,7 @@
     "express-jwt": "^6.0.0",
     "firebase": "^8.1.1",
     "firebase-admin": "^9.4.1",
+    "firestore-jest-mock": "^0.10.0",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.6",
     "rootpath": "^0.1.2",
