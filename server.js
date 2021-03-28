@@ -10,7 +10,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+<<<<<<< Updated upstream
 // use JWT auth to secure the api TODO REACTIVE IT
+=======
+// use JWT auth to secure the api
+>>>>>>> Stashed changes
 // app.use(jwt());
 
 // api routes
@@ -36,7 +40,7 @@ app.use('/', require('./Models/Controller/Filters/offers.controller'));
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? 8888 : 8080;
+const port = process.env.NODE_ENV === 'production' ? 80 : 80;
 app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
