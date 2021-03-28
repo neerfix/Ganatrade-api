@@ -1,4 +1,5 @@
 const db = require('../../utils/firebase');
+const Http_response = require("../../utils/http-response");
 
 module.exports = {
     getAllFollowings,
@@ -40,7 +41,7 @@ async function createNewFollowing(req, res) {
         let response = (await document.get()).data();
 
         if(!response){
-            return res.status(404).send({code: 404, message: "Following not found"});
+            Http_response.HTTP_404(req, res, '', 'Following')
         }
 
         return res.status(201).json(response);
@@ -54,7 +55,7 @@ async function updateFollowingById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-        return res.status(404).send({code: 404, message: "following not found"});
+        Http_response.HTTP_404(req, res, '', 'Following')
     }
 
     let response = {
@@ -78,7 +79,7 @@ async function deleteFollowingById(req, res) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
 
     if(!document) {
-        return res.status(404).json({ "code": 404, "message": "Trade not found", "reason": "The following with this id or with this userId is not found" });
+        Http_response.HTTP_404(req, res, '', 'Following')
     }
 
     await document.delete()
@@ -95,7 +96,7 @@ async function getOneFollowingById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return res.status(404).send({code: 404, message: "Following not found"});
+        Http_response.HTTP_404(req, res, '', 'Following')
     }
 
     return res.status(200).send(response);

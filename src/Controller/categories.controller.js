@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const CategoryService = require("../Services/categories.services");
+const Http_response = require("../utils/http-response");
 
 // routes -> /categories/
 
@@ -16,7 +17,7 @@ router.post("/", createNewCategory);
 function createNewCategory(req, res, next) {
 
     if(!req.body.title){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "title is required" });
+        Http_response.HTTP_400(req, res, next, 'title')
     }
 
     CategoryService

@@ -1,5 +1,6 @@
 const db = require('../../utils/firebase');
 const C = require('../../utils/Constant');
+const Http_response = require("../../utils/http-response");
 
 module.exports = {
     getAllTrades,
@@ -53,7 +54,7 @@ async function updateTradeById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-        return res.status(404).send({code: 404, message: "following not found"});
+        Http_response.HTTP_404(req, res, '', 'Trade')
     }
 
     let response = {
@@ -81,7 +82,7 @@ async function deleteTradeById(req, res) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
 
     if(!document) {
-        return res.status(404).json({ "code": 404, "message": "Trade not found", "reason": "The trade with this id or with this offerId is not found" });
+        Http_response.HTTP_404(req, res, '', 'Trade')
     }
 
     await document.delete()
@@ -98,7 +99,7 @@ async function getOneTradeById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Trade not found"}
+        Http_response.HTTP_404(req, res, '', 'Trade')
     }
 
     return res.status(200).send(response);
@@ -114,11 +115,7 @@ async function acceptTrade(req, res) {
             return res.status(200).send(result);
         })
         .catch(error => {
-            return res.status(404).json({
-                "code": 404,
-                "message": "Trade not found",
-                "reason": "The trade with this id or with this offerId is not found"
-            });
+            Http_response.HTTP_404(req, res, '', 'Trade')
         })
 }
 
@@ -132,10 +129,6 @@ async function refuseTrade(req, res) {
             return res.status(200).send(result);
         })
         .catch(error => {
-            return res.status(404).json({
-                "code": 404,
-                "message": "Trade not found",
-                "reason": "The trade with this id or with this offerId is not found"
-            });
+            Http_response.HTTP_404(req, res, '', 'Trade')
         })
 }

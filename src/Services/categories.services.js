@@ -1,4 +1,5 @@
 const db = require('../utils/firebase');
+const Http_response = require("../utils/http-response");
 
 module.exports = {
     getAllCategories,
@@ -52,7 +53,7 @@ async function updateCategoryById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-        return res.status(404).send({code: 404, message: "following not found"});
+        Http_response.HTTP_404(req, res, '', 'Category')
     }
 
     let response = {
@@ -78,7 +79,7 @@ async function deleteCategoryById(req, res) {
     const document = db.collection('categories').doc(req.params.categoryId);
 
     if(!document) {
-        return res.status(404).json({ "code": 404, "message": "Category not found", "reason": "The category with this id is not found" });
+        Http_response.HTTP_404(req, res, '', 'Category')
     }
 
     await document.delete()
@@ -95,7 +96,7 @@ async function getOneCategoryById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Following not found"}
+        Http_response.HTTP_404(req, res, '', 'Category')
     }
 
     return res.status(200).send(response);
