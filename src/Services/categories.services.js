@@ -1,4 +1,5 @@
-const db = require('../../utils/firebase');
+const db = require('../utils/firebase');
+const Http_response = require("../utils/http-response");
 
 module.exports = {
     getAllCategories,
@@ -9,22 +10,22 @@ module.exports = {
 };
 
 async function getAllCategories(req, res) {
+
     let response = [];
+
     await db.collection('categories')
-    .get()
+        .get()
         .then(querySnapshot => {
-        let docs = querySnapshot.docs;
+            let docs = querySnapshot.docs;
             for (let doc of docs) {
                 response.push(doc.data());
             }
         });
+
     return res.status(200).send(response);
 }
 
 async function createNewCategory(req, res) {
-    if(!req.body.title){
-        return res.status(400).json({ "code": 400, "message": "Bad request", "reason": "title is required" });
-    }
 
     await db.collection('categories').add({
         title: req.body.title,
@@ -35,10 +36,13 @@ async function createNewCategory(req, res) {
         created_at: new Date(Date.now()),
         updated_at: new Date(Date.now())
     }).then(result =>{
+
         db.collection('categories').doc(result.id).update({
             id: result.id
         });
+
         return res.status(202).send(' Successfully created a new category : ' + result.id + " => " + req.body.title);
+
     }).catch(e => {
         return res.status(409).json({ e });
     });
@@ -49,7 +53,7 @@ async function updateCategoryById(req, res) {
     let data = (await document.get()).data();
 
     if(!data){
-    return res.status(404).send({code: 404, message: "following not found"});
+        Http_response.HTTP_404(req, res, '', 'Category')
     }
 
     let response = {
@@ -73,9 +77,11 @@ async function updateCategoryById(req, res) {
 
 async function deleteCategoryById(req, res) {
     const document = db.collection('categories').doc(req.params.categoryId);
+
     if(!document) {
-        return res.status(404).json({ "code": 404, "message": "Category not found", "reason": "The category with this id is not found" });
+        Http_response.HTTP_404(req, res, '', 'Category')
     }
+
     await document.delete()
         .then(result => {
             return res.status(200).send('The category was deleted with success !');
@@ -90,7 +96,7 @@ async function getOneCategoryById(req, res) {
     let response = (await document.get()).data();
 
     if(!response){
-        return {code: 404, message: "Following not found"}
+        Http_response.HTTP_404(req, res, '', 'Category')
     }
 
     return res.status(200).send(response);
