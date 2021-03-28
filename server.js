@@ -10,17 +10,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-// use JWT auth to secure the api TODO REACTIVE IT
-=======
-// use JWT auth to secure the api
->>>>>>> Stashed changes
 // app.use(jwt());
-=======
 // use JWT auth to secure the api
-app.use(jwt());
->>>>>>> 19af0bde9b409ec2cde89f6dc213f10dfe55bc30
 
 // api routes
 app.use('/', require ('./src/Controller/global.controller'));
