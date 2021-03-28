@@ -1,5 +1,5 @@
 const expressJwt = require('express-jwt');
-const config = require('../../config');
+const config = require('config.json');
 
 module.exports = jwt;
 
@@ -9,6 +9,7 @@ function jwt() {
         path: [
             // public routes that don't require authentication
             '/',
+            '/users/authenticate',
         ]
     });
 }
