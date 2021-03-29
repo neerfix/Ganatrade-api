@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/ganatrade/api/compare/v1.0.0...v1.1.0) (2021-03-29)
+
+
+### Bug Fixes
+
+* all problem ([285d255](https://github.com/ganatrade/api/commit/285d25552b87e780588b7c637efbf0c74fe47cb5))
+* conflict ([d3b51dc](https://github.com/ganatrade/api/commit/d3b51dc1e5fe856f625d81bc24058e4d8ac509ca))
+* conflict ([cf6261d](https://github.com/ganatrade/api/commit/cf6261d216af88f0022a45b85d60f9a430beacc1))
+* data.get is not function is fixed ([f466946](https://github.com/ganatrade/api/commit/f466946f2763d6c90d4261d4414832357f4542fe))
+* firebase? ([c877f13](https://github.com/ganatrade/api/commit/c877f139aa86808cec81cdaf1d6e9ea2140f2fd3))
+* firebase? ([c34d880](https://github.com/ganatrade/api/commit/c34d880b6fa1bc0d8ca94810542a258473b35fa1))
+* firebase? ([331161f](https://github.com/ganatrade/api/commit/331161f91f44ac7a1b9a256ab563be6b1a97651c))
+* mierda ([6fd774d](https://github.com/ganatrade/api/commit/6fd774d279a24d0adfaa32190a1cbca39100dcc3))
+* remove babel ([934db34](https://github.com/ganatrade/api/commit/934db34a784ca8ae4f2d7d45d94873f8c26fb298))
+* service account ([dfd6fd1](https://github.com/ganatrade/api/commit/dfd6fd158bcab3d9d6b1ee84802435b086a0bd18))
+
 ## [1.0.0](https://github.com/ganatrade/api/compare/v0.5.1...v1.0.0) (2020-12-19)
 
 
