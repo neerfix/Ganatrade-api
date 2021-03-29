@@ -17,4 +17,9 @@ const db = admin.firestore();
 
 routes.crud(app, db);
 
+exports.api = (req, res) => {
+    console.log('I am a log entry!');
+    console.error('I am an error!');
+    res.end();
+}
 exports.api = functions.https.onRequest(app);
