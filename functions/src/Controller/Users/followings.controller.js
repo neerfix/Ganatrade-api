@@ -1,56 +1,44 @@
-const express = require("express");
-const router = express.Router();
 const FollowingService = require("../../Services/Users/followings.services");
 const Http_response = require("../../utils/http-response");
 
 // routes -> /users
+module.exports = {
+    getAllFollowings:(req, res,  db) => {
+        FollowingService
+            .getAllFollowings(req, res, db)
+            .then((followings) => res.status(200).send(followings))
+            .catch((err) => err);
+    },
+    createNewFollowing: (req, res,  db) => {
+        if(!req.body.user_id){
+            Http_response.HTTP_400(req, res,  'user_id')
+        }
 
-router.get("/:userId/followings/", getAllFollowings);
-function getAllFollowings(req, res, next) {
-    FollowingService
-        .getAllFollowings(req, res)
-        .then((followings) => res.status(200).send(followings))
-        .catch((err) => next(err));
-}
+        if(!req.body.offer_id && !req.body.category_id){
+            Http_response.HTTP_400(req, res,  'offer_id')
+        }
 
-router.post("/:userId/followings/", createNewFollowing);
-function createNewFollowing(req, res, next) {
-    if(!req.body.user_id){
-        Http_response.HTTP_400(req, res, next, 'user_id')
+        FollowingService
+            .createNewFollowing(req, res, db)
+            .then((following) => res.status(200).send(following))
+            .catch((err) => err);
+    },
+    updateFollowingById: (req, res,  db) => {
+        FollowingService
+            .updateFollowingById(req, res, db)
+            .then((following) => res.status(200).send(following))
+            .catch((err) => err);
+    },
+    deleteFollowingById: (req, res,  db) => {
+        FollowingService
+            .deleteFollowingById(req, res, db)
+            .then((following) => res.status(200).send(following))
+            .catch((err) => err);
+    },
+    getOneFollowingById: (req, res,  db) => {
+        FollowingService
+            .getOneFollowingById(req, res, db)
+            .then((following) => res.status(200).send(following))
+            .catch((err) => err);
     }
-
-    if(!req.body.offer_id && !req.body.category_id){
-        Http_response.HTTP_400(req, res, next, 'offer_id')
-    }
-
-    FollowingService
-        .createNewFollowing(req, res)
-        .then((following) => res.status(200).send(following))
-        .catch((err) => next(err));
 }
-
-router.patch("/:userId/followings/:followingId", updateFollowingById);
-function updateFollowingById(req, res, next) {
-    FollowingService
-        .updateFollowingById(req, res)
-        .then((following) => res.status(200).send(following))
-        .catch((err) => next(err));
-}
-
-router.delete("/:userId/followings/:followingId", deleteFollowingById);
-function deleteFollowingById(req, res, next) {
-    FollowingService
-        .deleteFollowingById(req, res)
-        .then((following) => res.status(200).send(following))
-        .catch((err) => next(err));
-}
-
-router.get("/:userId/followings/:followingId", getOneFollowingById);
-function getOneFollowingById(req, res, next) {
-    FollowingService
-        .getOneFollowingById(req, res)
-        .then((following) => res.status(200).send(following))
-        .catch((err) => next(err));
-}
-
-module.exports = router;

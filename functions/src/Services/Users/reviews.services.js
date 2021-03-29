@@ -1,4 +1,3 @@
-const db = require('../../utils/firebase');
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
     deleteReviewById
 };
 
-async function getAllReviews(req, res) {
+async function getAllReviews(req, res, db) {
     const data = db.collection('users').doc(req.params.userId).collection('reviews');
     let response = [];
 
@@ -23,7 +22,7 @@ async function getAllReviews(req, res) {
     return res.status(200).send(response);
 }
 
-async function createNewReview(req, res) {
+async function createNewReview(req, res, db) {
     await db.collection('users').doc(req.params.userId).collection('reviews').add({
         content: req.body.trader_id,
         author_id: req.body.author_id,
@@ -43,7 +42,7 @@ async function createNewReview(req, res) {
     });
 }
 
-async function updateReviewById(req, res) {
+async function updateReviewById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection("reviews").doc(req.params.reviewId);
     let data = (await document.get()).data();
 
@@ -70,7 +69,7 @@ async function updateReviewById(req, res) {
         })
 }
 
-async function deleteReviewById(req, res) {
+async function deleteReviewById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection('reviews').doc(req.params.reviewId);
 
     if(!document) {
@@ -86,7 +85,7 @@ async function deleteReviewById(req, res) {
         })
 }
 
-async function getOneReviewById(req, res) {
+async function getOneReviewById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection("reviews").doc(req.params.reviewId);
     let response = (await document.get()).data();
 

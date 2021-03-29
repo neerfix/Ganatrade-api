@@ -1,8 +1,9 @@
 const categories = require("../src/Controller/categories.controller");
 const offers = require("../src/Controller/Offers/offers.controller");
 const trades = require("../src/Controller/Offers/trades.controller");
-const users = require("../src/Controller/User.controller");
+const users = require("../src/Controller/Users/users.controller");
 const reviews = require("../src/Controller/Users/reviews.controller");
+const followings = require("../src/Controller/Users/followings.controller");
 const global = require("../src/Controller/global.controller");
 const search = require("../src/Controller/Filters/search.controller");
 const filters = require("../src/Controller/Filters/offers.controller");
@@ -21,33 +22,33 @@ module.exports = {
                 users.getAllUsers(req, res, db)
             })
             .get("/users/:userId", (req, res) => {
-                users.getOneCategoryById(req, res, db)
+                users.getOneUserById(req, res, db)
             })
             .post("/users/:userId", (req, res) => {
-                users.createNewCategory(req, res, db)
+                users.createNewUser(req, res, db)
             })
             .patch("/users/:userId", (req, res) => {
-                users.updateCategoryById(req, res, db)
+                users.updateUserById(req, res, db)
             })
             .delete("/users/:userId", (req, res) => {
-                users.deleteCategoryById(req, res, db)
+                users.deleteUserById(req, res, db)
             })
 
             // Followings
-            .get("/users/", (req, res) => {
-                users.getAllUsers(req, res, db)
+            .get("/users/:userId/followings", (req, res) => {
+                followings.getAllFollowings(req, res, db)
             })
-            .get("/users/:userId", (req, res) => {
-                users.getOneCategoryById(req, res, db)
+            .get("/users/:userId/followings/:followingId", (req, res) => {
+                followings.getOneFollowingById(req, res, db)
             })
-            .post("/users/:userId", (req, res) => {
-                users.createNewCategory(req, res, db)
+            .post("/users/:userId/followings", (req, res) => {
+                followings.createNewFollowing(req, res, db)
             })
-            .patch("/users/:userId", (req, res) => {
-                users.updateCategoryById(req, res, db)
+            .patch("/users/:userId/followings/:followingId", (req, res) => {
+                followings.updateFollowingById(req, res, db)
             })
-            .delete("/users/:userId", (req, res) => {
-                users.deleteCategoryById(req, res, db)
+            .delete("/users/:userId/followings/:followingId", (req, res) => {
+                followings.deleteFollowingById(req, res, db)
             })
 
             // Reviews

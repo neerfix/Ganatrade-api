@@ -3,59 +3,58 @@ const Http_response = require("../../utils/http-response");
 
 // routes -> /offers/
 module.exports = {
-    getAllOffers: (req, res, next) => {
+    getAllOffers: (req, res,  db) => {
         OffersService
-            .getAllOffers(req, res)
+            .getAllOffers(req, res, db)
             .then((offers) => res.status(200).send(offers))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    createNewOffer: (req, res, next) => {
+    createNewOffer: (req, res,  db) => {
         if(!req.body.user_id) {
-            Http_response.HTTP_400(req, res, next, 'user_id')
+            Http_response.HTTP_400(req, res,  'user_id')
         }
 
         if(!req.body.title) {
-            Http_response.HTTP_400(req, res, next, 'title')
+            Http_response.HTTP_400(req, res,  'title')
         }
 
         if(!req.body.product.name) {
-            Http_response.HTTP_400(req, res, next, 'name')
+            Http_response.HTTP_400(req, res,  'name')
         }
 
         if(!req.body.product.condition) {
-            Http_response.HTTP_400(req, res, next, 'condition')
+            Http_response.HTTP_400(req, res,  'condition')
         }
 
         if(!req.body.category) {
-            Http_response.HTTP_400(req, res, next, 'category')
+            Http_response.HTTP_400(req, res,  'category')
         }
 
         if(!req.body.trade.method) {
-            Http_response.HTTP_400(req, res, next, 'method')
+            Http_response.HTTP_400(req, res,  'method')
         }
 
-        //TODO Create model in Models folder and pass params in call models
         OffersService
-            .createNewOffer(req, res)
+            .createNewOffer(req, res, db)
             .then((offer) => res.status(200).send(offer))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    updateOfferById: (req, res, next) => {
+    updateOfferById: (req, res,  db) => {
         OffersService
-            .updateOfferById(req, res)
+            .updateOfferById(req, res, db)
             .then((offer) => res.status(200).send(offer))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    deleteOfferById: (req, res, next) => {
+    deleteOfferById: (req, res,  db) => {
         OffersService
-            .deleteOfferById(req, res)
+            .deleteOfferById(req, res, db)
             .then((offer) => res.status(200).send(offer))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    getOneOfferById: (req, res, next) => {
+    getOneOfferById: (req, res,  db) => {
         OffersService
-            .getOneOfferById(req, res)
+            .getOneOfferById(req, res, db)
             .then((offer) => res.status(200).send(offer))
-            .catch((err) => next(err));
+            .catch((err) => err);
     }
 }

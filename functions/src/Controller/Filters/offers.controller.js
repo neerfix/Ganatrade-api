@@ -1,16 +1,16 @@
 const FollowingService = require("../../Services/Filters/offers.services");
 
 module.exports = {
-    getAllOffersByUser: (req, res, next) => {
+    getAllOffersByUser: (req, res, db) => {
         FollowingService
-            .getAllOffersByUser(req, res)
+            .getAllOffersByUser(req, res, db)
             .then((following) => res.status(200).send(following))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    getAllOffersByCategory: (req, res, next) => {
+    getAllOffersByCategory: (req, res, db) => {
         FollowingService
-            .getAllOffersByCategory(req, res)
+            .getAllOffersByCategory(req, res, db)
             .then((following) => res.status(200).send(following))
-            .catch((err) => next(err));
+            .catch((err) => err);
     }
 }

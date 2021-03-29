@@ -2,11 +2,11 @@ const searchService = require("../../Services/Filters/search.services");
 
 // routes -> /search
 module.exports = {
-    search: (req, res, next) =>
+    search: (req, res, db) =>
     {
         searchService
-            .search(req, res)
+            .search(req, res, db)
             .then((users) => res.status(200).send(users))
-            .catch((err) => next(err));
+            .catch((err) => err);
     }
 }

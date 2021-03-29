@@ -13,14 +13,14 @@ function HTTP_200 (req, res, next) {
     return res.status
 }
 
-function HTTP_400 (req, res, next, field) {
+function HTTP_400 (req, res,  field) {
     errorMessage(res, 400, "Bad request", field + " is required")
 }
 
-function HTTP_404 (req, res, next, items, message) {
+function HTTP_404 (req, res,  items, message) {
     errorMessage(res, 404, "Not Found", items + " not found", message)
 }
 
-function HTTP_500 (req, res, next, error) {
+function HTTP_500 (req, res,  error) {
     return res.status(400).send({ "code": 500, "message": "Internal server error", "reason": error.message });
 }

@@ -4,50 +4,50 @@ const Http_response = require('../../utils/http-response');
 // routes -> /users/
 module.exports = {
 
-    getAllUsers: (req, res, next) => {
+    getAllUsers: (req, res,  db) => {
         userService
-            .getAllUsers(req, res)
+            .getAllUsers(req, res, db)
             .then((users) => res.send(users))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    createNewUser: (req, res, next) => {
+    createNewUser: (req, res,  db) => {
         if(!req.body.email){
-            Http_response.HTTP_400(req, res, next, 'email')
+            Http_response.HTTP_400(req, res,  'email')
         }
 
         if(!req.body.firstname){
-            Http_response.HTTP_400(req, res, next, 'firstname')
+            Http_response.HTTP_400(req, res,  'firstname')
         }
 
         if(!req.body.lastname){
-            Http_response.HTTP_400(req, res, next, 'lastname')
+            Http_response.HTTP_400(req, res,  'lastname')
         }
 
         if(!req.body.password){
-            Http_response.HTTP_400(req, res, next, 'password')
+            Http_response.HTTP_400(req, res,  'password')
         }
 
         userService
-            .createNewUser(req, res)
+            .createNewUser(req, res, db)
             .then((users) => res.status(200).send(users))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    updateUserById: (req, res, next) => {
+    updateUserById: (req, res,  db) => {
         userService
-            .updateUserById(req, res)
+            .updateUserById(req, res, db)
             .then((user) => res.send(user))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    deleteUserById: (req, res, next) => {
+    deleteUserById: (req, res,  db) => {
         userService
-            .deleteUserById(req, res)
+            .deleteUserById(req, res, db)
             .then((user) => res.send(user))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    getOneUserById: (req, res, next) => {
+    getOneUserById: (req, res,  db) => {
         userService
-            .getOneUserById(req, res)
+            .getOneUserById(req, res, db)
             .then((user) => res.send(user))
-            .catch((err) => next(err));
+            .catch((err) => err);
     }
 }

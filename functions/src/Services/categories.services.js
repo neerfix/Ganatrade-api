@@ -1,4 +1,3 @@
-const db = require('../utils/firebase');
 const Http_response = require("../utils/http-response");
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
     deleteCategoryById
 };
 
-async function getAllCategories(req, res) {
+async function getAllCategories(req, res, db) {
 
     let response = [];
 
@@ -25,7 +24,7 @@ async function getAllCategories(req, res) {
     return res.status(200).send(response);
 }
 
-async function createNewCategory(req, res) {
+async function createNewCategory(req, res, db) {
 
     await db.collection('categories').add({
         title: req.body.title,
@@ -48,7 +47,7 @@ async function createNewCategory(req, res) {
     });
 }
 
-async function updateCategoryById(req, res) {
+async function updateCategoryById(req, res, db) {
     const document = db.collection('categories').doc(req.params.categoryId);
     let data = (await document.get()).data();
 
@@ -75,7 +74,7 @@ async function updateCategoryById(req, res) {
         })
 }
 
-async function deleteCategoryById(req, res) {
+async function deleteCategoryById(req, res, db) {
     const document = db.collection('categories').doc(req.params.categoryId);
 
     if(!document) {
@@ -91,7 +90,7 @@ async function deleteCategoryById(req, res) {
         })
 }
 
-async function getOneCategoryById(req, res) {
+async function getOneCategoryById(req, res, db) {
     const document = db.collection('categories').doc(req.params.categoryId);
     let response = (await document.get()).data();
 

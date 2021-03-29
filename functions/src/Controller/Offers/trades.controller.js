@@ -2,58 +2,58 @@ const tradeService = require("../../Services/Offers/trades.services");
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
-    getAllTrades: (req, res, next) => {
+    getAllTrades: (req, res,  db) => {
         tradeService
-            .getAllTrades(req, res)
+            .getAllTrades(req, res, db)
             .then((trades) => res.status(200).send(trades))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    createNewTrade: (req, res, next) => {
+    createNewTrade: (req, res,  db) => {
         if (!req.body.trader_id) {
-            Http_response.HTTP_400(req, res, next, 'trader_id')
+            Http_response.HTTP_400(req, res,  'trader_id')
         }
 
         if (!req.body.buyer_id) {
-            Http_response.HTTP_400(req, res, next, 'buyer_id')
+            Http_response.HTTP_400(req, res,  'buyer_id')
         }
 
         if (!req.body.type) {
-            Http_response.HTTP_400(req, res, next, 'type')
+            Http_response.HTTP_400(req, res,  'type')
         }
 
         tradeService
-            .createNewTrade(req, res)
+            .createNewTrade(req, res, db)
             .then((trade) => res.status(200).send(trade))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    updateTradeById: (req, res, next) => {
+    updateTradeById: (req, res,  db) => {
         tradeService
-            .updateTradeById(req, res)
+            .updateTradeById(req, res, db)
             .then((trade) => res.status(200).send(trade))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    deleteTradeById: (req, res, next) => {
+    deleteTradeById: (req, res,  db) => {
         tradeService
-            .deleteTradeById(req, res)
+            .deleteTradeById(req, res, db)
             .then((trade) => res.status(200).send(trade))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    getOneTradeById: (req, res, next) => {
+    getOneTradeById: (req, res,  db) => {
         tradeService
-            .getOneTradeById(req, res)
+            .getOneTradeById(req, res, db)
             .then((trade) => res.status(200).send(trade))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    acceptTrade: (req, res, next) => {
+    acceptTrade: (req, res,  db) => {
         tradeService
-            .acceptTrade(req, res)
+            .acceptTrade(req, res, db)
             .then((trade) => res.status(200).send(trade))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    refuseTrade: (req, res, next) => {
+    refuseTrade: (req, res,  db) => {
         tradeService
-            .refuseTrade(req, res)
+            .refuseTrade(req, res, db)
             .then((trade) => res.status(200).send(trade))
-            .catch((err) => next(err));
+            .catch((err) => err);
     }
 }

@@ -1,4 +1,3 @@
-const db = require('../../utils/firebase');
 const C = require('../../utils/Constant');
 const Http_response = require("../../utils/http-response");
 
@@ -12,7 +11,7 @@ module.exports = {
     acceptTrade
 };
 
-async function getAllTrades(req, res) {
+async function getAllTrades(req, res, db) {
     const data = db.collection('offers').doc(req.params.offerId).collection('trades');
 
     let response = [];
@@ -27,7 +26,7 @@ async function getAllTrades(req, res) {
     return res.status(200).send(response);
 }
 
-async function createNewTrade(req, res) {
+async function createNewTrade(req, res, db) {
     await db.collection('offers').doc(req.params.offerId).collection('trades').add({
         trader_id: req.body.trader_id,
         buyer_id: req.body.buyer_id,
@@ -49,7 +48,7 @@ async function createNewTrade(req, res) {
     });
 }
 
-async function updateTradeById(req, res) {
+async function updateTradeById(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
     let data = (await document.get()).data();
 
@@ -78,7 +77,7 @@ async function updateTradeById(req, res) {
         })
 }
 
-async function deleteTradeById(req, res) {
+async function deleteTradeById(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
 
     if(!document) {
@@ -94,7 +93,7 @@ async function deleteTradeById(req, res) {
         })
 }
 
-async function getOneTradeById(req, res) {
+async function getOneTradeById(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
     let response = (await document.get()).data();
 
@@ -105,7 +104,7 @@ async function getOneTradeById(req, res) {
     return res.status(200).send(response);
 }
 
-async function acceptTrade(req, res) {
+async function acceptTrade(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
 
     await document.update({
@@ -119,7 +118,7 @@ async function acceptTrade(req, res) {
         })
 }
 
-async function refuseTrade(req, res) {
+async function refuseTrade(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId).collection('trades').doc(req.params.tradeId);
 
     await document.update({

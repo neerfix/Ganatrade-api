@@ -1,4 +1,3 @@
-const db = require('../../utils/firebase');
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
@@ -6,7 +5,7 @@ module.exports = {
     getAllOffersByCategory
 };
 
-async function getAllOffersByUser(req, res) {
+async function getAllOffersByUser(req, res, db) {
     const offers = db.collection('offers');
 
     let response = [];
@@ -26,7 +25,7 @@ async function getAllOffersByUser(req, res) {
     return res.status(200).json(response);
 }
 
-async function getAllOffersByCategory(req, res) {
+async function getAllOffersByCategory(req, res, db) {
     const offers = db.collection('offers');
 
     let response = [];

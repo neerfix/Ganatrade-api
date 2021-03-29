@@ -3,38 +3,38 @@ const Http_response = require("../utils/http-response");
 
 // routes -> /categories/
 module.exports = {
-    getAllCategories: (req, res, next) => {
+    getAllCategories: (req, res,  db) => {
         CategoryService
-            .getAllCategories(req, res)
+            .getAllCategories(req, res, db)
             .then((categories) => res.status(200).send(categories))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    createNewCategory: (req, res, next) => {
+    createNewCategory: (req, res,  db) => {
         if(!req.body.title){
-            Http_response.HTTP_400(req, res, next, 'title')
+            Http_response.HTTP_400(req, res,  'title')
         }
 
         CategoryService
-            .createNewCategory(req, res)
+            .createNewCategory(req, res, db)
             .then((category) => res.status(200).send(category))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    updateCategoryById: (req, res, next) => {
+    updateCategoryById: (req, res,  db) => {
         CategoryService
-            .updateCategoryById(req, res)
+            .updateCategoryById(req, res, db)
             .then((category) => res.status(200).send(category))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    deleteCategoryById: (req, res, next) => {
+    deleteCategoryById: (req, res,  db) => {
         CategoryService
-            .deleteCategoryById(req, res)
+            .deleteCategoryById(req, res, db)
             .then((category) => res.status(200).send(category))
-            .catch((err) => next(err));
+            .catch((err) => err);
     },
-    getOneCategoryById: (req, res, next) => {
+    getOneCategoryById: (req, res,  db) => {
         CategoryService
-            .getOneCategoryById(req, res)
+            .getOneCategoryById(req, res, db)
             .then((category) => res.status(200).send(category))
-            .catch((err) => next(err));
+            .catch((err) => err);
     }
 }

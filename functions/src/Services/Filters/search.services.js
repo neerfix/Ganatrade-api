@@ -1,11 +1,10 @@
-const db = require('../../utils/firebase');
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
     search
 };
 
-async function search(req, res) {
+async function search(req, res, db) {
     const regex = /[a-zA-Z]+./gm;
     const str = req.query.q
     let m;

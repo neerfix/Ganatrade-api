@@ -1,4 +1,3 @@
-const db = require('../../utils/firebase');
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
     deleteOfferById
 };
 
-async function getAllOffers(req, res) {
+async function getAllOffers(req, res, db) {
     const data = db.collection('offers');
 
     let response = [];
@@ -24,7 +23,7 @@ async function getAllOffers(req, res) {
     return res.status(200).send(response);
 }
 
-async function createNewOffer(req, res) {
+async function createNewOffer(req, res, db) {
     await db.collection('offers').add({
         user_id: req.body.user_id,
         title: req.body.title,
@@ -67,7 +66,7 @@ async function createNewOffer(req, res) {
     });
 }
 
-async function updateOfferById(req, res) {
+async function updateOfferById(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId);
     let data = (await document.get()).data();
 
@@ -109,7 +108,7 @@ async function updateOfferById(req, res) {
         })
 }
 
-async function deleteOfferById(req, res) {
+async function deleteOfferById(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId);
     if(!document) {
         Http_response.HTTP_404(req, res, '', 'Offers')
@@ -123,7 +122,7 @@ async function deleteOfferById(req, res) {
         })
 }
 
-async function getOneOfferById(req, res) {
+async function getOneOfferById(req, res, db) {
     const document = db.collection('offers').doc(req.params.offerId);
     let response = (await document.get()).data();
 

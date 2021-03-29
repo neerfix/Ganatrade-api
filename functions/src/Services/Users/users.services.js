@@ -1,4 +1,3 @@
-const db = require('../../utils/firebase');
 const admin = require('firebase-admin');
 const Http_response = require("../../utils/http-response");
 
@@ -10,7 +9,7 @@ module.exports = {
     deleteUserById
 };
 
-async function getAllUsers(req, res) {
+async function getAllUsers(req, res, db) {
     const data = db.collection('users');
     let response = [];
 
@@ -24,7 +23,7 @@ async function getAllUsers(req, res) {
     return res.status(200).send(response);
 }
 
-async function getOneUserById(req, res) {
+async function getOneUserById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId);
     let response = (await document.get()).data();
 
@@ -35,7 +34,7 @@ async function getOneUserById(req, res) {
     return res.status(200).send(response);
 }
 
-async function createNewUser(req, res) {
+async function createNewUser(req, res, db) {
     await admin.auth().createUser({
         email: req.body.email,
         emailVerified: false,
@@ -78,7 +77,7 @@ async function createNewUser(req, res) {
         })
 }
 
-async function updateUserById(req, res) {
+async function updateUserById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId);
     let data = (await document.get()).data();
 
@@ -121,7 +120,7 @@ async function updateUserById(req, res) {
         })
 }
 
-async function deleteUserById(req, res) {
+async function deleteUserById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId);
     await document.delete()
         .then(result => {

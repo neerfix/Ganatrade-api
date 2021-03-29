@@ -1,4 +1,3 @@
-const db = require('../../utils/firebase');
 const Http_response = require("../../utils/http-response");
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
     deleteFollowingById
 };
 
-async function getAllFollowings(req, res) {
+async function getAllFollowings(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection('followings');
 
     let response = [];
@@ -25,7 +24,7 @@ async function getAllFollowings(req, res) {
     return res.status(200).send(response);
 }
 
-async function createNewFollowing(req, res) {
+async function createNewFollowing(req, res, db) {
     await db.collection('users').doc(req.params.userId).collection('followings').add({
         user_id: req.body.user_id,
         offer_id: req.body.offer_id ? req.body.offer_id : "",
@@ -50,7 +49,7 @@ async function createNewFollowing(req, res) {
     });
 }
 
-async function updateFollowingById(req, res) {
+async function updateFollowingById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
     let data = (await document.get()).data();
 
@@ -75,7 +74,7 @@ async function updateFollowingById(req, res) {
         })
 }
 
-async function deleteFollowingById(req, res) {
+async function deleteFollowingById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
 
     if(!document) {
@@ -91,7 +90,7 @@ async function deleteFollowingById(req, res) {
         })
 }
 
-async function getOneFollowingById(req, res) {
+async function getOneFollowingById(req, res, db) {
     const document = db.collection('users').doc(req.params.userId).collection('followings').doc(req.params.followingId);
     let response = (await document.get()).data();
 
